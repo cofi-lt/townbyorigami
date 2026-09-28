@@ -442,18 +442,13 @@ export type FooterMenuApiItem = {
   id: number;
   slug: string;
   title: string;
-  subtitle: string;
-  description: string;
-  image: string;
-  logo: string;
-  link: string;
-  badge: string;
+  image_preview: string;
   rank: number;
-  status: boolean;
 };
 
 export type FooterMenuSectionResponse = {
   data: {
+    slug: string;
     title: string;
     items: FooterMenuApiItem[];
   };

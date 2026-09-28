@@ -43,7 +43,7 @@ export function Footer({
   const hasCompanyProjects = Boolean(companyProjectsData?.title || companyProjectsData?.items.length);
 
   return (
-    <footer>
+    <footer id="contact">
       <div className="container">
         <div className="footer-top">
           <div className="footer-brand">

@@ -267,23 +267,22 @@ function App() {
       all: "All"
     };
   const primaryNavItems = apiFooterMenuItems.map((item) => {
-    const rawTarget = item.link || item.slug;
-    const anchor = rawTarget.replace(/^#+/, "");
-    const normalizedAnchor = anchor.toLowerCase();
     const normalizedSlug = (item.slug || "").toLowerCase();
+    const sectionBySlug: Record<string, string> = {
+      "project": "about-us",
+      "available-properties": "properties",
+      "infrastructure": "infrastructure",
+      "investment": "finances",
+      "contact": "contact"
+    };
     const isModalAction =
-      normalizedAnchor === "consultation" ||
-      normalizedAnchor === "request-a-call" ||
-      normalizedAnchor === "request-call" ||
-      normalizedAnchor === "call-request" ||
-      normalizedAnchor === "zaris-motkhovna" ||
       normalizedSlug === "consultation" ||
       normalizedSlug === "request-a-call" ||
       normalizedSlug === "request-call" ||
       normalizedSlug === "call-request" ||
       normalizedSlug === "zaris-motkhovna";
     return {
-      href: `#${anchor}`,
+      href: `#${sectionBySlug[normalizedSlug] || normalizedSlug}`,
       label: item.title,
       isModalAction
     };
@@ -300,13 +299,9 @@ function App() {
       label: item.title
     };
   });
-  const requestCallItem = apiFooterMenuItems.find(
-    (item) => item.slug === "request-a-call" || item.slug === "request-call"
-  );
   const modalDescription =
     selectedChooseItem?.description ||
     requestCallDescription ||
-    requestCallItem?.description ||
     "";
   const resolvedGalleryItems: GalleryItem[] = apiGalleryItems.map((item, index) => ({
     id: item.id,
