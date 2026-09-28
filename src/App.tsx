@@ -233,6 +233,7 @@ function App() {
     socialNetworks: apiSocialNetworks,
     footerDescription: apiFooterDescription,
     footerMenuItems: apiFooterMenuItems,
+    headerMenuItems: apiHeaderMenuItems,
     requestCallDescription,
     footerLegalItems: apiFooterLegalItems
   } = useSiteChrome(language);
@@ -285,6 +286,18 @@ function App() {
       href: `#${anchor}`,
       label: item.title,
       isModalAction
+    };
+  });
+  const headerDropdownItems = apiHeaderMenuItems.map((item) => {
+    const sectionBySlug: Record<string, string> = {
+      "biohacking": "biohacking",
+      "origami-holding": "holding",
+      "other-projects": "communities",
+      "news": "news"
+    };
+    return {
+      href: `/#${sectionBySlug[item.slug] || item.slug}`,
+      label: item.title
     };
   });
   const requestCallItem = apiFooterMenuItems.find(
@@ -1038,6 +1051,7 @@ function App() {
           mobileMenuOpen={mobileMenuOpen}
           setMobileMenuOpen={setMobileMenuOpen}
           primaryNavItems={primaryNavItems}
+          dropdownItems={headerDropdownItems}
           t={t}
           openModal={openModal}
           isLanguageModalOpen={isLanguageModalOpen}
@@ -1109,6 +1123,7 @@ function App() {
           mobileMenuOpen={mobileMenuOpen}
           setMobileMenuOpen={setMobileMenuOpen}
           primaryNavItems={primaryNavItems}
+          dropdownItems={headerDropdownItems}
           t={t}
           openModal={openModal}
           isLanguageModalOpen={isLanguageModalOpen}
@@ -1208,6 +1223,7 @@ function App() {
           mobileMenuOpen={mobileMenuOpen}
           setMobileMenuOpen={setMobileMenuOpen}
           primaryNavItems={primaryNavItems}
+          dropdownItems={headerDropdownItems}
           t={t}
           openModal={openModal}
           isLanguageModalOpen={isLanguageModalOpen}
@@ -1249,6 +1265,7 @@ function App() {
         mobileMenuOpen={mobileMenuOpen}
         setMobileMenuOpen={setMobileMenuOpen}
         primaryNavItems={primaryNavItems}
+        dropdownItems={headerDropdownItems}
         t={t}
         openModal={openModal}
         isLanguageModalOpen={isLanguageModalOpen}

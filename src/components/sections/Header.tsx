@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { Theme } from "../../types";
 import { Language, TranslationKey } from "../../i18n";
 import { ChatIcon, CloseIcon, GlobeOutlineIcon, MoonIcon, SunIcon } from "../Icons";
@@ -11,6 +11,7 @@ type HeaderProps = {
   mobileMenuOpen: boolean;
   setMobileMenuOpen: Dispatch<SetStateAction<boolean>>;
   primaryNavItems: Array<{ href: string; label: string; isModalAction?: boolean }>;
+  dropdownItems: Array<{ href: string; label: string }>;
   t: (key: TranslationKey) => string;
   openModal: () => void;
   isLanguageModalOpen: boolean;
@@ -30,6 +31,7 @@ export function Header({
   mobileMenuOpen,
   setMobileMenuOpen,
   primaryNavItems,
+  dropdownItems,
   t,
   openModal,
   isLanguageModalOpen,
@@ -42,6 +44,24 @@ export function Header({
 }: HeaderProps) {
   const isUnitsVariant = variant === "units";
   const isSurfaceVariant = variant === "surface";
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (!dropdownOpen) return;
+    const closeOnOutsideClick = (event: MouseEvent) => {
+      if (!dropdownRef.current?.contains(event.target as Node)) setDropdownOpen(false);
+    };
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setDropdownOpen(false);
+    };
+    document.addEventListener("mousedown", closeOnOutsideClick);
+    document.addEventListener("keydown", closeOnEscape);
+    return () => {
+      document.removeEventListener("mousedown", closeOnOutsideClick);
+      document.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [dropdownOpen]);
 
   const handleNavItemClick = (item: { href: string; label: string; isModalAction?: boolean }) => {
     setMobileMenuOpen(false);
@@ -82,7 +102,7 @@ export function Header({
               >
                 <CloseIcon />
               </button>
-              {primaryNavItems.map((item) => (
+              {primaryNavItems.filter((item) => !item.isModalAction).map((item) => (
                 <a
                   key={item.href}
                   href={item.isModalAction ? "#" : item.href}
@@ -95,6 +115,54 @@ export function Header({
                   }}
                 >
                   {item.isModalAction ? <ChatIcon /> : null}
+                  <span>{item.label}</span>
+                </a>
+              ))}
+              {dropdownItems.length > 0 ? (
+                <div className={`header-dropdown ${dropdownOpen ? "is-open" : ""}`} ref={dropdownRef}>
+                  <button
+                    className="header-dropdown-toggle"
+                    type="button"
+                    aria-label={language === "ka" ? "დამატებითი მენიუ" : "More menu"}
+                    aria-haspopup="menu"
+                    aria-expanded={dropdownOpen}
+                    onClick={() => setDropdownOpen((open) => !open)}
+                  >
+                    <span className="header-dropdown-dots" aria-hidden="true">
+                      <span></span><span></span><span></span>
+                    </span>
+                    <svg className="header-dropdown-chevron" viewBox="0 0 16 16" aria-hidden="true">
+                      <path d="m4 6 4 4 4-4" />
+                    </svg>
+                  </button>
+                  <div className="header-dropdown-menu" role="menu">
+                    {dropdownItems.map((item) => (
+                      <a
+                        key={item.href}
+                        href={item.href}
+                        role="menuitem"
+                        onClick={() => {
+                          setDropdownOpen(false);
+                          setMobileMenuOpen(false);
+                        }}
+                      >
+                        {item.label}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
+              {primaryNavItems.filter((item) => item.isModalAction).map((item) => (
+                <a
+                  key={item.href}
+                  href="#"
+                  className="nav-link-call-request"
+                  onClick={(event) => {
+                    event.preventDefault();
+                    handleNavItemClick(item);
+                  }}
+                >
+                  <ChatIcon />
                   <span>{item.label}</span>
                 </a>
               ))}

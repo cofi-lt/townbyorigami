@@ -98,7 +98,7 @@ export function NewsSection({ items, t, navigateTo }: NewsSectionProps) {
   };
 
   return (
-    <section className="news-section">
+    <section id="news" className="news-section">
       <div className="container">
         <div className="news-header">
           <h2 className="section-title">{t("news_title")}</h2>

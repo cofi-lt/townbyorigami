@@ -4,6 +4,7 @@ import type {
   BrandingSettings,
   ContactSettings,
   FooterMenuApiItem,
+  HeaderMenuApiItem,
   SectionGridCardItem,
   SocialNetworkItem
 } from "../types";
@@ -13,6 +14,7 @@ import {
   fetchFooterDescription,
   fetchFooterLegalItems,
   fetchFooterMenu,
+  fetchHeaderMenu,
   fetchRequestCallDescription,
   fetchSocialNetworks
 } from "../api/siteChrome";
@@ -43,6 +45,7 @@ export function useSiteChrome(language: Language) {
   const [socialNetworks, setSocialNetworks] = useState<SocialNetworkItem[]>([]);
   const [footerDescription, setFooterDescription] = useState("");
   const [footerMenuItems, setFooterMenuItems] = useState<FooterMenuApiItem[]>([]);
+  const [headerMenuItems, setHeaderMenuItems] = useState<HeaderMenuApiItem[]>([]);
   const [requestCallDescription, setRequestCallDescription] = useState("");
   const [footerLegalItems, setFooterLegalItems] = useState<SectionGridCardItem[]>([]);
 
@@ -63,6 +66,7 @@ export function useSiteChrome(language: Language) {
 
     void loadResource(fetchFooterDescription(language, signal), setFooterDescription, "", "footer content");
     void loadResource(fetchFooterMenu(language, signal), setFooterMenuItems, [], "footer menu");
+    void loadResource(fetchHeaderMenu(language, signal), setHeaderMenuItems, [], "header dropdown menu");
     void loadResource(
       fetchRequestCallDescription(language, signal),
       setRequestCallDescription,
@@ -80,6 +84,7 @@ export function useSiteChrome(language: Language) {
     socialNetworks,
     footerDescription,
     footerMenuItems,
+    headerMenuItems,
     requestCallDescription,
     footerLegalItems
   };

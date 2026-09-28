@@ -459,6 +459,22 @@ export type FooterMenuSectionResponse = {
   };
 };
 
+export type HeaderMenuApiItem = {
+  id: number;
+  slug: string;
+  title: string;
+  image_preview: string;
+  rank: number;
+};
+
+export type HeaderMenuSectionResponse = {
+  data: {
+    slug: string;
+    title: string;
+    items: HeaderMenuApiItem[];
+  };
+};
+
 export type ContactSettings = {
   email: string | null;
   contact_form_recipient_email: string | null;
