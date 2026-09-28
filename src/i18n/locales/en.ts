@@ -9,6 +9,7 @@ export const en: Record<TranslationKey, string> = {
   nav_investment: "ინვესტიცია",
   utility_lang_label: "Language:",
   language_modal_title: "Choose language",
+  header_more: "More",
   language_modal_desc: "Please choose your preferred language.",
   utility_pref_label: "Preferences:",
   utility_pref_value: "AED / SQ.FT",
@@ -246,4 +247,3 @@ export const en: Record<TranslationKey, string> = {
   request_call_button: "Request a call",
   request_call_recaptcha: "This site is protected by reCAPTCHA and the Google Privacy Policy and Terms of Service apply."
 };
-

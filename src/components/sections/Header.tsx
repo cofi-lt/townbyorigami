@@ -128,9 +128,7 @@ export function Header({
                     aria-expanded={dropdownOpen}
                     onClick={() => setDropdownOpen((open) => !open)}
                   >
-                    <span className="header-dropdown-dots" aria-hidden="true">
-                      <span></span><span></span><span></span>
-                    </span>
+                    <span className="header-dropdown-label">{t("header_more")}</span>
                     <svg className="header-dropdown-chevron" viewBox="0 0 16 16" aria-hidden="true">
                       <path d="m4 6 4 4 4-4" />
                     </svg>

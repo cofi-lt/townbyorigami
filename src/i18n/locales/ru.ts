@@ -4,6 +4,7 @@ import type { TranslationKey } from "../types";
 export const ru: Record<TranslationKey, string> = {
   ...en,
   language_modal_title: "Выберите язык",
+  header_more: "Ещё",
   language_modal_desc: "Пожалуйста, выберите предпочитаемый язык.",
   form_send: "Забронировать консультацию",
   form_preferred_language: "Предпочитаемый язык общения",

@@ -9,6 +9,7 @@ export const ka: Record<TranslationKey, string> = {
   nav_investment: "ინვესტიცია",
   utility_lang_label: "ენა:",
   language_modal_title: "აირჩიეთ ენა",
+  header_more: "მეტი",
   language_modal_desc: "გთხოვთ აირჩიოთ თქვენთვის სასურველი ენა.",
   utility_pref_label: "პარამეტრები:",
   utility_pref_value: "AED / კვ.ფტ",
@@ -246,4 +247,3 @@ export const ka: Record<TranslationKey, string> = {
   request_call_button: "ზარის მოთხოვნა",
   request_call_recaptcha: "ეს საიტი დაცულია reCAPTCHA-თი და მოქმედებს Google-ის Privacy Policy და Terms of Service."
 };
-

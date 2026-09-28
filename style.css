@@ -817,9 +817,9 @@ nav a:hover::after {
 }
 
 .header-dropdown-toggle {
-  width: 3rem;
+  width: auto;
   height: 2.35rem;
-  padding: 0;
+  padding: 0 0.7rem;
   border: 0;
   border-radius: 50%;
   background: transparent;
@@ -833,17 +833,11 @@ nav a:hover::after {
   transition: var(--transition-quick);
 }
 
-.header-dropdown-dots {
-  display: inline-flex;
-  flex-direction: column;
-  gap: 3px;
-}
-
-.header-dropdown-dots span {
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: currentColor;
+.header-dropdown-label {
+  font-family: 'FiraGO', var(--font-sans), sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1;
 }
 
 .header-dropdown-chevron {

@@ -9,6 +9,7 @@ export type TranslationKey =
   | "nav_investment"
   | "utility_lang_label"
   | "language_modal_title"
+  | "header_more"
   | "language_modal_desc"
   | "utility_pref_label"
   | "utility_pref_value"
@@ -235,4 +236,3 @@ export type TranslationKey =
   | "request_call_country_label"
   | "request_call_button"
   | "request_call_recaptcha";
-
