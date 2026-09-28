@@ -12,6 +12,7 @@ type HeaderProps = {
   setMobileMenuOpen: Dispatch<SetStateAction<boolean>>;
   primaryNavItems: Array<{ href: string; label: string; isModalAction?: boolean }>;
   dropdownItems: Array<{ href: string; label: string }>;
+  dropdownLabel: string;
   t: (key: TranslationKey) => string;
   openModal: () => void;
   isLanguageModalOpen: boolean;
@@ -32,6 +33,7 @@ export function Header({
   setMobileMenuOpen,
   primaryNavItems,
   dropdownItems,
+  dropdownLabel,
   t,
   openModal,
   isLanguageModalOpen,
@@ -123,12 +125,12 @@ export function Header({
                   <button
                     className="header-dropdown-toggle"
                     type="button"
-                    aria-label={language === "ka" ? "დამატებითი მენიუ" : "More menu"}
+                    aria-label={dropdownLabel}
                     aria-haspopup="menu"
                     aria-expanded={dropdownOpen}
                     onClick={() => setDropdownOpen((open) => !open)}
                   >
-                    <span className="header-dropdown-label">{t("header_more")}</span>
+                    <span className="header-dropdown-label">{dropdownLabel}</span>
                     <svg className="header-dropdown-chevron" viewBox="0 0 16 16" aria-hidden="true">
                       <path d="m4 6 4 4 4-4" />
                     </svg>

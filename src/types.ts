@@ -458,16 +458,35 @@ export type HeaderMenuApiItem = {
   id: number;
   slug: string;
   title: string;
-  image_preview: string;
+  subtitle: string;
+  description: string;
+  image: string;
+  logo: string;
+  link: string;
+  badge: string;
   rank: number;
+  status: boolean;
 };
 
 export type HeaderMenuSectionResponse = {
-  data: {
-    slug: string;
-    title: string;
-    items: HeaderMenuApiItem[];
-  };
+  data: HeaderMenuSection;
+};
+
+export type HeaderMenuSection = {
+  slug: string;
+  type: string;
+  status: boolean;
+  eyebrow: string;
+  title: string;
+  description: string;
+  button_text: string;
+  button_link: string;
+  background_image: string;
+  meta_title: string;
+  meta_description: string;
+  rank: number;
+  updated_at: string;
+  items: HeaderMenuApiItem[];
 };
 
 export type ContactSettings = {

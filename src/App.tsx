@@ -233,7 +233,7 @@ function App() {
     socialNetworks: apiSocialNetworks,
     footerDescription: apiFooterDescription,
     footerMenuItems: apiFooterMenuItems,
-    headerMenuItems: apiHeaderMenuItems,
+    headerMenu: apiHeaderMenu,
     requestCallDescription,
     footerLegalItems: apiFooterLegalItems
   } = useSiteChrome(language);
@@ -287,7 +287,7 @@ function App() {
       isModalAction
     };
   });
-  const headerDropdownItems = apiHeaderMenuItems.map((item) => {
+  const headerDropdownItems = (apiHeaderMenu?.items || []).map((item) => {
     const sectionBySlug: Record<string, string> = {
       "biohacking": "biohacking",
       "origami-holding": "holding",
@@ -1047,6 +1047,7 @@ function App() {
           setMobileMenuOpen={setMobileMenuOpen}
           primaryNavItems={primaryNavItems}
           dropdownItems={headerDropdownItems}
+          dropdownLabel={apiHeaderMenu?.button_text?.trim() || ""}
           t={t}
           openModal={openModal}
           isLanguageModalOpen={isLanguageModalOpen}
@@ -1119,6 +1120,7 @@ function App() {
           setMobileMenuOpen={setMobileMenuOpen}
           primaryNavItems={primaryNavItems}
           dropdownItems={headerDropdownItems}
+          dropdownLabel={apiHeaderMenu?.button_text?.trim() || ""}
           t={t}
           openModal={openModal}
           isLanguageModalOpen={isLanguageModalOpen}
@@ -1219,6 +1221,7 @@ function App() {
           setMobileMenuOpen={setMobileMenuOpen}
           primaryNavItems={primaryNavItems}
           dropdownItems={headerDropdownItems}
+          dropdownLabel={apiHeaderMenu?.button_text?.trim() || ""}
           t={t}
           openModal={openModal}
           isLanguageModalOpen={isLanguageModalOpen}
@@ -1261,6 +1264,7 @@ function App() {
         setMobileMenuOpen={setMobileMenuOpen}
         primaryNavItems={primaryNavItems}
         dropdownItems={headerDropdownItems}
+        dropdownLabel={apiHeaderMenu?.button_text?.trim() || ""}
         t={t}
         openModal={openModal}
         isLanguageModalOpen={isLanguageModalOpen}

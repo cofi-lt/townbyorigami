@@ -7,7 +7,7 @@ import type {
   ContactSettingsResponse,
   FooterMenuApiItem,
   FooterMenuSectionResponse,
-  HeaderMenuApiItem,
+  HeaderMenuSection,
   HeaderMenuSectionResponse,
   SectionGridCardItem,
   SocialNetworkItem,
@@ -51,9 +51,12 @@ export async function fetchFooterMenu(language: Language, signal: AbortSignal): 
   return (payload.data?.items || []).sort((a, b) => a.rank - b.rank);
 }
 
-export async function fetchHeaderMenu(language: Language, signal: AbortSignal): Promise<HeaderMenuApiItem[]> {
-  const payload = await fetchApi<HeaderMenuSectionResponse>(`/sections/header-menu/compact?locale=${language}`, signal);
-  return (payload.data?.items || []).sort((a, b) => a.rank - b.rank);
+export async function fetchHeaderMenu(language: Language, signal: AbortSignal): Promise<HeaderMenuSection> {
+  const payload = await fetchApi<HeaderMenuSectionResponse>(`/sections/header-menu?locale=${language}`, signal);
+  return {
+    ...payload.data,
+    items: (payload.data?.items || []).filter((item) => item.status).sort((a, b) => a.rank - b.rank)
+  };
 }
 
 export async function fetchRequestCallDescription(language: Language, signal: AbortSignal): Promise<string> {

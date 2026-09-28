@@ -9,7 +9,6 @@ export const ka: Record<TranslationKey, string> = {
   nav_investment: "ინვესტიცია",
   utility_lang_label: "ენა:",
   language_modal_title: "აირჩიეთ ენა",
-  header_more: "მეტი",
   language_modal_desc: "გთხოვთ აირჩიოთ თქვენთვის სასურველი ენა.",
   utility_pref_label: "პარამეტრები:",
   utility_pref_value: "AED / კვ.ფტ",
