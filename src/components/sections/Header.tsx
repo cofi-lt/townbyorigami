@@ -46,7 +46,9 @@ export function Header({
   const isUnitsVariant = variant === "units";
   const isSurfaceVariant = variant === "surface";
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [mobileLanguageDropdownOpen, setMobileLanguageDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
+  const currentLanguageOption = languageOptions.find((opt) => opt.code === language) || languageOptions[0];
 
   useEffect(() => {
     if (!dropdownOpen) return;
@@ -142,20 +144,49 @@ export function Header({
                   </div>
                 </div>
               ) : null}
-              <div className="mobile-nav-language-switcher" aria-label={t("language_modal_title")}>
-                {languageOptions.map((option) => (
-                  <button
-                    key={option.code}
-                    type="button"
-                    className={`mobile-nav-language-btn ${language === option.code ? "active" : ""}`}
-                    onClick={() => {
-                      handleLanguageSelect(option.code);
-                      setMobileMenuOpen(false);
-                    }}
-                  >
-                    {option.shortLabel}
-                  </button>
-                ))}
+              <div className={`mobile-nav-lang-dropdown ${mobileLanguageDropdownOpen ? "is-open" : ""}`}>
+                <button
+                  type="button"
+                  className="mobile-nav-lang-toggle"
+                  aria-expanded={mobileLanguageDropdownOpen}
+                  aria-label={t("language_modal_title")}
+                  onClick={() => setMobileLanguageDropdownOpen((open) => !open)}
+                >
+                  <span className="mobile-nav-lang-current">
+                    <GlobeOutlineIcon />
+                    <span>{currentLanguageOption.label}</span>
+                    <span className="mobile-nav-lang-badge">{currentLanguageOption.shortLabel}</span>
+                  </span>
+                  <svg className="mobile-nav-lang-chevron" viewBox="0 0 16 16" aria-hidden="true">
+                    <path d="m4 6 4 4 4-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </button>
+                {mobileLanguageDropdownOpen ? (
+                  <div className="mobile-nav-lang-menu" role="menu">
+                    {languageOptions.map((option) => {
+                      const isSelected = language === option.code;
+                      return (
+                        <button
+                          key={option.code}
+                          type="button"
+                          className={`mobile-nav-lang-option ${isSelected ? "is-active" : ""}`}
+                          role="menuitem"
+                          onClick={() => {
+                            handleLanguageSelect(option.code);
+                            setMobileLanguageDropdownOpen(false);
+                            setMobileMenuOpen(false);
+                          }}
+                        >
+                          <span className="mobile-nav-lang-option-main">
+                            {option.flag ? <span className="mobile-nav-lang-flag">{option.flag}</span> : null}
+                            <span className="mobile-nav-lang-label">{option.label}</span>
+                          </span>
+                          <span className="mobile-nav-lang-option-code">{option.shortLabel}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                ) : null}
               </div>
             </nav>
             <button
