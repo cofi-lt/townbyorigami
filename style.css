@@ -7075,9 +7075,14 @@ html[data-theme="dark"] .floating-widget-body {
 }
 
 @media (max-width: 768px) {
+  /* Hide hero filter wrapper on mobile per request */
+  .filter-wrapper {
+    display: none !important;
+  }
+
   .floating-call-widget {
-    right: 1.25rem;
-    bottom: 136px;
+    right: 1rem;
+    bottom: calc(6.6rem + env(safe-area-inset-bottom, 0px));
   }
 
   .floating-call-widget-btn {
@@ -7735,8 +7740,13 @@ html[data-theme="dark"] .floating-widget-body {
   .floating-widget {
     right: 0.75rem;
     left: 0.75rem;
-    bottom: calc(5.5rem + env(safe-area-inset-bottom));
+    bottom: calc(1.25rem + env(safe-area-inset-bottom));
     align-items: stretch;
+  }
+
+  .floating-call-widget {
+    right: 0.85rem;
+    bottom: calc(6.6rem + env(safe-area-inset-bottom, 0px));
   }
 
   .floating-widget-card {
@@ -7903,7 +7913,7 @@ html[data-theme="dark"] .floating-widget-body {
 
   .hero-content {
     padding: 0 1rem;
-    margin: auto 0 7rem;
+    margin: auto 0 2rem;
   }
 
   .hero-content h1 {
@@ -7916,10 +7926,9 @@ html[data-theme="dark"] .floating-widget-body {
     font-size: 1rem;
   }
 
+  /* Mobile filter dock hidden per request */
   .filter-wrapper {
-    padding: 0 0.75rem;
-    bottom: max(0.75rem, env(safe-area-inset-bottom));
-    max-width: 100%;
+    display: none !important;
   }
 
   .mobile-filter-dock {
