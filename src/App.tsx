@@ -23,6 +23,7 @@ import { ConsultationModal } from "./components/sections/ConsultationModal";
 import { RequestCallModal } from "./components/sections/RequestCallModal";
 import { LanguageModal } from "./components/sections/LanguageModal";
 import { UnitsPreferencesModal } from "./components/sections/UnitsPreferencesModal";
+import { FloatingCallWidget } from "./components/sections/FloatingCallWidget";
 import {
   CalendarIcon, BuildingIcon,
   WellnessIcon, LongevityIcon, RecoveryIcon, HealthyLivingIcon,
@@ -1103,6 +1104,7 @@ function App() {
             )}
           </article>
         </main>
+        <FloatingCallWidget openModal={() => openModal("request_call")} t={t} />
         {renderActiveModal()}
       </>
     );
@@ -1160,6 +1162,7 @@ function App() {
           formatTelHref={formatTelHref}
           t={t}
         />
+        <FloatingCallWidget openModal={() => openModal("request_call")} t={t} />
         {renderActiveModal()}
         <LanguageModal
           active={isLanguageModalOpen}
@@ -1194,6 +1197,7 @@ function App() {
           currency={currency}
           currencyRates={currencyRates}
         />
+        <FloatingCallWidget openModal={() => openModal("request_call")} t={t} />
         {renderActiveModal()}
         <UnitsPreferencesModal
           active={isLanguageModalOpen || isCurrencyModalOpen}
@@ -1248,6 +1252,7 @@ function App() {
           handleCurrencySelect={handleCurrencySelect}
           t={t}
         />
+        <FloatingCallWidget openModal={() => openModal("request_call")} t={t} />
         {renderActiveModal()}
       </>
     );
@@ -1471,6 +1476,7 @@ function App() {
         formatTelHref={formatTelHref}
         t={t}
       />
+      <FloatingCallWidget openModal={() => openModal("request_call")} t={t} />
       {renderActiveModal()}
         <LanguageModal
         active={isLanguageModalOpen}

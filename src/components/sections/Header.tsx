@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { Theme } from "../../types";
 import { Language, TranslationKey } from "../../i18n";
-import { ChatIcon, CloseIcon, GlobeOutlineIcon, MoonIcon, SunIcon } from "../Icons";
+import { CloseIcon, GlobeOutlineIcon, MoonIcon, SunIcon } from "../Icons";
 
 type HeaderProps = {
   headerShrunk: boolean;
@@ -14,7 +14,7 @@ type HeaderProps = {
   dropdownItems: Array<{ href: string; label: string }>;
   dropdownLabel: string;
   t: (key: TranslationKey) => string;
-  openModal: () => void;
+  openModal?: () => void;
   isLanguageModalOpen: boolean;
   setIsLanguageModalOpen: Dispatch<SetStateAction<boolean>>;
   language: Language;
@@ -35,7 +35,6 @@ export function Header({
   dropdownItems,
   dropdownLabel,
   t,
-  openModal,
   isLanguageModalOpen,
   setIsLanguageModalOpen,
   language,
@@ -65,12 +64,8 @@ export function Header({
     };
   }, [dropdownOpen]);
 
-  const handleNavItemClick = (item: { href: string; label: string; isModalAction?: boolean }) => {
+  const handleNavItemClick = () => {
     setMobileMenuOpen(false);
-
-    if (item.isModalAction) {
-      openModal();
-    }
   };
 
   return (
@@ -107,16 +102,11 @@ export function Header({
               {primaryNavItems.filter((item) => !item.isModalAction).map((item) => (
                 <a
                   key={item.href}
-                  href={item.isModalAction ? "#" : item.href}
-                  className={item.isModalAction ? "nav-link-call-request" : undefined}
-                  onClick={(event) => {
-                    if (item.isModalAction) {
-                      event.preventDefault();
-                    }
-                    handleNavItemClick(item);
+                  href={item.href}
+                  onClick={() => {
+                    handleNavItemClick();
                   }}
                 >
-                  {item.isModalAction ? <ChatIcon /> : null}
                   <span>{item.label}</span>
                 </a>
               ))}
@@ -152,20 +142,6 @@ export function Header({
                   </div>
                 </div>
               ) : null}
-              {primaryNavItems.filter((item) => item.isModalAction).map((item) => (
-                <a
-                  key={item.href}
-                  href="#"
-                  className="nav-link-call-request"
-                  onClick={(event) => {
-                    event.preventDefault();
-                    handleNavItemClick(item);
-                  }}
-                >
-                  <ChatIcon />
-                  <span>{item.label}</span>
-                </a>
-              ))}
               <div className="mobile-nav-language-switcher" aria-label={t("language_modal_title")}>
                 {languageOptions.map((option) => (
                   <button
