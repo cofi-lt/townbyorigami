@@ -337,12 +337,12 @@ body {
 }
 
 .section-title {
-  font-family: var(--font-serif);
-  font-size: 2rem;
-  font-weight: 500;
-  line-height: 1.2;
+  font-family: var(--font-serif), var(--font-georgian), serif;
+  font-size: clamp(1.6rem, 2.4vw, 2.15rem);
+  font-weight: 400;
+  line-height: 1.15;
   margin-bottom: 1.5rem;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
 }
 
@@ -1676,7 +1676,12 @@ html[data-theme="light"] #about-us .about-grid-container {
 }
 
 #about-us .concept-title {
-  font-size: clamp(1.4rem, 1.8vw, 1.85rem);
+  font-family: var(--font-serif), var(--font-georgian), serif;
+  font-size: clamp(1.6rem, 2.4vw, 2.15rem);
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  line-height: 1.15;
+  text-transform: uppercase;
   margin-bottom: 0.6rem;
 }
 
@@ -1880,12 +1885,14 @@ html[lang="ka"] .property-detail-title {
 }
 
 .concept-title {
-  font-family: var(--font-serif);
-  font-size: 2rem;
-  font-weight: 500;
+  font-family: var(--font-serif), var(--font-georgian), serif;
+  font-size: clamp(1.6rem, 2.4vw, 2.15rem);
+  font-weight: 400;
   color: var(--text-white);
   margin-bottom: 1.5rem;
-  line-height: 1.2;
+  line-height: 1.15;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .concept-desc {
@@ -3364,11 +3371,11 @@ html[data-theme="light"] .available-building-featured-card {
 .infrastructure-main-title {
   margin: 0;
   font-family: var(--font-serif), var(--font-georgian), serif;
-  font-size: clamp(2.2rem, 4.2vw, 3.4rem);
+  font-size: clamp(1.6rem, 2.4vw, 2.15rem);
   font-weight: 400;
   letter-spacing: 0.04em;
   color: var(--text-white);
-  line-height: 1.1;
+  line-height: 1.15;
   text-transform: uppercase;
 }
 
@@ -3988,15 +3995,15 @@ html[data-theme="light"] .finance-bg-overlay {
 
 .finance-hero-heading {
   font-family: var(--font-serif), var(--font-georgian), serif;
-  font-size: clamp(2.4rem, 4.2vw, 3.6rem);
+  font-size: clamp(1.6rem, 2.4vw, 2.15rem);
   font-weight: 400;
-  line-height: 1.08;
+  line-height: 1.15;
   color: var(--text-white);
   text-transform: uppercase;
   margin: 0 0 1.25rem;
   display: flex;
   flex-direction: column;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.04em;
 }
 
 .finance-hero-subheading {
@@ -10840,12 +10847,13 @@ html[data-theme="light"] .cs-page {
 
 .holding-main-title {
   font-family: var(--font-serif), var(--font-georgian), serif;
-  font-size: clamp(1.85rem, 3.2vw, 2.85rem);
+  font-size: clamp(1.6rem, 2.4vw, 2.15rem);
   font-weight: 400;
   color: #18181b;
   line-height: 1.15;
   margin: 0;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 html[data-theme="dark"] .holding-main-title {
