@@ -2156,20 +2156,69 @@ html[data-theme="light"] .origami-info-label {
 }
 
 @media (max-width: 900px) {
-  .origami-info-grid {
+  .origami-info-grid,
+  #about-us .origami-info-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.75rem;
   }
 
-  .origami-info-card {
-    min-height: 128px;
-    padding: 1.25rem 1rem;
+  .origami-info-card,
+  #about-us .origami-info-card {
+    min-height: 100px;
+    padding: 0.9rem 0.75rem;
+    gap: 0.35rem;
+    border-radius: 1.25rem;
+  }
+
+  .origami-info-icon,
+  #about-us .origami-info-icon {
+    width: 28px;
+    height: 28px;
+    margin-bottom: 0.15rem;
+  }
+
+  .origami-info-icon svg,
+  .origami-info-icon img {
+    width: 14px;
+    height: 14px;
+  }
+
+  .origami-info-value,
+  #about-us .origami-info-value {
+    font-size: clamp(0.95rem, 3.8vw, 1.2rem);
+    line-height: 1.15;
+    word-break: break-word;
+  }
+
+  .origami-info-label,
+  #about-us .origami-info-label {
+    font-size: clamp(0.68rem, 2.6vw, 0.75rem);
+    line-height: 1.25;
   }
 }
 
 @media (max-width: 520px) {
-  .origami-info-grid {
-    grid-template-columns: minmax(0, 1fr);
+  .origami-info-grid,
+  #about-us .origami-info-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.55rem;
+  }
+
+  .origami-info-card,
+  #about-us .origami-info-card {
+    min-height: 92px;
+    padding: 0.75rem 0.55rem;
+    border-radius: 1.15rem;
+  }
+
+  .origami-info-value,
+  #about-us .origami-info-value {
+    font-size: clamp(0.88rem, 3.6vw, 1.05rem);
+  }
+
+  .origami-info-label,
+  #about-us .origami-info-label {
+    font-size: 0.68rem;
   }
 }
 
