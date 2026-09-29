@@ -6839,7 +6839,7 @@ html[data-theme="dark"] .floating-widget-body {
 .floating-call-widget {
   position: fixed;
   right: clamp(1.25rem, 2.5vw, 2.5rem);
-  bottom: 96px;
+  bottom: 118px;
   z-index: 900;
   display: flex;
   align-items: center;
