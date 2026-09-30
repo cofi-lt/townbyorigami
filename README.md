@@ -128,3 +128,10 @@ origamisland/
 ## 📄 License
 
 Private repository. All rights reserved by **Origami Holding**.
+
+---
+
+## 👤 Author
+
+**Davit Gakhokia**
+
