@@ -235,6 +235,7 @@ function App() {
     footerDescription: apiFooterDescription,
     footerMenuItems: apiFooterMenuItems,
     headerMenu: apiHeaderMenu,
+    requestCallTitle,
     requestCallDescription,
     footerLegalItems: apiFooterLegalItems
   } = useSiteChrome(language);
@@ -288,6 +289,12 @@ function App() {
       isModalAction
     };
   });
+  const callRequestItem = primaryNavItems.find((item) => item.isModalAction);
+  const callRequestLabel =
+    callRequestItem?.label?.trim() ||
+    requestCallTitle?.trim() ||
+    t("request_call_title") ||
+    "ზარის მოთხოვნა";
   const headerDropdownItems = (apiHeaderMenu?.items || []).map((item) => {
     const sectionBySlug: Record<string, string> = {
       "biohacking": "biohacking",
@@ -1047,6 +1054,7 @@ function App() {
           mobileMenuOpen={mobileMenuOpen}
           setMobileMenuOpen={setMobileMenuOpen}
           primaryNavItems={primaryNavItems}
+          callRequestLabel={callRequestLabel}
           dropdownItems={headerDropdownItems}
           dropdownLabel={apiHeaderMenu?.button_text?.trim() || ""}
           t={t}
@@ -1104,7 +1112,7 @@ function App() {
             )}
           </article>
         </main>
-        <FloatingCallWidget openModal={() => openModal("request_call")} t={t} />
+        <FloatingCallWidget openModal={() => openModal("request_call")} t={t} label={callRequestLabel} />
         {renderActiveModal()}
       </>
     );
@@ -1121,6 +1129,7 @@ function App() {
           mobileMenuOpen={mobileMenuOpen}
           setMobileMenuOpen={setMobileMenuOpen}
           primaryNavItems={primaryNavItems}
+          callRequestLabel={callRequestLabel}
           dropdownItems={headerDropdownItems}
           dropdownLabel={apiHeaderMenu?.button_text?.trim() || ""}
           t={t}
@@ -1162,7 +1171,7 @@ function App() {
           formatTelHref={formatTelHref}
           t={t}
         />
-        <FloatingCallWidget openModal={() => openModal("request_call")} t={t} />
+        <FloatingCallWidget openModal={() => openModal("request_call")} t={t} label={callRequestLabel} />
         {renderActiveModal()}
         <LanguageModal
           active={isLanguageModalOpen}
@@ -1197,7 +1206,7 @@ function App() {
           currency={currency}
           currencyRates={currencyRates}
         />
-        <FloatingCallWidget openModal={() => openModal("request_call")} t={t} />
+        <FloatingCallWidget openModal={() => openModal("request_call")} t={t} label={callRequestLabel} />
         {renderActiveModal()}
         <UnitsPreferencesModal
           active={isLanguageModalOpen || isCurrencyModalOpen}
@@ -1224,6 +1233,7 @@ function App() {
           mobileMenuOpen={mobileMenuOpen}
           setMobileMenuOpen={setMobileMenuOpen}
           primaryNavItems={primaryNavItems}
+          callRequestLabel={callRequestLabel}
           dropdownItems={headerDropdownItems}
           dropdownLabel={apiHeaderMenu?.button_text?.trim() || ""}
           t={t}
@@ -1252,7 +1262,7 @@ function App() {
           handleCurrencySelect={handleCurrencySelect}
           t={t}
         />
-        <FloatingCallWidget openModal={() => openModal("request_call")} t={t} />
+        <FloatingCallWidget openModal={() => openModal("request_call")} t={t} label={callRequestLabel} />
         {renderActiveModal()}
       </>
     );
@@ -1268,6 +1278,7 @@ function App() {
         mobileMenuOpen={mobileMenuOpen}
         setMobileMenuOpen={setMobileMenuOpen}
         primaryNavItems={primaryNavItems}
+        callRequestLabel={callRequestLabel}
         dropdownItems={headerDropdownItems}
         dropdownLabel={apiHeaderMenu?.button_text?.trim() || ""}
         t={t}
@@ -1476,7 +1487,7 @@ function App() {
         formatTelHref={formatTelHref}
         t={t}
       />
-      <FloatingCallWidget openModal={() => openModal("request_call")} t={t} />
+      <FloatingCallWidget openModal={() => openModal("request_call")} t={t} label={callRequestLabel} />
       {renderActiveModal()}
         <LanguageModal
         active={isLanguageModalOpen}

@@ -59,12 +59,23 @@ export async function fetchHeaderMenu(language: Language, signal: AbortSignal): 
   };
 }
 
-export async function fetchRequestCallDescription(language: Language, signal: AbortSignal): Promise<string> {
-  const payload = await fetchApi<{ data: { description?: string } }>(
+export async function fetchRequestCallItem(
+  language: Language,
+  signal: AbortSignal
+): Promise<{ title: string; description: string }> {
+  const payload = await fetchApi<{ data: { title?: string; description?: string } }>(
     `/sections/menu/item/request-a-call?locale=${language}`,
     signal
   );
-  return payload.data?.description?.trim() || "";
+  return {
+    title: payload.data?.title?.trim() || "",
+    description: payload.data?.description?.trim() || ""
+  };
+}
+
+export async function fetchRequestCallDescription(language: Language, signal: AbortSignal): Promise<string> {
+  const item = await fetchRequestCallItem(language, signal);
+  return item.description;
 }
 
 export async function fetchFooterLegalItems(language: Language, signal: AbortSignal): Promise<SectionGridCardItem[]> {

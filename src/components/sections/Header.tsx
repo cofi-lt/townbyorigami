@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { Theme } from "../../types";
 import { Language, TranslationKey } from "../../i18n";
-import { CloseIcon, GlobeOutlineIcon, MoonIcon, SunIcon } from "../Icons";
+import { CloseIcon, GlobeOutlineIcon, MoonIcon, PhoneIcon, SunIcon } from "../Icons";
 
 type HeaderProps = {
   headerShrunk: boolean;
@@ -11,10 +11,11 @@ type HeaderProps = {
   mobileMenuOpen: boolean;
   setMobileMenuOpen: Dispatch<SetStateAction<boolean>>;
   primaryNavItems: Array<{ href: string; label: string; isModalAction?: boolean }>;
+  callRequestLabel?: string;
   dropdownItems: Array<{ href: string; label: string }>;
   dropdownLabel: string;
   t: (key: TranslationKey) => string;
-  openModal?: () => void;
+  openModal?: (style?: "consultation" | "request_call") => void;
   isLanguageModalOpen: boolean;
   setIsLanguageModalOpen: Dispatch<SetStateAction<boolean>>;
   language: Language;
@@ -32,9 +33,11 @@ export function Header({
   mobileMenuOpen,
   setMobileMenuOpen,
   primaryNavItems,
+  callRequestLabel,
   dropdownItems,
   dropdownLabel,
   t,
+  openModal,
   isLanguageModalOpen,
   setIsLanguageModalOpen,
   language,
@@ -49,6 +52,12 @@ export function Header({
   const [mobileLanguageDropdownOpen, setMobileLanguageDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const currentLanguageOption = languageOptions.find((opt) => opt.code === language) || languageOptions[0];
+  const callRequestItem = primaryNavItems.find((item) => item.isModalAction);
+  const resolvedCallRequestLabel =
+    callRequestLabel?.trim() ||
+    callRequestItem?.label?.trim() ||
+    t("request_call_title") ||
+    "ზარის მოთხოვნა";
 
   useEffect(() => {
     if (!dropdownOpen) return;
@@ -112,17 +121,31 @@ export function Header({
                   <span>{item.label}</span>
                 </a>
               ))}
+              {openModal ? (
+                <button
+                  type="button"
+                  className="nav-link-call-request"
+                  aria-label={resolvedCallRequestLabel}
+                  onClick={() => {
+                    handleNavItemClick();
+                    openModal("request_call");
+                  }}
+                >
+                  <PhoneIcon />
+                  <span>{resolvedCallRequestLabel}</span>
+                </button>
+              ) : null}
               {dropdownItems.length > 0 ? (
                 <div className={`header-dropdown ${dropdownOpen ? "is-open" : ""}`} ref={dropdownRef}>
                   <button
                     className="header-dropdown-toggle"
                     type="button"
-                    aria-label={dropdownLabel}
+                    aria-label={dropdownLabel || "Menu"}
                     aria-haspopup="menu"
                     aria-expanded={dropdownOpen}
                     onClick={() => setDropdownOpen((open) => !open)}
                   >
-                    <span className="header-dropdown-label">{dropdownLabel}</span>
+                    {dropdownLabel ? <span className="header-dropdown-label">{dropdownLabel}</span> : null}
                     <svg className="header-dropdown-chevron" viewBox="0 0 16 16" aria-hidden="true">
                       <path d="m4 6 4 4 4-4" />
                     </svg>

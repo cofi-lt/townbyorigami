@@ -4,10 +4,11 @@ import { PhoneIcon } from "../Icons";
 type FloatingCallWidgetProps = {
   openModal: () => void;
   t: (key: TranslationKey) => string;
+  label?: string;
 };
 
-export function FloatingCallWidget({ openModal, t }: FloatingCallWidgetProps) {
-  const label = t("request_call_title") || "ზარის მოთხოვნა";
+export function FloatingCallWidget({ openModal, t, label: propLabel }: FloatingCallWidgetProps) {
+  const label = propLabel?.trim() || t("request_call_title") || "ზარის მოთხოვნა";
 
   return (
     <aside className="floating-call-widget" aria-label={label}>

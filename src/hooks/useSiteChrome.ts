@@ -15,7 +15,7 @@ import {
   fetchFooterLegalItems,
   fetchFooterMenu,
   fetchHeaderMenu,
-  fetchRequestCallDescription,
+  fetchRequestCallItem,
   fetchSocialNetworks
 } from "../api/siteChrome";
 
@@ -46,6 +46,7 @@ export function useSiteChrome(language: Language) {
   const [footerDescription, setFooterDescription] = useState("");
   const [footerMenuItems, setFooterMenuItems] = useState<FooterMenuApiItem[]>([]);
   const [headerMenu, setHeaderMenu] = useState<HeaderMenuSection | null>(null);
+  const [requestCallTitle, setRequestCallTitle] = useState("");
   const [requestCallDescription, setRequestCallDescription] = useState("");
   const [footerLegalItems, setFooterLegalItems] = useState<SectionGridCardItem[]>([]);
 
@@ -67,11 +68,19 @@ export function useSiteChrome(language: Language) {
     void loadResource(fetchFooterDescription(language, signal), setFooterDescription, "", "footer content");
     void loadResource(fetchFooterMenu(language, signal), setFooterMenuItems, [], "footer menu");
     void loadResource(fetchHeaderMenu(language, signal), setHeaderMenu, null, "header dropdown menu");
+    
+    const requestCallPromise = fetchRequestCallItem(language, signal);
     void loadResource(
-      fetchRequestCallDescription(language, signal),
+      requestCallPromise.then((res) => res.title),
+      setRequestCallTitle,
+      "",
+      "request-a-call title"
+    );
+    void loadResource(
+      requestCallPromise.then((res) => res.description),
       setRequestCallDescription,
       "",
-      "request-a-call menu item"
+      "request-a-call description"
     );
     void loadResource(fetchFooterLegalItems(language, signal), setFooterLegalItems, [], "footer legal menu");
 
@@ -85,6 +94,7 @@ export function useSiteChrome(language: Language) {
     footerDescription,
     footerMenuItems,
     headerMenu,
+    requestCallTitle,
     requestCallDescription,
     footerLegalItems
   };

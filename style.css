@@ -679,24 +679,31 @@ nav a {
   position: relative;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
-  padding: 0.4rem 1.05rem !important;
+  padding: 0.45rem 1.15rem !important;
   border-radius: 9999px;
   background: #C5A46D !important;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(197, 164, 109, 0.6);
   color: #ffffff !important;
+  font-family: 'FiraGO', var(--font-sans), sans-serif;
+  font-size: 0.95rem;
   font-weight: 700;
+  line-height: 1;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
   opacity: 1 !important;
   animation: pulse-call-btn 2.2s infinite ease-in-out;
   transition: all 0.3s ease;
+  cursor: pointer;
+  white-space: nowrap;
 }
 
 .nav-link-call-request svg {
-  width: 16px;
-  height: 16px;
+  width: 15px;
+  height: 15px;
+  fill: currentColor;
   stroke: #ffffff;
   color: #ffffff;
   flex-shrink: 0;
@@ -7249,6 +7256,14 @@ html[data-theme="dark"] .floating-widget-body {
     background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.04));
     border-color: rgba(197, 168, 128, 0.22);
     transform: translateX(2px);
+  }
+
+  .nav-link-call-request {
+    width: 100%;
+    justify-content: center;
+    padding: 1.15rem 1.2rem !important;
+    border-radius: 1.45rem;
+    font-size: 1.12rem;
   }
 
   .header-dropdown {
