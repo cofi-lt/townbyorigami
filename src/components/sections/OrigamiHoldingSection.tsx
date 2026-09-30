@@ -161,19 +161,19 @@ export function OrigamiHoldingSection({
   const projectsTitle = projectsData?.title || t("projects_title");
 
   return (
-    <section id="holding" className="origami-holding-combined-section">
+    <section id="holding" className="origami-holding-combined-section reveal-on-scroll">
       <div className="container holding-combined-container">
         {/* ================= TOP BLOCK: THE ISLAND / STATS ================= */}
         {hasHoldingItems ? (
           <div className="holding-top-block">
-            <div className="holding-block-header">
+            <div className="holding-block-header reveal-fade-up">
               <div className="holding-block-header-left">
                 <h2 className="holding-main-title">{holdingTitle}</h2>
               </div>
             </div>
 
             {/* Outline Metric Boxes Row */}
-            <div className="holding-stats-grid">
+            <div className="holding-stats-grid reveal-stagger">
               {holdingItems.map((item, idx) => {
                 const link = item.link?.trim();
                 const iconElement = item.logo ? (
@@ -221,7 +221,7 @@ export function OrigamiHoldingSection({
         {/* ================= BOTTOM BLOCK: OUR PROJECTS ================= */}
         {loadingProjects || hasProjectItems ? (
           <div className="holding-bottom-block">
-            <div className="holding-block-header">
+            <div className="holding-block-header reveal-fade-up">
               <div className="holding-block-header-left">
                 <h2 className="holding-main-title">{projectsTitle}</h2>
               </div>
@@ -252,7 +252,7 @@ export function OrigamiHoldingSection({
             </div>
 
             {/* Scrollable Project Cards Carousel */}
-            <div className="holding-projects-carousel-wrapper">
+            <div className="holding-projects-carousel-wrapper reveal-scale">
               <div
                 className="holding-projects-track"
                 ref={trackRef}

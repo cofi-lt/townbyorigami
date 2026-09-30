@@ -82,15 +82,15 @@ export function InfrastructureSection({ items, hasContent, sectionRef, t }: Infr
   const currentIndexFormatted = String(Math.min(items.length, activeIndex + 1)).padStart(2, "0");
 
   return (
-    <section id="infrastructure" className="infrastructure-section" ref={sectionRef}>
+    <section id="infrastructure" className="infrastructure-section reveal-on-scroll" ref={sectionRef}>
       <div className="container infrastructure-container">
-        <div className="infrastructure-header-modern">
+        <div className="infrastructure-header-modern reveal-fade-up">
           <div className="infrastructure-header-left">
             <h2 className="infrastructure-main-title">{t("infra_title")}</h2>
           </div>
         </div>
 
-        <div className="infrastructure-carousel-wrapper">
+        <div className="infrastructure-carousel-wrapper reveal-scale">
           <button
             type="button"
             className="infrastructure-nav-btn infrastructure-nav-prev"

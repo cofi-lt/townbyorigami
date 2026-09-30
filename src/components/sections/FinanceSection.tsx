@@ -105,9 +105,9 @@ export function FinanceSection({ data, hasContent, t }: FinanceSectionProps) {
   const mainTitle = currentSlide?.title || data?.title || (t ? t("finance_title") : "INVESTMENT");
 
   return (
-    <section id="finances" className="finance-investment-section">
+    <section id="finances" className="finance-investment-section reveal-on-scroll">
       <div className="container finance-container">
-        <div className="finance-panorama-frame">
+        <div className="finance-panorama-frame reveal-scale">
           {/* Background image layer */}
           <div className="finance-bg-layer">
             <img

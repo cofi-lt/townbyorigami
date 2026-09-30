@@ -17,19 +17,19 @@ export function BiohackingSection({ data, hasContent, t, getIcon }: BiohackingSe
   return (
     <section
       id="biohacking"
-      className="biohacking-section"
+      className="biohacking-section reveal-on-scroll"
       style={data?.background_image ? { "--biohacking-bg": `url(${data.background_image})` } as CSSProperties : undefined}
     >
       <div className="container">
         {hasContent ? (
-          <div className="biohacking-heading">
+          <div className="biohacking-heading reveal-fade-up">
             <h2 className="biohacking-title section-title">
               <span className="biohacking-title-highlight">{t("bio_title")}</span>
             </h2>
           </div>
         ) : null}
 
-        <div className="biohacking-layout reveal-scroll">
+        <div className="biohacking-layout reveal-stagger">
           {data?.items.length ? (
             data.items.map((item) => (
               <article key={item.id} className="biohacking-pillar-card">

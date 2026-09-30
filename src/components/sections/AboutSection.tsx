@@ -19,11 +19,11 @@ export function AboutSection({ data, infoItems, image, hasContent, loading, icon
   }
 
   return (
-    <section id="about-us" className="concept-section">
+    <section id="about-us" className="concept-section reveal-on-scroll">
       <div className="container">
         <div className="concept-card about-grid-container">
           {/* Left Column: Image */}
-          <div className="about-grid-left">
+          <div className="about-grid-left reveal-scale">
             {loading ? (
               <div className="about-image-card concept-render-skeleton">
                 <div className="concept-render-skeleton-shimmer" />
@@ -44,7 +44,7 @@ export function AboutSection({ data, infoItems, image, hasContent, loading, icon
           </div>
 
           {/* Right Column: Text (Top) + Stats Grid (Bottom) */}
-          <div className="about-grid-right">
+          <div className="about-grid-right reveal-fade-up">
             {loading ? (
               <div className="concept-content concept-content-skeleton">
                 <div className="concept-title-skeleton" />
@@ -87,8 +87,8 @@ export function AboutSection({ data, infoItems, image, hasContent, loading, icon
                 </div>
               </div>
             ) : infoItems.length > 0 ? (
-              <div className="origami-info-section reveal-scroll">
-                <div className="origami-info-grid">
+              <div className="origami-info-section">
+                <div className="origami-info-grid reveal-stagger">
                   {infoItems.map((item, index) => (
                     <article key={item.id} className="origami-info-card">
                       <span className="origami-info-icon">

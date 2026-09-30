@@ -98,9 +98,9 @@ export function NewsSection({ items, t, navigateTo }: NewsSectionProps) {
   };
 
   return (
-    <section id="news" className="news-section">
+    <section id="news" className="news-section reveal-on-scroll">
       <div className="container">
-        <div className="news-header">
+        <div className="news-header reveal-fade-up">
           <h2 className="section-title">{t("news_title")}</h2>
           <div className="news-carousel-controls" aria-label="News carousel controls">
             <button
@@ -122,7 +122,7 @@ export function NewsSection({ items, t, navigateTo }: NewsSectionProps) {
           </div>
         </div>
 
-        <div className="news-grid reveal-scroll" ref={trackRef}>
+        <div className="news-grid reveal-scale" ref={trackRef}>
           {carouselItems.map((item, index) => (
             <article className={`news-card${index === activeIndex ? " is-featured" : ""}`} key={`${item.id}-${index}`}>
               <div className="news-card-media">

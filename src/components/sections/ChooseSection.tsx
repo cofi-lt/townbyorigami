@@ -45,17 +45,17 @@ export function ChooseSection({
   }
 
   return (
-    <section id="properties" className="available-properties-section">
+    <section id="properties" className="available-properties-section reveal-on-scroll">
       <div className="container available-properties-container">
         {/* Section Header */}
-        <div className="available-properties-header">
+        <div className="available-properties-header reveal-fade-up">
           <div className="available-properties-header-left">
             <h2 className="available-properties-main-title">{sectionTitle}</h2>
           </div>
         </div>
 
         {/* Unified Grid: 2 Option Cards + Interactive Building Card */}
-        <div className="available-properties-grid">
+        <div className="available-properties-grid reveal-fade-up">
           {/* Left Option Cards */}
           <div className="available-options-column">
             {optionItems.slice(0, 2).map((item) => {

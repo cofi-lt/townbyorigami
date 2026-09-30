@@ -65,6 +65,7 @@ import { useSiteChrome } from "./hooks/useSiteChrome";
 import { useAppRoute } from "./hooks/useAppRoute";
 import { usePreferences } from "./hooks/usePreferences";
 import { useNews } from "./hooks/useNews";
+import { useScrollReveal } from "./hooks/useScrollReveal";
 import { formatNewsDate, formatNewsFallbackTitle } from "./api/news";
 
 const origamiInfoIcons = [
@@ -667,30 +668,7 @@ function App() {
     return () => controller.abort();
   }, [language]);
 
-  useEffect(() => {
-    if (CSS.supports("(animation-timeline: view()) and (animation-range: entry)")) {
-      return;
-    }
-
-    const revealElements = document.querySelectorAll(".reveal-scroll");
-    revealElements.forEach((element) => element.classList.add("reveal-hidden"));
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.remove("reveal-hidden");
-            entry.target.classList.add("reveal-visible");
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.15 }
-    );
-
-    revealElements.forEach((element) => observer.observe(element));
-    return () => observer.disconnect();
-  }, []);
+  useScrollReveal([routeState.name, language, isAboutLoading, isBuildingVisualLoading, isFeaturedUnitsLoading]);
 
   const getBiohackingIcon = (slug: string) => {
     if (slug.includes("wellness")) return <WellnessIcon />;
@@ -1333,9 +1311,9 @@ function App() {
         />
 
         {SHOW_FEATURED_UNITS_SECTION && (
-          <section className="planning-units-section">
+          <section className="planning-units-section reveal-on-scroll">
             <div className="container">
-              <div className="planning-units-toolbar">
+              <div className="planning-units-toolbar reveal-fade-up">
                 <div className="planning-units-links">
                   <button
                     type="button"
@@ -1367,7 +1345,7 @@ function App() {
                 <div className="units-state">{featuredUnitsCopy.loading}</div>
               ) : filteredFeaturedUnits.length > 0 ? (
                 <div className="planning-units-carousel">
-                  <div className="planning-units-grid">
+                  <div className="planning-units-grid reveal-stagger">
                     {filteredFeaturedUnits.map((unit) => (
                       <article
                         key={unit.id}
