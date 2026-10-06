@@ -221,6 +221,7 @@ function App() {
     socialNetworks: apiSocialNetworks,
     footerDescription: apiFooterDescription,
     footerMenuItems: apiFooterMenuItems,
+    headerNavItems: apiHeaderNavItems,
     headerMenu: apiHeaderMenu,
     requestCallTitle,
     requestCallDescription,
@@ -255,12 +256,19 @@ function App() {
       apartments: "Apartments",
       all: "All"
     };
-  const primaryNavItems = apiFooterMenuItems.map((item) => {
+  const navSourceItems: Array<{ slug?: string; title?: string; link?: string }> =
+    apiHeaderNavItems && apiHeaderNavItems.length > 0
+      ? apiHeaderNavItems
+      : apiFooterMenuItems;
+
+  const primaryNavItems = navSourceItems.map((item) => {
     const normalizedSlug = (item.slug || "").toLowerCase();
     const sectionBySlug: Record<string, string> = {
       "project": "about-us",
+      "about-town": "about-us",
       "available-properties": "properties",
       "infrastructure": "infrastructure",
+      "infrastructure-1": "infrastructure",
       "investment": "finances",
       "contact": "contact"
     };
@@ -270,9 +278,15 @@ function App() {
       normalizedSlug === "request-call" ||
       normalizedSlug === "call-request" ||
       normalizedSlug === "zaris-motkhovna";
+
+    let href = item.link || `#${sectionBySlug[normalizedSlug] || normalizedSlug}`;
+    if (!href.startsWith("#") && !href.startsWith("/") && !href.startsWith("http")) {
+      href = `#${href}`;
+    }
+
     return {
-      href: `#${sectionBySlug[normalizedSlug] || normalizedSlug}`,
-      label: item.title,
+      href,
+      label: item.title || "",
       isModalAction
     };
   });

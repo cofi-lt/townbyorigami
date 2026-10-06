@@ -1,4 +1,4 @@
-import { API_BASE_URL } from "../config";
+import { API_BASE_URL, PLATFORM_SLUG } from "../config";
 import type { Language } from "../i18n";
 import type { NewsApiItem, NewsCard } from "../types";
 
@@ -29,7 +29,7 @@ async function fetchApi<T>(path: string, signal: AbortSignal): Promise<T> {
 }
 
 export async function fetchNews(language: Language, categoryFallback: string, signal: AbortSignal): Promise<NewsCard[]> {
-  const payload = await fetchApi<{ data: NewsApiItem[] }>(`/news?locale=${language}`, signal);
+  const payload = await fetchApi<{ data: NewsApiItem[] }>(`/news?locale=${language}&platform=${PLATFORM_SLUG}`, signal);
   return payload.data
     .filter((item) => item.image_url && item.status !== "inactive")
     .sort((a, b) => new Date(b.published_at).getTime() - new Date(a.published_at).getTime())
@@ -45,6 +45,6 @@ export async function fetchNews(language: Language, categoryFallback: string, si
 }
 
 export async function fetchNewsDetail(slug: string, language: Language, signal: AbortSignal): Promise<NewsApiItem> {
-  const payload = await fetchApi<{ data: NewsApiItem }>(`/news/${encodeURIComponent(slug)}?locale=${language}`, signal);
+  const payload = await fetchApi<{ data: NewsApiItem }>(`/news/${encodeURIComponent(slug)}?locale=${language}&platform=${PLATFORM_SLUG}`, signal);
   return payload.data;
 }

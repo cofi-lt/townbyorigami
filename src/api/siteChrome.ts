@@ -51,6 +51,28 @@ export async function fetchFooterMenu(language: Language, signal: AbortSignal): 
   return (payload.data?.items || []).sort((a, b) => a.rank - b.rank);
 }
 
+export async function fetchPrimaryNavMenu(language: Language, signal: AbortSignal): Promise<SectionGridCardItem[]> {
+  try {
+    const payload = await fetchApi<WebsiteSectionResponse>(`/sections/header-menu-1?locale=${language}&platform=${PLATFORM_SLUG}`, signal);
+    if (payload.data?.items && payload.data.items.length > 0) {
+      return payload.data.items.filter((item) => item.status).sort((a, b) => a.rank - b.rank);
+    }
+  } catch {
+    // Fallback if header-menu-1 is not found
+  }
+
+  try {
+    const fallbackPayload = await fetchApi<WebsiteSectionResponse>(`/sections/menu?locale=${language}&platform=${PLATFORM_SLUG}`, signal);
+    if (fallbackPayload.data?.items && fallbackPayload.data.items.length > 0) {
+      return fallbackPayload.data.items.filter((item) => item.status).sort((a, b) => a.rank - b.rank);
+    }
+  } catch {
+    // Fallback if menu is not found
+  }
+
+  return [];
+}
+
 export async function fetchHeaderMenu(language: Language, signal: AbortSignal): Promise<HeaderMenuSection> {
   const payload = await fetchApi<HeaderMenuSectionResponse>(`/sections/header-menu?locale=${language}&platform=${PLATFORM_SLUG}`, signal);
   return {
