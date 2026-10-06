@@ -1,0 +1,272 @@
+/* ==========================================================================
+   UI Component Styles
+   ========================================================================== */
+
+/* Buttons */
+.ui-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  border-radius: var(--radius-md);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: var(--letter-spacing-wide);
+  transition: all var(--transition-normal);
+  white-space: nowrap;
+  user-select: none;
+}
+
+.ui-btn--sm {
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--font-size-xs);
+}
+
+.ui-btn--md {
+  padding: 0.625rem 1.25rem;
+  font-size: var(--font-size-sm);
+}
+
+.ui-btn--lg {
+  padding: 0.875rem 1.75rem;
+  font-size: var(--font-size-base);
+}
+
+.ui-btn--full {
+  width: 100%;
+}
+
+.ui-btn--primary {
+  background: var(--text-primary);
+  color: var(--bg-primary);
+}
+
+.ui-btn--primary:hover {
+  background: var(--color-gold-400);
+  color: var(--color-dark-950);
+  box-shadow: var(--shadow-gold);
+}
+
+.ui-btn--gold {
+  background: linear-gradient(135deg, var(--color-gold-400), var(--color-gold-600));
+  color: #000;
+  box-shadow: var(--shadow-gold);
+}
+
+.ui-btn--gold:hover {
+  background: linear-gradient(135deg, var(--color-gold-300), var(--color-gold-500));
+  transform: translateY(-2px);
+}
+
+.ui-btn--outline {
+  border: 1px solid var(--border-regular);
+  color: var(--text-primary);
+  background: transparent;
+}
+
+.ui-btn--outline:hover {
+  border-color: var(--color-gold-400);
+  color: var(--color-gold-400);
+  background: var(--bg-glass-hover);
+}
+
+.ui-btn--ghost {
+  color: var(--text-secondary);
+  background: transparent;
+}
+
+.ui-btn--ghost:hover {
+  color: var(--text-primary);
+  background: var(--bg-glass-hover);
+}
+
+/* Inputs */
+.ui-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  width: 100%;
+}
+
+.ui-input-label {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  font-weight: var(--font-weight-medium);
+}
+
+.ui-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.ui-input {
+  width: 100%;
+  padding: 0.625rem 0.875rem;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-size: var(--font-size-sm);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.ui-input:focus {
+  outline: none;
+  border-color: var(--color-gold-400);
+  box-shadow: 0 0 0 3px rgba(197, 155, 51, 0.15);
+}
+
+.ui-input.has-icon {
+  padding-left: 2.25rem;
+}
+
+.ui-input-icon {
+  position: absolute;
+  left: 0.75rem;
+  display: flex;
+  align-items: center;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.ui-input-error {
+  font-size: var(--font-size-xs);
+  color: var(--color-danger);
+}
+
+/* Badges */
+.ui-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.625rem;
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: var(--letter-spacing-wide);
+}
+
+.ui-badge--available {
+  background: var(--color-success-bg);
+  color: var(--color-success);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.ui-badge--reserved {
+  background: var(--color-warning-bg);
+  color: var(--color-warning);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.ui-badge--sold {
+  background: var(--color-danger-bg);
+  color: var(--color-danger);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.ui-badge--gold {
+  background: rgba(197, 155, 51, 0.15);
+  color: var(--color-gold-400);
+  border: 1px solid var(--border-gold);
+}
+
+.ui-badge--neutral {
+  background: var(--bg-surface);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-subtle);
+}
+
+/* Cards */
+.ui-card {
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  transition: all var(--transition-normal);
+}
+
+.ui-card--glass {
+  background: var(--bg-glass);
+  backdrop-filter: var(--backdrop-blur);
+  -webkit-backdrop-filter: var(--backdrop-blur);
+  border: 1px solid var(--border-subtle);
+}
+
+.ui-card--gold {
+  background: var(--bg-glass);
+  backdrop-filter: var(--backdrop-blur);
+  -webkit-backdrop-filter: var(--backdrop-blur);
+  border: 1px solid var(--border-gold);
+  box-shadow: var(--shadow-gold);
+}
+
+.ui-card--surface {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+}
+
+.ui-card--hoverable:hover {
+  transform: translateY(-4px);
+  border-color: var(--color-gold-400);
+  box-shadow: var(--shadow-md);
+}
+
+/* Modals */
+.ui-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: var(--z-modal-backdrop);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+  animation: fadeIn var(--transition-fast) forwards;
+}
+
+.ui-modal-container {
+  width: 100%;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-regular);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  animation: fadeInScale var(--transition-normal) forwards;
+}
+
+.ui-modal--sm { max-width: 420px; }
+.ui-modal--md { max-width: 540px; }
+.ui-modal--lg { max-width: 720px; }
+.ui-modal--xl { max-width: 960px; }
+
+.ui-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-5) var(--space-6);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.ui-modal-title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+}
+
+.ui-modal-close {
+  color: var(--text-muted);
+  font-size: var(--font-size-base);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  transition: color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.ui-modal-close:hover {
+  color: var(--text-primary);
+  background: var(--bg-glass-hover);
+}
+
+.ui-modal-body {
+  padding: var(--space-6);
+  max-height: 80vh;
+  overflow-y: auto;
+}

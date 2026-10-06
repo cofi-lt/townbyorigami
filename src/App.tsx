@@ -1,27 +1,17 @@
 import { FormEvent, InvalidEvent, useEffect, useRef, useState } from "react";
-import { Analytics } from "@vercel/analytics/react";
 import GA4React from "react-ga4";
 import "react-medium-image-zoom/dist/styles.css";
 import { translations, type Language, type TranslationKey } from "./i18n";
 import { API_BASE_URL } from "./config";
 import { normalizeApiImageUrl } from "./utils/media";
 
-import { Header } from "./components/sections/Header";
-import { HeroSection } from "./components/sections/HeroSection";
 import { PropertiesPage } from "./components/sections/PropertiesPage";
 import { UnitCatalogPage } from "./components/sections/UnitCatalogPage";
-import { AboutSection } from "./components/sections/AboutSection";
 import { AboutUsPage } from "./components/sections/AboutUsPage";
-import { ChooseSection } from "./components/sections/ChooseSection";
-import { BiohackingSection } from "./components/sections/BiohackingSection";
-import { InfrastructureSection } from "./components/sections/InfrastructureSection";
-import { FinanceSection } from "./components/sections/FinanceSection";
-import { OrigamiHoldingSection } from "./components/sections/OrigamiHoldingSection";
-import { NewsSection } from "./components/sections/NewsSection";
-import { Footer } from "./components/sections/Footer";
+import { HomePage } from "./pages/HomePage";
+import { AppLayout } from "./components/layout/AppLayout";
 import { ConsultationModal } from "./components/sections/ConsultationModal";
 import { RequestCallModal } from "./components/sections/RequestCallModal";
-import { LanguageModal } from "./components/sections/LanguageModal";
 import { UnitsPreferencesModal } from "./components/sections/UnitsPreferencesModal";
 import { FloatingCallWidget } from "./components/sections/FloatingCallWidget";
 import {
@@ -51,11 +41,7 @@ import {
   fetchCurrencyRates,
   fetchUnitFilters,
   fetchUnits,
-  formatArea,
   formatPrice,
-  getUnitDisplayTitle,
-  mapUnitStatusLabel,
-  mapUnitTypeLabel,
   navigateTo,
   type CurrencyRates,
   type SupportedCurrency
@@ -1016,156 +1002,61 @@ function App() {
   const isUnitsRoute = routeState.name === "unitList" || routeState.name === "unitDetail";
   const isPropertiesRoute = routeState.name === "properties" || routeState.name === "property" || routeState.name === "floor";
 
-  if (routeState.name === "newsDetail") {
-    const detailTitle = newsDetail?.title?.trim() || (isNewsDetailLoading ? "" : formatNewsFallbackTitle(routeState.slug));
-    const detailCategory = newsDetail?.category?.name || t("news_category");
-    const detailDate = newsDetail?.published_at ? formatNewsDate(newsDetail.published_at, language) : "";
-    const detailBody = stripHtmlContent(newsDetail?.content || newsDetail?.excerpt || "");
+  const commonHeaderProps = {
+    headerShrunk,
+    variant: (routeState.name === "aboutUs" || routeState.name === "newsDetail" ? "surface" : "default") as "default" | "surface",
+    darkThemeLogoSrc,
+    lightThemeLogoSrc,
+    mobileMenuOpen,
+    setMobileMenuOpen,
+    primaryNavItems,
+    callRequestLabel,
+    dropdownItems: headerDropdownItems,
+    dropdownLabel: apiHeaderMenu?.button_text?.trim() || "",
+    t,
+    openModal,
+    isLanguageModalOpen,
+    setIsLanguageModalOpen,
+    language,
+    languageOptions,
+    handleLanguageSelect,
+    theme,
+    handleThemeToggle
+  };
 
-    return (
-      <>
-        <Header
-          headerShrunk={headerShrunk}
-          variant="surface"
-          darkThemeLogoSrc={darkThemeLogoSrc}
-          lightThemeLogoSrc={lightThemeLogoSrc}
-          mobileMenuOpen={mobileMenuOpen}
-          setMobileMenuOpen={setMobileMenuOpen}
-          primaryNavItems={primaryNavItems}
-          callRequestLabel={callRequestLabel}
-          dropdownItems={headerDropdownItems}
-          dropdownLabel={apiHeaderMenu?.button_text?.trim() || ""}
-          t={t}
-          openModal={openModal}
-          isLanguageModalOpen={isLanguageModalOpen}
-          setIsLanguageModalOpen={setIsLanguageModalOpen}
-          language={language}
-          languageOptions={languageOptions}
-          handleLanguageSelect={handleLanguageSelect}
-          theme={theme}
-          handleThemeToggle={handleThemeToggle}
-        />
+  const commonFooterProps = {
+    darkThemeLogoSrc,
+    lightThemeLogoSrc,
+    socialNetworks: apiSocialNetworks,
+    footerDescription: apiFooterDescription || t("footer_desc"),
+    primaryNavItems,
+    companyProjectsData: apiCompanyProjectsData,
+    legalItems: apiFooterLegalItems,
+    contact: {
+      address: footerContactAddress,
+      email: footerContactEmail,
+      phone: footerContactPhone,
+      secondaryPhone: footerContactSecondaryPhone,
+      mapLink: apiContactSettings?.map_link
+    },
+    openFooterSection,
+    toggleFooterSection,
+    openModal,
+    formatTelHref,
+    t
+  };
 
-        <main className="news-detail-page">
-          <article className="container news-detail-container">
-            {isNewsDetailLoading ? (
-              <div className="news-detail-state">{language === "ka" ? "იტვირთება..." : "Loading..."}</div>
-            ) : newsDetailError ? (
-              <div className="news-detail-state">{newsDetailError}</div>
-            ) : (
-              <>
-                <div className="news-detail-hero">
-                  <div className="news-detail-copy">
-                    <div className="news-detail-kicker">
-                      <button className="news-detail-back" type="button" onClick={() => navigateTo("/")}>
-                        <ArrowIcon direction="left" />
-                        <span>{language === "ka" ? "უკან" : "Back"}</span>
-                      </button>
-                      <div className="news-detail-meta">
-                        <span className="news-detail-category">{detailCategory}</span>
-                        {detailDate ? (
-                          <span className="news-detail-meta-item">
-                            <span className="news-detail-meta-label">{language === "ka" ? "თარიღი" : "Date"}</span>
-                            <span>{detailDate}</span>
-                          </span>
-                        ) : null}
-                      </div>
-                    </div>
-                    <h1>{detailTitle}</h1>
-                    {newsDetail?.excerpt ? <p className="news-detail-excerpt">{newsDetail.excerpt}</p> : null}
-                  </div>
-                  {newsDetail?.image_url ? (
-                    <img src={newsDetail.image_url} alt={detailTitle} />
-                  ) : null}
-                </div>
-
-                {detailBody ? (
-                  <div className="news-detail-body">
-                    {detailBody.split("\n").filter(Boolean).map((paragraph, index) => (
-                      <p key={index}>{paragraph}</p>
-                    ))}
-                  </div>
-                ) : null}
-              </>
-            )}
-          </article>
-        </main>
-        <FloatingCallWidget openModal={() => openModal("request_call")} t={t} label={callRequestLabel} />
-        {renderActiveModal()}
-      </>
-    );
-  }
-
-  if (routeState.name === "aboutUs") {
-    return (
-      <>
-        <Header
-          headerShrunk={headerShrunk}
-          variant="surface"
-          darkThemeLogoSrc={darkThemeLogoSrc}
-          lightThemeLogoSrc={lightThemeLogoSrc}
-          mobileMenuOpen={mobileMenuOpen}
-          setMobileMenuOpen={setMobileMenuOpen}
-          primaryNavItems={primaryNavItems}
-          callRequestLabel={callRequestLabel}
-          dropdownItems={headerDropdownItems}
-          dropdownLabel={apiHeaderMenu?.button_text?.trim() || ""}
-          t={t}
-          openModal={openModal}
-          isLanguageModalOpen={isLanguageModalOpen}
-          setIsLanguageModalOpen={setIsLanguageModalOpen}
-          language={language}
-          languageOptions={languageOptions}
-          handleLanguageSelect={handleLanguageSelect}
-          theme={theme}
-          handleThemeToggle={handleThemeToggle}
-        />
-
-        <AboutUsPage
-          data={apiAboutData}
-          loading={isAboutLoading}
-          language={language}
-          navigateTo={navigateTo}
-        />
-
-        <Footer
-          darkThemeLogoSrc={darkThemeLogoSrc}
-          lightThemeLogoSrc={lightThemeLogoSrc}
-          socialNetworks={apiSocialNetworks}
-          footerDescription={apiFooterDescription || t("footer_desc")}
-          primaryNavItems={primaryNavItems}
-          companyProjectsData={apiCompanyProjectsData}
-          legalItems={apiFooterLegalItems}
-          contact={{
-            address: footerContactAddress,
-            email: footerContactEmail,
-            phone: footerContactPhone,
-            secondaryPhone: footerContactSecondaryPhone,
-            mapLink: apiContactSettings?.map_link
-          }}
-          openFooterSection={openFooterSection}
-          toggleFooterSection={toggleFooterSection}
-          openModal={openModal}
-          formatTelHref={formatTelHref}
-          t={t}
-        />
-        <FloatingCallWidget openModal={() => openModal("request_call")} t={t} label={callRequestLabel} />
-        {renderActiveModal()}
-        <LanguageModal
-          active={isLanguageModalOpen}
-          language={language}
-          languageOptions={languageOptions}
-          currency={currency}
-          currencyRates={currencyRates}
-          closeModal={closeLanguageModal}
-          handleLanguageSelect={handleLanguageSelect}
-          handleCurrencySelect={handleCurrencySelect}
-          t={t}
-        />
-        <Analytics />
-      </>
-    );
-  }
+  const commonLanguageModalProps = {
+    active: isLanguageModalOpen,
+    language,
+    languageOptions,
+    currency,
+    currencyRates,
+    closeModal: closeLanguageModal,
+    handleLanguageSelect,
+    handleCurrencySelect,
+    t
+  };
 
   if (isUnitsRoute) {
     return (
@@ -1201,79 +1092,82 @@ function App() {
     );
   }
 
-  if (isPropertiesRoute) {
-    return (
-      <>
-        <Header
-          headerShrunk={headerShrunk}
-          darkThemeLogoSrc={darkThemeLogoSrc}
-          lightThemeLogoSrc={lightThemeLogoSrc}
-          mobileMenuOpen={mobileMenuOpen}
-          setMobileMenuOpen={setMobileMenuOpen}
-          primaryNavItems={primaryNavItems}
-          callRequestLabel={callRequestLabel}
-          dropdownItems={headerDropdownItems}
-          dropdownLabel={apiHeaderMenu?.button_text?.trim() || ""}
-          t={t}
-          openModal={openModal}
-          isLanguageModalOpen={isLanguageModalOpen}
-          setIsLanguageModalOpen={setIsLanguageModalOpen}
-          language={language}
-          languageOptions={languageOptions}
-          handleLanguageSelect={handleLanguageSelect}
-          theme={theme}
-          handleThemeToggle={handleThemeToggle}
-        />
+  let pageContent = null;
 
-        <PropertiesPage
-          propertySlug={routeState.name === "property" || routeState.name === "floor" ? routeState.propertySlug : undefined}
-          floorSlug={routeState.name === "floor" ? routeState.floorSlug : undefined}
-        />
-        <LanguageModal
-          active={isLanguageModalOpen}
-          language={language}
-          languageOptions={languageOptions}
-          currency={currency}
-          currencyRates={currencyRates}
-          closeModal={closeLanguageModal}
-          handleLanguageSelect={handleLanguageSelect}
-          handleCurrencySelect={handleCurrencySelect}
-          t={t}
-        />
-        <FloatingCallWidget openModal={() => openModal("request_call")} t={t} label={callRequestLabel} />
-        {renderActiveModal()}
-      </>
+  if (routeState.name === "newsDetail") {
+    const detailTitle = newsDetail?.title?.trim() || (isNewsDetailLoading ? "" : formatNewsFallbackTitle(routeState.slug));
+    const detailCategory = newsDetail?.category?.name || t("news_category");
+    const detailDate = newsDetail?.published_at ? formatNewsDate(newsDetail.published_at, language) : "";
+    const detailBody = stripHtmlContent(newsDetail?.content || newsDetail?.excerpt || "");
+
+    pageContent = (
+      <main className="news-detail-page">
+        <article className="container news-detail-container">
+          {isNewsDetailLoading ? (
+            <div className="news-detail-state">{language === "ka" ? "იტვირთება..." : "Loading..."}</div>
+          ) : newsDetailError ? (
+            <div className="news-detail-state">{newsDetailError}</div>
+          ) : (
+            <>
+              <div className="news-detail-hero">
+                <div className="news-detail-copy">
+                  <div className="news-detail-kicker">
+                    <button className="news-detail-back" type="button" onClick={() => navigateTo("/")}>
+                      <ArrowIcon direction="left" />
+                      <span>{language === "ka" ? "უკან" : "Back"}</span>
+                    </button>
+                    <div className="news-detail-meta">
+                      <span className="news-detail-category">{detailCategory}</span>
+                      {detailDate ? (
+                        <span className="news-detail-meta-item">
+                          <span className="news-detail-meta-label">{language === "ka" ? "თარიღი" : "Date"}</span>
+                          <span>{detailDate}</span>
+                        </span>
+                      ) : null}
+                    </div>
+                  </div>
+                  <h1>{detailTitle}</h1>
+                  {newsDetail?.excerpt ? <p className="news-detail-excerpt">{newsDetail.excerpt}</p> : null}
+                </div>
+                {newsDetail?.image_url ? (
+                  <img src={newsDetail.image_url} alt={detailTitle} />
+                ) : null}
+              </div>
+
+              {detailBody ? (
+                <div className="news-detail-body">
+                  {detailBody.split("\n").filter(Boolean).map((paragraph, index) => (
+                    <p key={index}>{paragraph}</p>
+                  ))}
+                </div>
+              ) : null}
+            </>
+          )}
+        </article>
+      </main>
     );
-  }
-
-  return (
-    <>
-      <Header
-        variant="default"
-        headerShrunk={headerShrunk}
-        darkThemeLogoSrc={darkThemeLogoSrc}
-        lightThemeLogoSrc={lightThemeLogoSrc}
-        mobileMenuOpen={mobileMenuOpen}
-        setMobileMenuOpen={setMobileMenuOpen}
-        primaryNavItems={primaryNavItems}
-        callRequestLabel={callRequestLabel}
-        dropdownItems={headerDropdownItems}
-        dropdownLabel={apiHeaderMenu?.button_text?.trim() || ""}
-        t={t}
-        openModal={openModal}
-        isLanguageModalOpen={isLanguageModalOpen}
-        setIsLanguageModalOpen={setIsLanguageModalOpen}
+  } else if (routeState.name === "aboutUs") {
+    pageContent = (
+      <AboutUsPage
+        data={apiAboutData}
+        loading={isAboutLoading}
         language={language}
-        languageOptions={languageOptions}
-        handleLanguageSelect={handleLanguageSelect}
-        theme={theme}
-        handleThemeToggle={handleThemeToggle}
+        navigateTo={navigateTo}
       />
-
-      <main>
-      <HeroSection
+    );
+  } else if (isPropertiesRoute) {
+    pageContent = (
+      <PropertiesPage
+        propertySlug={routeState.name === "property" || routeState.name === "floor" ? routeState.propertySlug : undefined}
+        floorSlug={routeState.name === "floor" ? routeState.floorSlug : undefined}
+      />
+    );
+  } else {
+    pageContent = (
+      <HomePage
         t={t}
-        unitFilters={heroUnitFilters}
+        language={language}
+        heroUnitFilters={heroUnitFilters}
         selectedRoomType={selectedRoomType}
         setSelectedRoomType={setSelectedRoomType}
         selectedPropertyType={selectedPropertyType}
@@ -1283,203 +1177,65 @@ function App() {
         mobileFilterOpen={mobileFilterOpen}
         setMobileFilterOpen={setMobileFilterOpen}
         handleSearch={handleSearch}
-      />
-        <AboutSection
-          data={apiAboutData}
-          infoItems={apiAboutInfoItems}
-          image={conceptImage}
-          hasContent={hasAboutContent}
-          loading={isAboutLoading || isAboutInfoLoading}
-          icons={origamiInfoIcons}
-          buttonText={t("news_read_more")}
-          onSeeMore={() => navigateTo("/about-us")}
-        />
-
-        <ChooseSection
-          chooseData={apiChooseData}
-          renderTitle={renderSectionTitle}
-          renderImage={renderSectionImage}
-          renderImageAlt={renderSectionImageAlt}
-          floors={buildingVisualFloors}
-          loadingFloors={isBuildingVisualLoading}
-          getFloorPolygonPoints={getFloorPolygonPoints}
-          getFloorLabel={getBuildingFloorLabel}
-          getFloorTooltip={getBuildingFloorTooltip}
-          getFloorUnitsRoute={getBuildingFloorUnitsRoute}
-          navigateTo={navigateTo}
-          t={t}
-        />
-
-        {SHOW_FEATURED_UNITS_SECTION && (
-          <section className="planning-units-section reveal-on-scroll">
-            <div className="container">
-              <div className="planning-units-toolbar reveal-fade-up">
-                <div className="planning-units-links">
-                  <button
-                    type="button"
-                    className={`planning-units-link${featuredUnitsFilter === "hotel_room" ? " is-active" : ""}`}
-                    onClick={() => setFeaturedUnitsFilter("hotel_room")}
-                  >
-                    {featuredUnitsCopy.hotelRooms}
-                  </button>
-                  <button
-                    type="button"
-                    className={`planning-units-link${featuredUnitsFilter === "apartment" ? " is-active" : ""}`}
-                    onClick={() => setFeaturedUnitsFilter("apartment")}
-                  >
-                    {featuredUnitsCopy.apartments}
-                  </button>
-                </div>
-
-                <button
-                  type="button"
-                  className="planning-units-link planning-units-link-all"
-                  onClick={() => navigateTo(getPlanningUnitsRoute())}
-                >
-                  <span>{featuredUnitsCopy.all}</span>
-                  <ArrowIcon direction="right" />
-                </button>
-              </div>
-
-              {isFeaturedUnitsLoading ? (
-                <div className="units-state">{featuredUnitsCopy.loading}</div>
-              ) : filteredFeaturedUnits.length > 0 ? (
-                <div className="planning-units-carousel">
-                  <div className="planning-units-grid reveal-stagger">
-                    {filteredFeaturedUnits.map((unit) => (
-                      <article
-                        key={unit.id}
-                        className="unit-card planning-unit-card"
-                        onClick={() => navigateTo(`/properties/${DEFAULT_BUILDING_SLUG}/units/${unit.slug}`)}
-                      >
-                        <div className="unit-card-topline">
-                          <span className={`unit-card-badge unit-card-badge--${unit.status}`}>{mapUnitStatusLabel(unit.status, language)}</span>
-                          <span className="unit-card-floor">{featuredUnitsCopy.floor} {unit.floor?.number ?? "-"}</span>
-                        </div>
-
-                        <div className="unit-card-image">
-                          {unit.image ? <img src={unit.image} alt={getUnitDisplayTitle(unit, language)} /> : <div className="units-image-placeholder" />}
-                        </div>
-
-                        <div className="unit-card-body">
-                          <p className="unit-card-number">{getUnitDisplayTitle(unit, language)}</p>
-                          <h3>{mapUnitTypeLabel(unit.type, language)}</h3>
-                          <strong>{formatArea(unit.area)}</strong>
-
-                          <div className="planning-unit-metrics">
-                            <span>{getFeaturedMetricLabel(unit.bedrooms_count, featuredUnitsCopy.bedrooms)}</span>
-                            <span>{getFeaturedMetricLabel(unit.rooms_count, featuredUnitsCopy.rooms)}</span>
-                            <span>{getFeaturedMetricLabel(unit.bathrooms_count, featuredUnitsCopy.bathrooms)}</span>
-                          </div>
-
-                          <div className="planning-unit-footer">
-                            <button
-                              type="button"
-                              className="planning-unit-button"
-                              onClick={(event) => {
-                                event.stopPropagation();
-                                navigateTo(`/properties/${DEFAULT_BUILDING_SLUG}/units/${unit.slug}`);
-                              }}
-                            >
-                              <span>{featuredUnitsCopy.cta}</span>
-                              <ArrowIcon direction="right" />
-                            </button>
-
-                            <div className="planning-unit-price-block">
-                              <span>{featuredUnitsCopy.priceFrom}</span>
-                              <strong>{getFeaturedUnitPriceText(unit)}</strong>
-                            </div>
-                          </div>
-                        </div>
-                      </article>
-                    ))}
-                  </div>
-                </div>
-              ) : (
-                <div className="units-state">{featuredUnitsCopy.empty}</div>
-              )}
-            </div>
-          </section>
-        )}
-
-        <BiohackingSection
-          data={apiBiohackingData}
-          hasContent={hasBiohackingContent}
-          t={t}
-          getIcon={getBiohackingIcon}
-        />
-
-        <InfrastructureSection
-          items={apiInfrastructureItems}
-          hasContent={hasInfrastructureContent}
-          sectionRef={infrastructureSectionRef}
-          t={t}
-        />
-
-        <FinanceSection
-          data={apiFinanceData}
-          hasContent={hasFinanceContent}
-          t={t}
-          openModal={openModal}
-        />
-
-        <OrigamiHoldingSection
-          holdingData={apiOrigamiHoldingData}
-          projectsData={apiCompanyProjectsData}
-          loadingProjects={isCompanyProjectsLoading}
-          hasContent={hasOrigamiHoldingContent}
-          getIcon={getOrigamiHoldingIcon}
-          getOrder={getOrigamiHoldingOrder}
-          openModal={openModal}
-          navigateTo={navigateTo}
-          t={t}
-        />
-
-        <NewsSection
-          items={newsItems}
-          t={t}
-          navigateTo={navigateTo}
-        />
-
-
-      </main>
-
-      <Footer
-        darkThemeLogoSrc={darkThemeLogoSrc}
-        lightThemeLogoSrc={lightThemeLogoSrc}
-        socialNetworks={apiSocialNetworks}
-        footerDescription={apiFooterDescription || t("footer_desc")}
-        primaryNavItems={primaryNavItems}
-        companyProjectsData={apiCompanyProjectsData}
-        legalItems={apiFooterLegalItems}
-        contact={{
-          address: footerContactAddress,
-          email: footerContactEmail,
-          phone: footerContactPhone,
-          secondaryPhone: footerContactSecondaryPhone,
-          mapLink: apiContactSettings?.map_link
-        }}
-        openFooterSection={openFooterSection}
-        toggleFooterSection={toggleFooterSection}
+        apiAboutData={apiAboutData}
+        apiAboutInfoItems={apiAboutInfoItems}
+        conceptImage={conceptImage}
+        hasAboutContent={hasAboutContent}
+        isAboutLoading={isAboutLoading}
+        isAboutInfoLoading={isAboutInfoLoading}
+        origamiInfoIcons={origamiInfoIcons}
+        navigateTo={navigateTo}
+        apiChooseData={apiChooseData}
+        renderSectionTitle={renderSectionTitle}
+        renderSectionImage={renderSectionImage}
+        renderSectionImageAlt={renderSectionImageAlt}
+        buildingVisualFloors={buildingVisualFloors}
+        isBuildingVisualLoading={isBuildingVisualLoading}
+        getFloorPolygonPoints={getFloorPolygonPoints}
+        getFloorLabel={getBuildingFloorLabel}
+        getFloorTooltip={getBuildingFloorTooltip}
+        getFloorUnitsRoute={getBuildingFloorUnitsRoute}
+        SHOW_FEATURED_UNITS_SECTION={SHOW_FEATURED_UNITS_SECTION}
+        featuredUnitsFilter={featuredUnitsFilter}
+        setFeaturedUnitsFilter={setFeaturedUnitsFilter}
+        featuredUnitsCopy={featuredUnitsCopy}
+        getPlanningUnitsRoute={getPlanningUnitsRoute}
+        isFeaturedUnitsLoading={isFeaturedUnitsLoading}
+        filteredFeaturedUnits={filteredFeaturedUnits}
+        getFeaturedMetricLabel={getFeaturedMetricLabel}
+        getFeaturedUnitPriceText={getFeaturedUnitPriceText}
+        apiBiohackingData={apiBiohackingData}
+        hasBiohackingContent={hasBiohackingContent}
+        getBiohackingIcon={getBiohackingIcon}
+        apiInfrastructureItems={apiInfrastructureItems}
+        hasInfrastructureContent={hasInfrastructureContent}
+        infrastructureSectionRef={infrastructureSectionRef}
+        apiFinanceData={apiFinanceData}
+        hasFinanceContent={hasFinanceContent}
         openModal={openModal}
-        formatTelHref={formatTelHref}
-        t={t}
+        apiOrigamiHoldingData={apiOrigamiHoldingData}
+        apiCompanyProjectsData={apiCompanyProjectsData}
+        isCompanyProjectsLoading={isCompanyProjectsLoading}
+        hasOrigamiHoldingContent={hasOrigamiHoldingContent}
+        getOrigamiHoldingIcon={getOrigamiHoldingIcon}
+        getOrigamiHoldingOrder={getOrigamiHoldingOrder}
+        newsItems={newsItems}
       />
-      <FloatingCallWidget openModal={() => openModal("request_call")} t={t} label={callRequestLabel} />
-      {renderActiveModal()}
-        <LanguageModal
-        active={isLanguageModalOpen}
-        language={language}
-        languageOptions={languageOptions}
-        currency={currency}
-        currencyRates={currencyRates}
-        closeModal={closeLanguageModal}
-        handleLanguageSelect={handleLanguageSelect}
-        handleCurrencySelect={handleCurrencySelect}
-        t={t}
-      />
-      <Analytics />
-    </>
+    );
+  }
+
+  return (
+    <AppLayout
+      headerProps={commonHeaderProps}
+      footerProps={commonFooterProps}
+      languageModalProps={commonLanguageModalProps}
+      callRequestLabel={callRequestLabel}
+      openModal={openModal}
+      activeModalElement={renderActiveModal()}
+    >
+      {pageContent}
+    </AppLayout>
   );
 }
+
 export default App;
