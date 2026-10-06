@@ -14,12 +14,7 @@ import { ConsultationModal } from "./components/sections/ConsultationModal";
 import { RequestCallModal } from "./components/sections/RequestCallModal";
 import { UnitsPreferencesModal } from "./components/sections/UnitsPreferencesModal";
 import { FloatingCallWidget } from "./components/sections/FloatingCallWidget";
-import {
-  CalendarIcon, BuildingIcon,
-  WellnessIcon, LongevityIcon, RecoveryIcon, HealthyLivingIcon,
-  FitnessIcon, MeditationIcon, SpaIcon, EnergyBalanceIcon, ArrowIcon,
-  AudienceOutlineIcon, PriceTagIcon, InstallmentIcon, ResidenceIcon, HotelSuiteIcon, PenthouseIcon
-} from "./components/Icons";
+import { ArrowIcon } from "./components/Icons";
 import {
   type BrandingSettings,
   type FooterSection,
@@ -27,21 +22,13 @@ import {
   type GalleryApiItem,
   type GallerySectionResponse,
   type ChooseApiItem,
-  type BuildingVisual,
-  type BuildingVisualFloor,
-  type BuildingVisualResponse,
-  type ExplorerUnit,
-  type UnitFilterOptions,
-  type WebsiteSectionResponse
+  type UnitFilterOptions
 } from "./types";
 import {
   DEFAULT_BUILDING_SLUG,
   buildUnitCatalogSearch,
-  convertPrice,
   fetchCurrencyRates,
   fetchUnitFilters,
-  fetchUnits,
-  formatPrice,
   navigateTo,
   type CurrencyRates,
   type SupportedCurrency
@@ -54,14 +41,6 @@ import { useNews } from "./hooks/useNews";
 import { useScrollReveal } from "./hooks/useScrollReveal";
 import { formatNewsDate, formatNewsFallbackTitle } from "./api/news";
 
-const origamiInfoIcons = [
-  <PriceTagIcon />,
-  <CalendarIcon />,
-  <InstallmentIcon />,
-  <ResidenceIcon />,
-  <HotelSuiteIcon />,
-  <PenthouseIcon />
-];
 
 const languageOptions: Array<{ code: Language; label: string; shortLabel: string; flag: string }> = [
   { code: "en", label: "English", shortLabel: "EN", flag: "🇺🇸" },
@@ -118,9 +97,6 @@ const phoneCountryCodeFallbackOptions: PhoneCountryCodeOption[] = [
 
 const defaultPhoneCountryCode = phoneCountryCodeFallbackOptions[0].dialCode;
 
-type FeaturedUnitsFilter = "all" | "hotel_room" | "apartment";
-const SHOW_FEATURED_UNITS_SECTION = false;
-
 function getNewsLocale(language: Language) {
   return language;
 }
@@ -169,14 +145,8 @@ function App() {
   const [isLanguageModalOpen, setIsLanguageModalOpen] = useState(false);
   const [isCurrencyModalOpen, setIsCurrencyModalOpen] = useState(false);
   const [currencyRates, setCurrencyRates] = useState<CurrencyRates | null>(null);
-  const [featuredUnits, setFeaturedUnits] = useState<ExplorerUnit[]>([]);
-  const [isFeaturedUnitsLoading, setIsFeaturedUnitsLoading] = useState(true);
-  const [featuredUnitsFilter, setFeaturedUnitsFilter] = useState<FeaturedUnitsFilter>("all");
-  const [apiBuildingVisual, setApiBuildingVisual] = useState<BuildingVisual | null>(null);
-  const [isBuildingVisualLoading, setIsBuildingVisualLoading] = useState(true);
   const [apiGalleryItems, setApiGalleryItems] = useState<GalleryApiItem[]>([]);
   const [, setIsGalleryLoading] = useState(true);
-  const [apiSection3Data, setApiSection3Data] = useState<{ title: string; background_image: string } | null>(null);
   const [selectedChooseItem, setSelectedChooseItem] = useState<ChooseApiItem | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccessState, setShowSuccessState] = useState(false);
@@ -194,26 +164,16 @@ function App() {
   const [, setGalleryPageCount] = useState(1);
   const [, setGalleryCurrentPage] = useState(0);
   const galleryTrackRef = useRef<HTMLDivElement | null>(null);
-  const infrastructureSectionRef = useRef<HTMLElement | null>(null);
   const t = (key: TranslationKey) => translations[language][key];
   const {
-    items: newsItems,
     detail: newsDetail,
     isDetailLoading: isNewsDetailLoading,
     detailError: newsDetailError
   } = useNews(language, routeState.name === "newsDetail" ? routeState.slug : null, t("news_category"));
   const {
-    infrastructureItems: apiInfrastructureItems,
-    biohackingData: apiBiohackingData,
-    origamiHoldingData: apiOrigamiHoldingData,
-    chooseData: apiChooseData,
-    financeData: apiFinanceData,
     companyProjectsData: apiCompanyProjectsData,
     aboutData: apiAboutData,
-    aboutInfoItems: apiAboutInfoItems,
-    isCompanyProjectsLoading,
-    isAboutLoading,
-    isAboutInfoLoading
+    isAboutLoading
   } = useHomepageContent(language);
   const {
     branding,
@@ -222,40 +182,10 @@ function App() {
     footerDescription: apiFooterDescription,
     footerMenuItems: apiFooterMenuItems,
     headerNavItems: apiHeaderNavItems,
-    headerMenu: apiHeaderMenu,
     requestCallTitle,
     requestCallDescription,
     footerLegalItems: apiFooterLegalItems
   } = useSiteChrome(language);
-  const featuredUnitsCopy = language === "ka"
-    ? {
-      cta: "დეტალები",
-      priceFrom: "ფასი იწყება",
-      floor: "სართული",
-      loading: "იტვირთება...",
-      empty: "ბინები ვერ მოიძებნა",
-      bedrooms: "საძინებელი",
-      rooms: "ოთახი",
-      bathrooms: "სველი წერტილი",
-      priceOnRequest: "ფასი შეთანხმებით",
-      hotelRooms: "სასტუმროს ნომრები",
-      apartments: "აპარტამენტები",
-      all: "ყველა"
-    }
-    : {
-      cta: "View details",
-      priceFrom: "Starting from",
-      floor: "Floor",
-      loading: "Loading...",
-      empty: "No units found",
-      bedrooms: "Bedroom",
-      rooms: "Room",
-      bathrooms: "Bathroom",
-      priceOnRequest: "Price on request",
-      hotelRooms: "Hotel Rooms",
-      apartments: "Apartments",
-      all: "All"
-    };
   const navSourceItems: Array<{ slug?: string; title?: string; link?: string }> =
     apiHeaderNavItems && apiHeaderNavItems.length > 0
       ? apiHeaderNavItems
@@ -296,18 +226,6 @@ function App() {
     requestCallTitle?.trim() ||
     t("request_call_title") ||
     "ზარის მოთხოვნა";
-  const headerDropdownItems = (apiHeaderMenu?.items || []).map((item) => {
-    const sectionBySlug: Record<string, string> = {
-      "biohacking": "biohacking",
-      "origami-holding": "holding",
-      "other-projects": "communities",
-      "news": "news"
-    };
-    return {
-      href: `/#${sectionBySlug[item.slug] || item.slug}`,
-      label: item.title
-    };
-  });
   const modalDescription =
     selectedChooseItem?.description ||
     requestCallDescription ||
@@ -395,53 +313,6 @@ function App() {
     };
   }, [language]);
 
-  useEffect(() => {
-    let cancelled = false;
-
-    setIsFeaturedUnitsLoading(true);
-    setFeaturedUnitsFilter("all");
-
-    fetchUnits(
-      DEFAULT_BUILDING_SLUG,
-      {
-        page: 1,
-        perPage: 9,
-        floors: [],
-        types: [],
-        statuses: [],
-        roomTypes: [],
-        rooms: [],
-        bedrooms: [],
-        bathrooms: [],
-        areaMin: "",
-        areaMax: "",
-        condition: "",
-        sort: "rank",
-        view: "grid"
-      },
-      language
-    )
-      .then((response) => {
-        if (!cancelled) {
-          setFeaturedUnits(response.data);
-        }
-      })
-      .catch((error) => {
-        if (!cancelled) {
-          console.error("Failed to load featured units:", error);
-          setFeaturedUnits([]);
-        }
-      })
-      .finally(() => {
-        if (!cancelled) {
-          setIsFeaturedUnitsLoading(false);
-        }
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, [language]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -569,75 +440,6 @@ function App() {
   useEffect(() => {
     const controller = new AbortController();
 
-    const loadSection3 = async () => {
-      try {
-        const locale = getNewsLocale(language);
-        const response = await fetch(`${API_BASE_URL}/sections/section-3?locale=${locale}`, { signal: controller.signal });
-        if (!response.ok) {
-          throw new Error(`Section 3 request failed: ${response.status}`);
-        }
-
-        const payload: WebsiteSectionResponse = await response.json();
-        setApiSection3Data({
-          title: payload.data.title,
-          background_image: payload.data.background_image
-        });
-      } catch (error) {
-        if (error instanceof DOMException && error.name === "AbortError") {
-          return;
-        }
-        console.error("Failed to load section 3 fallback data:", error);
-        setApiSection3Data(null);
-      }
-    };
-
-    loadSection3();
-    return () => controller.abort();
-  }, [language]);
-
-  useEffect(() => {
-    const controller = new AbortController();
-    let cancelled = false;
-
-    const loadBuildingVisual = async () => {
-      setIsBuildingVisualLoading(true);
-
-      try {
-        const locale = getNewsLocale(language);
-        const response = await fetch(`${API_BASE_URL}/buildings/${DEFAULT_BUILDING_SLUG}/visual?locale=${locale}`, { signal: controller.signal });
-        if (!response.ok) {
-          throw new Error(`Building visual request failed: ${response.status}`);
-        }
-
-        const payload: BuildingVisualResponse = await response.json();
-        if (!cancelled) {
-          setApiBuildingVisual(payload.data);
-        }
-      } catch (error) {
-        if (error instanceof DOMException && error.name === "AbortError") {
-          return;
-        }
-        console.error("Failed to load building visual:", error);
-        if (!cancelled) {
-          setApiBuildingVisual(null);
-        }
-      } finally {
-        if (!cancelled && !controller.signal.aborted) {
-          setIsBuildingVisualLoading(false);
-        }
-      }
-    };
-
-    loadBuildingVisual();
-    return () => {
-      cancelled = true;
-      controller.abort();
-    };
-  }, [language]);
-
-  useEffect(() => {
-    const controller = new AbortController();
-
     const loadGallery = async () => {
       setIsGalleryLoading(true);
       try {
@@ -668,92 +470,7 @@ function App() {
     return () => controller.abort();
   }, [language]);
 
-  useScrollReveal([routeState.name, language, isAboutLoading, isBuildingVisualLoading, isFeaturedUnitsLoading]);
-
-  const getBiohackingIcon = (slug: string) => {
-    if (slug.includes("wellness")) return <WellnessIcon />;
-    if (slug.includes("longevity")) return <LongevityIcon />;
-    if (slug.includes("recovery")) return <RecoveryIcon />;
-    if (slug.includes("health")) return <HealthyLivingIcon />;
-    if (slug.includes("fitness")) return <FitnessIcon />;
-    if (slug.includes("meditation")) return <MeditationIcon />;
-    if (slug.includes("spa")) return <SpaIcon />;
-    if (slug.includes("energy")) return <EnergyBalanceIcon />;
-    return <WellnessIcon />;
-  };
-
-  const getOrigamiHoldingIcon = (slug: string) => {
-    if (slug.includes("2008")) return <CalendarIcon />;
-    if (slug.includes("professional") || slug.includes("600")) return <AudienceOutlineIcon />;
-    if (slug.includes("design") || slug.includes("m2")) return <BuildingIcon />;
-    if (slug.includes("hospitality")) return <HotelSuiteIcon />;
-    return <CalendarIcon />;
-  };
-
-  const getOrigamiHoldingOrder = (item: { slug?: string; title?: string; description?: string }) => {
-    const content = `${item.slug || ""} ${item.title || ""} ${item.description || ""}`.toLowerCase();
-
-    if (content.includes("2008")) return 0;
-    if (content.includes("professional") || content.includes("600")) return 1;
-    if (content.includes("design") || content.includes("m2") || content.includes("m²")) return 2;
-    if (content.includes("hospitality")) return 3;
-    return 99;
-  };
-
-  const getFeaturedUnitPriceText = (unit: ExplorerUnit) => {
-    const convertedPrice = convertPrice(unit.price, unit.currency || undefined, currency, currencyRates);
-    const displayCurrency = convertedPrice != null ? currency : unit.currency || currency;
-    const formattedPrice = formatPrice(convertedPrice ?? unit.price, displayCurrency);
-    return formattedPrice || featuredUnitsCopy.priceOnRequest;
-  };
-
-  const getFeaturedMetricLabel = (count: number | null | undefined, singular: string) => {
-    const safeCount = count ?? 0;
-    return `${safeCount} ${singular}`;
-  };
-
-  const filteredFeaturedUnits = featuredUnitsFilter === "all"
-    ? featuredUnits
-    : featuredUnits.filter((unit) => unit.type === featuredUnitsFilter);
-
-  const getFloorPolygonPoints = (floor: BuildingVisualFloor) =>
-    floor.polygon_points || "";
-
-  const getBuildingFloorTooltip = (floor: BuildingVisualFloor) =>
-    language === "ka"
-      ? `ხელმისაწვდომია ${floor.available_units_count ?? 0} შეთავაზება`
-      : `Available ${floor.available_units_count ?? 0} offers`;
-
-  const getBuildingFloorLabel = (floor: BuildingVisualFloor) =>
-    language === "ka" ? `სართული ${floor.number}` : `Floor ${floor.number}`;
-
-  const getBuildingFloorUnitsRoute = (floor: BuildingVisualFloor) =>
-    `/properties/${DEFAULT_BUILDING_SLUG}/units?${buildUnitCatalogSearch({
-      page: 1,
-      perPage: 9,
-      floors: [floor.slug],
-      types: [],
-      statuses: [],
-      roomTypes: [],
-      rooms: [],
-      bedrooms: [],
-      bathrooms: [],
-      areaMin: "",
-      areaMax: "",
-      condition: "",
-      sort: "rank",
-      view: "grid"
-    }, language)}`;
-  const buildingVisualFloors = apiBuildingVisual?.floors.filter((floor) => floor.polygon_points.trim().length > 0) || [];
-  const renderSectionTitle = apiSection3Data?.title || "";
-  const renderSectionImage = apiBuildingVisual?.image || apiSection3Data?.background_image || "";
-  const renderSectionImageAlt = apiBuildingVisual?.title || apiSection3Data?.title || "";
-  const conceptImage = apiAboutData?.image || "";
-  const hasAboutContent = Boolean(apiAboutData?.title || apiAboutData?.body || conceptImage || apiAboutInfoItems.length);
-  const hasBiohackingContent = Boolean(apiBiohackingData?.items.length);
-  const hasInfrastructureContent = apiInfrastructureItems.length > 0;
-  const hasFinanceContent = Boolean(apiFinanceData?.items.length);
-  const hasOrigamiHoldingContent = Boolean(apiOrigamiHoldingData?.items.length);
+  useScrollReveal([routeState.name, language, isAboutLoading]);
 
   const footerContactAddress = apiContactSettings?.address?.trim() || "";
   const footerContactEmail = apiContactSettings?.email?.trim() || "";
@@ -868,23 +585,6 @@ function App() {
     return cleaned ? `tel:${cleaned}` : "#";
   };
 
-  const getPlanningUnitsRoute = (types: string[] = []) =>
-    `/properties/${DEFAULT_BUILDING_SLUG}/units?${buildUnitCatalogSearch({
-      page: 1,
-      perPage: 9,
-      floors: [],
-      types,
-      statuses: [],
-      roomTypes: [],
-      rooms: [],
-      bedrooms: [],
-      bathrooms: [],
-      areaMin: "",
-      areaMax: "",
-      condition: "",
-      sort: "rank",
-      view: "grid"
-    }, language)}`;
 
   const handleSearch = () => {
     setMobileFilterOpen(false);
@@ -1025,8 +725,6 @@ function App() {
     setMobileMenuOpen,
     primaryNavItems,
     callRequestLabel,
-    dropdownItems: headerDropdownItems,
-    dropdownLabel: apiHeaderMenu?.button_text?.trim() || "",
     t,
     openModal,
     isLanguageModalOpen,
@@ -1180,7 +878,6 @@ function App() {
     pageContent = (
       <HomePage
         t={t}
-        language={language}
         heroUnitFilters={heroUnitFilters}
         selectedRoomType={selectedRoomType}
         setSelectedRoomType={setSelectedRoomType}
@@ -1191,49 +888,6 @@ function App() {
         mobileFilterOpen={mobileFilterOpen}
         setMobileFilterOpen={setMobileFilterOpen}
         handleSearch={handleSearch}
-        apiAboutData={apiAboutData}
-        apiAboutInfoItems={apiAboutInfoItems}
-        conceptImage={conceptImage}
-        hasAboutContent={hasAboutContent}
-        isAboutLoading={isAboutLoading}
-        isAboutInfoLoading={isAboutInfoLoading}
-        origamiInfoIcons={origamiInfoIcons}
-        navigateTo={navigateTo}
-        apiChooseData={apiChooseData}
-        renderSectionTitle={renderSectionTitle}
-        renderSectionImage={renderSectionImage}
-        renderSectionImageAlt={renderSectionImageAlt}
-        buildingVisualFloors={buildingVisualFloors}
-        isBuildingVisualLoading={isBuildingVisualLoading}
-        getFloorPolygonPoints={getFloorPolygonPoints}
-        getFloorLabel={getBuildingFloorLabel}
-        getFloorTooltip={getBuildingFloorTooltip}
-        getFloorUnitsRoute={getBuildingFloorUnitsRoute}
-        SHOW_FEATURED_UNITS_SECTION={SHOW_FEATURED_UNITS_SECTION}
-        featuredUnitsFilter={featuredUnitsFilter}
-        setFeaturedUnitsFilter={setFeaturedUnitsFilter}
-        featuredUnitsCopy={featuredUnitsCopy}
-        getPlanningUnitsRoute={getPlanningUnitsRoute}
-        isFeaturedUnitsLoading={isFeaturedUnitsLoading}
-        filteredFeaturedUnits={filteredFeaturedUnits}
-        getFeaturedMetricLabel={getFeaturedMetricLabel}
-        getFeaturedUnitPriceText={getFeaturedUnitPriceText}
-        apiBiohackingData={apiBiohackingData}
-        hasBiohackingContent={hasBiohackingContent}
-        getBiohackingIcon={getBiohackingIcon}
-        apiInfrastructureItems={apiInfrastructureItems}
-        hasInfrastructureContent={hasInfrastructureContent}
-        infrastructureSectionRef={infrastructureSectionRef}
-        apiFinanceData={apiFinanceData}
-        hasFinanceContent={hasFinanceContent}
-        openModal={openModal}
-        apiOrigamiHoldingData={apiOrigamiHoldingData}
-        apiCompanyProjectsData={apiCompanyProjectsData}
-        isCompanyProjectsLoading={isCompanyProjectsLoading}
-        hasOrigamiHoldingContent={hasOrigamiHoldingContent}
-        getOrigamiHoldingIcon={getOrigamiHoldingIcon}
-        getOrigamiHoldingOrder={getOrigamiHoldingOrder}
-        newsItems={newsItems}
       />
     );
   }

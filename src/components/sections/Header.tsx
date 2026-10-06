@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { Theme } from "../../types";
 import { Language, TranslationKey } from "../../i18n";
 import { CloseIcon, GlobeOutlineIcon, MoonIcon, PhoneIcon, SunIcon } from "../Icons";
@@ -12,8 +12,6 @@ type HeaderProps = {
   setMobileMenuOpen: Dispatch<SetStateAction<boolean>>;
   primaryNavItems: Array<{ href: string; label: string; isModalAction?: boolean }>;
   callRequestLabel?: string;
-  dropdownItems: Array<{ href: string; label: string }>;
-  dropdownLabel: string;
   t: (key: TranslationKey) => string;
   openModal?: (style?: "consultation" | "request_call") => void;
   isLanguageModalOpen: boolean;
@@ -34,8 +32,6 @@ export function Header({
   setMobileMenuOpen,
   primaryNavItems,
   callRequestLabel,
-  dropdownItems,
-  dropdownLabel,
   t,
   openModal,
   isLanguageModalOpen,
@@ -48,9 +44,7 @@ export function Header({
 }: HeaderProps) {
   const isUnitsVariant = variant === "units";
   const isSurfaceVariant = variant === "surface";
-  const [dropdownOpen, setDropdownOpen] = useState(false);
   const [mobileLanguageDropdownOpen, setMobileLanguageDropdownOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement | null>(null);
   const currentLanguageOption = languageOptions.find((opt) => opt.code === language) || languageOptions[0];
   const callRequestItem = primaryNavItems.find((item) => item.isModalAction);
   const resolvedCallRequestLabel =
@@ -58,22 +52,6 @@ export function Header({
     callRequestItem?.label?.trim() ||
     t("request_call_title") ||
     "ზარის მოთხოვნა";
-
-  useEffect(() => {
-    if (!dropdownOpen) return;
-    const closeOnOutsideClick = (event: MouseEvent) => {
-      if (!dropdownRef.current?.contains(event.target as Node)) setDropdownOpen(false);
-    };
-    const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setDropdownOpen(false);
-    };
-    document.addEventListener("mousedown", closeOnOutsideClick);
-    document.addEventListener("keydown", closeOnEscape);
-    return () => {
-      document.removeEventListener("mousedown", closeOnOutsideClick);
-      document.removeEventListener("keydown", closeOnEscape);
-    };
-  }, [dropdownOpen]);
 
   const handleNavItemClick = () => {
     setMobileMenuOpen(false);
@@ -134,38 +112,6 @@ export function Header({
                   <PhoneIcon />
                   <span>{resolvedCallRequestLabel}</span>
                 </button>
-              ) : null}
-              {dropdownItems.length > 0 ? (
-                <div className={`header-dropdown ${dropdownOpen ? "is-open" : ""}`} ref={dropdownRef}>
-                  <button
-                    className="header-dropdown-toggle"
-                    type="button"
-                    aria-label={dropdownLabel || "Menu"}
-                    aria-haspopup="menu"
-                    aria-expanded={dropdownOpen}
-                    onClick={() => setDropdownOpen((open) => !open)}
-                  >
-                    {dropdownLabel ? <span className="header-dropdown-label">{dropdownLabel}</span> : null}
-                    <svg className="header-dropdown-chevron" viewBox="0 0 16 16" aria-hidden="true">
-                      <path d="m4 6 4 4 4-4" />
-                    </svg>
-                  </button>
-                  <div className="header-dropdown-menu" role="menu">
-                    {dropdownItems.map((item) => (
-                      <a
-                        key={item.href}
-                        href={item.href}
-                        role="menuitem"
-                        onClick={() => {
-                          setDropdownOpen(false);
-                          setMobileMenuOpen(false);
-                        }}
-                      >
-                        {item.label}
-                      </a>
-                    ))}
-                  </div>
-                </div>
               ) : null}
               <div className={`mobile-nav-lang-dropdown ${mobileLanguageDropdownOpen ? "is-open" : ""}`}>
                 <button
