@@ -1,4 +1,4 @@
-import { API_BASE_URL } from "../config";
+import { API_BASE_URL, PLATFORM_SLUG } from "../config";
 import type { Language } from "../i18n";
 import type {
   BrandingSettings,
@@ -24,22 +24,22 @@ async function fetchApi<T>(path: string, signal: AbortSignal): Promise<T> {
 }
 
 export async function fetchBranding(signal: AbortSignal): Promise<BrandingSettings | null> {
-  const payload = await fetchApi<BrandingSettingsResponse>("/settings/branding", signal);
+  const payload = await fetchApi<BrandingSettingsResponse>(`/settings/branding?platform=${PLATFORM_SLUG}`, signal);
   return payload.data || null;
 }
 
 export async function fetchContactSettings(signal: AbortSignal): Promise<ContactSettings | null> {
-  const payload = await fetchApi<ContactSettingsResponse>("/settings/contact", signal);
+  const payload = await fetchApi<ContactSettingsResponse>(`/settings/contact?platform=${PLATFORM_SLUG}`, signal);
   return payload.data || null;
 }
 
 export async function fetchSocialNetworks(signal: AbortSignal): Promise<SocialNetworkItem[]> {
-  const payload = await fetchApi<SocialNetworksResponse>("/social-networks", signal);
+  const payload = await fetchApi<SocialNetworksResponse>(`/social-networks?platform=${PLATFORM_SLUG}`, signal);
   return payload.data.filter((item) => item.status).sort((a, b) => a.rank - b.rank);
 }
 
 export async function fetchFooterDescription(language: Language, signal: AbortSignal): Promise<string> {
-  const payload = await fetchApi<WebsiteSectionResponse>(`/sections/footer?locale=${language}`, signal);
+  const payload = await fetchApi<WebsiteSectionResponse>(`/sections/footer?locale=${language}&platform=${PLATFORM_SLUG}`, signal);
   const item = payload.data.items.filter((entry) => entry.status).sort((a, b) => a.rank - b.rank)[0];
   const title = item?.title?.trim() || "";
   const subtitle = item?.subtitle?.trim() || "";
@@ -47,12 +47,12 @@ export async function fetchFooterDescription(language: Language, signal: AbortSi
 }
 
 export async function fetchFooterMenu(language: Language, signal: AbortSignal): Promise<FooterMenuApiItem[]> {
-  const payload = await fetchApi<FooterMenuSectionResponse>(`/sections/menu/compact?locale=${language}`, signal);
+  const payload = await fetchApi<FooterMenuSectionResponse>(`/sections/menu/compact?locale=${language}&platform=${PLATFORM_SLUG}`, signal);
   return (payload.data?.items || []).sort((a, b) => a.rank - b.rank);
 }
 
 export async function fetchHeaderMenu(language: Language, signal: AbortSignal): Promise<HeaderMenuSection> {
-  const payload = await fetchApi<HeaderMenuSectionResponse>(`/sections/header-menu?locale=${language}`, signal);
+  const payload = await fetchApi<HeaderMenuSectionResponse>(`/sections/header-menu?locale=${language}&platform=${PLATFORM_SLUG}`, signal);
   return {
     ...payload.data,
     items: (payload.data?.items || []).filter((item) => item.status).sort((a, b) => a.rank - b.rank)
@@ -64,7 +64,7 @@ export async function fetchRequestCallItem(
   signal: AbortSignal
 ): Promise<{ title: string; description: string }> {
   const payload = await fetchApi<{ data: { title?: string; description?: string } }>(
-    `/sections/menu/item/request-a-call?locale=${language}`,
+    `/sections/menu/item/request-a-call?locale=${language}&platform=${PLATFORM_SLUG}`,
     signal
   );
   return {
@@ -79,6 +79,6 @@ export async function fetchRequestCallDescription(language: Language, signal: Ab
 }
 
 export async function fetchFooterLegalItems(language: Language, signal: AbortSignal): Promise<SectionGridCardItem[]> {
-  const payload = await fetchApi<WebsiteSectionResponse>(`/sections/footer-menu?locale=${language}`, signal);
+  const payload = await fetchApi<WebsiteSectionResponse>(`/sections/footer-menu?locale=${language}&platform=${PLATFORM_SLUG}`, signal);
   return payload.data.items.filter((item) => item.status).sort((a, b) => a.rank - b.rank);
 }
