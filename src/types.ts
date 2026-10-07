@@ -29,12 +29,14 @@ export type TownGalleryItem = {
   title: string;
   image_preview: string;
   rank: number;
+  status?: boolean;
   tag?: string;
 };
 
 export type TownGalleryResponse = {
   data: {
     slug: string;
+    status?: boolean;
     title: string;
     items: TownGalleryItem[];
   };
@@ -46,6 +48,7 @@ export type AboutGridCardItem = {
   title: string;
   image_preview?: string;
   rank: number;
+  status?: boolean;
   description?: string;
   subtitle?: string;
 };
@@ -53,12 +56,14 @@ export type AboutGridCardItem = {
 export type AboutGridCardsResponse = {
   data: {
     slug: string;
+    status?: boolean;
     title: string;
     items: AboutGridCardItem[];
   };
 };
 
 export type AboutTownTextContent = {
+  status?: boolean;
   eyebrow?: string;
   title?: string;
   description?: string;

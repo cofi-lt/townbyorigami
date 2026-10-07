@@ -113,19 +113,38 @@ export async function fetchAboutInfo(language: Language, signal: AbortSignal): P
 }
 
 export async function fetchAboutTownGallery(language: Language, signal: AbortSignal): Promise<TownGalleryItem[]> {
-  const payload = await fetchApi<TownGalleryResponse>(`/sections/about-town-gallery/compact?locale=${language}&platform=${PLATFORM_SLUG}`, signal);
-  return (payload.data?.items || []).sort((a, b) => a.rank - b.rank);
+  try {
+    const payload = await fetchApi<TownGalleryResponse>(`/sections/about-town-gallery/compact?locale=${language}&platform=${PLATFORM_SLUG}`, signal);
+    if (payload.data?.status === false) {
+      return [];
+    }
+    return (payload.data?.items || [])
+      .filter((item) => item.status !== false)
+      .sort((a, b) => a.rank - b.rank);
+  } catch {
+    return [];
+  }
 }
 
 export async function fetchAboutGridCards(language: Language, signal: AbortSignal): Promise<AboutGridCardItem[]> {
-  const payload = await fetchApi<AboutGridCardsResponse>(`/sections/about-grid-cards/compact?locale=${language}&platform=${PLATFORM_SLUG}`, signal);
-  return (payload.data?.items || []).sort((a, b) => a.rank - b.rank);
+  try {
+    const payload = await fetchApi<AboutGridCardsResponse>(`/sections/about-grid-cards/compact?locale=${language}&platform=${PLATFORM_SLUG}`, signal);
+    if (payload.data?.status === false) {
+      return [];
+    }
+    return (payload.data?.items || [])
+      .filter((item) => item.status !== false)
+      .sort((a, b) => a.rank - b.rank);
+  } catch {
+    return [];
+  }
 }
 
 export async function fetchAboutTownText(language: Language, signal: AbortSignal): Promise<AboutTownTextContent | null> {
   try {
     const payload = await fetchApi<WebsiteSectionResponse>(`/sections/town-within-a-town?locale=${language}&platform=${PLATFORM_SLUG}`, signal);
     return {
+      status: payload.data?.status !== undefined ? Boolean(payload.data.status) : true,
       eyebrow: payload.data?.eyebrow || undefined,
       title: payload.data?.title || undefined,
       description: payload.data?.description || undefined,
@@ -136,6 +155,7 @@ export async function fetchAboutTownText(language: Language, signal: AbortSignal
     try {
       const fallbackPayload = await fetchApi<WebsiteSectionResponse>(`/sections/about-town-text?locale=${language}&platform=${PLATFORM_SLUG}`, signal);
       return {
+        status: fallbackPayload.data?.status !== undefined ? Boolean(fallbackPayload.data.status) : true,
         eyebrow: fallbackPayload.data?.eyebrow || undefined,
         title: fallbackPayload.data?.title || undefined,
         description: fallbackPayload.data?.description || undefined,
