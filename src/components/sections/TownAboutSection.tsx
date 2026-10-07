@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import type { AboutUsApiItem, TownGalleryItem } from "../../types";
+import type { AboutGridCardItem, AboutTownTextContent, AboutUsApiItem, TownGalleryItem } from "../../types";
 import { getOptimizedImageUrl, normalizeApiImageUrl } from "../../utils/media";
 
 interface TownStat {
@@ -10,6 +10,8 @@ interface TownStat {
 interface TownAboutSectionProps {
   data?: AboutUsApiItem | null;
   galleryItems?: TownGalleryItem[];
+  gridCards?: AboutGridCardItem[];
+  aboutTownText?: AboutTownTextContent | null;
   image?: string;
   stats?: TownStat[];
   summaryText?: string;
@@ -46,28 +48,45 @@ const DEFAULT_STATS: TownStat[] = [
   { value: "X%", label: "INSTALLMENT" }
 ];
 
+const VALUE_BY_SLUG: Record<string, string> = {
+  "apartments": "760",
+  "down-payment": "X%",
+  "sqm": "$X",
+  "sq-m": "$X",
+  "installment": "X%"
+};
+
 const DEFAULT_TAGS = ["EXTERIOR", "COURTYARD", "ARCHITECTURE", "LIFESTYLE"];
 
 export const TownAboutSection: FC<TownAboutSectionProps> = ({
   data,
   galleryItems,
+  gridCards,
+  aboutTownText,
   image,
   stats = DEFAULT_STATS,
   summaryText
 }) => {
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
 
+  const resolvedStats: TownStat[] = (gridCards && gridCards.length > 0)
+    ? gridCards.map((card, idx) => ({
+        value: card.description?.trim() || VALUE_BY_SLUG[card.slug] || DEFAULT_STATS[idx]?.value || "X",
+        label: card.title?.trim() || DEFAULT_STATS[idx]?.label || ""
+      }))
+    : stats;
+
   // Use galleryItems from API endpoint (/api/sections/about-town-gallery/compact) if provided
   const slides = (galleryItems && galleryItems.length > 0)
     ? galleryItems.map((item, idx) => ({
-        tag: item.tag || DEFAULT_TAGS[idx % DEFAULT_TAGS.length],
+        tag: item.title?.trim() || item.tag || DEFAULT_TAGS[idx % DEFAULT_TAGS.length],
         image: normalizeApiImageUrl(item.image_preview),
         alt: item.title || `Town by Origami - Slide ${idx + 1}`
       }))
     : (data?.image || image)
       ? [
           {
-            tag: "EXTERIOR",
+            tag: data?.title?.trim() || "EXTERIOR",
             image: normalizeApiImageUrl(data?.image || image || DEFAULT_SLIDES[0].image),
             alt: data?.title || "Town by Origami"
           },
@@ -88,6 +107,7 @@ export const TownAboutSection: FC<TownAboutSectionProps> = ({
   const padNumber = (num: number) => String(num).padStart(2, "0");
 
   const descriptionContent =
+    aboutTownText?.description?.trim() ||
     summaryText ||
     "At Town, modern living meets a calmer rhythm. Thoughtful architecture, green surroundings, and a complete living environment come together to create a place where life feels balanced.";
 
@@ -113,7 +133,7 @@ export const TownAboutSection: FC<TownAboutSectionProps> = ({
 
             {/* 2x2 Architectural Stats Grid */}
             <div className="town-stats-grid">
-              {stats.map((stat, index) => (
+              {resolvedStats.map((stat, index) => (
                 <div key={index} className="town-stat-card">
                   <div className="town-stat-value">{stat.value}</div>
                   <div className="town-stat-label">{stat.label}</div>

@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import type { Language } from "../i18n";
-import type { AboutUsApiItem, InfrastructureApiItem, SectionGridCardItem, TownGalleryItem } from "../types";
+import type { AboutGridCardItem, AboutTownTextContent, AboutUsApiItem, InfrastructureApiItem, SectionGridCardItem, TownGalleryItem } from "../types";
 import {
   fetchAbout,
+  fetchAboutGridCards,
   fetchAboutInfo,
   fetchAboutTownGallery,
+  fetchAboutTownText,
   fetchBiohacking,
   fetchChoose,
   fetchCompanyProjects,
@@ -32,6 +34,8 @@ export function useHomepageContent(language: Language) {
   const [aboutData, setAboutData] = useState<AboutUsApiItem | null>(null);
   const [aboutInfoItems, setAboutInfoItems] = useState<SectionGridCardItem[]>([]);
   const [aboutTownGalleryItems, setAboutTownGalleryItems] = useState<TownGalleryItem[]>([]);
+  const [aboutGridCards, setAboutGridCards] = useState<AboutGridCardItem[]>([]);
+  const [aboutTownText, setAboutTownText] = useState<AboutTownTextContent | null>(null);
   const [isCompanyProjectsLoading, setIsCompanyProjectsLoading] = useState(true);
   const [isAboutLoading, setIsAboutLoading] = useState(true);
   const [isAboutInfoLoading, setIsAboutInfoLoading] = useState(true);
@@ -85,6 +89,18 @@ export function useHomepageContent(language: Language) {
       "about town gallery"
     );
     void load(
+      fetchAboutGridCards(language, signal),
+      setAboutGridCards,
+      () => setAboutGridCards([]),
+      "about grid cards"
+    );
+    void load(
+      fetchAboutTownText(language, signal),
+      setAboutTownText,
+      () => setAboutTownText(null),
+      "about town text"
+    );
+    void load(
       fetchAboutInfo(language, signal),
       setAboutInfoItems,
       () => setAboutInfoItems([]),
@@ -104,6 +120,8 @@ export function useHomepageContent(language: Language) {
     companyProjectsData,
     aboutData,
     aboutTownGalleryItems,
+    aboutGridCards,
+    aboutTownText,
     aboutInfoItems,
     isCompanyProjectsLoading,
     isAboutLoading,

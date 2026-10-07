@@ -3,7 +3,7 @@ import { HeroSection } from "../components/sections/HeroSection";
 import { TownAboutSection } from "../components/sections/TownAboutSection";
 import { TownFeaturesStrip } from "../components/sections/TownFeaturesStrip";
 import type { TranslationKey } from "../i18n";
-import type { TownGalleryItem } from "../types";
+import type { AboutGridCardItem, AboutTownTextContent, TownGalleryItem } from "../types";
 
 export interface HomePageProps {
   t: (key: TranslationKey) => string;
@@ -19,6 +19,8 @@ export interface HomePageProps {
   handleSearch: () => void;
   apiAboutData?: any;
   aboutTownGalleryItems?: TownGalleryItem[];
+  aboutGridCards?: AboutGridCardItem[];
+  aboutTownText?: AboutTownTextContent | null;
   navigateTo?: (path: string) => void;
   openModal?: (type: any, payload?: any) => void;
 }
@@ -37,6 +39,8 @@ export const HomePage: FC<HomePageProps> = ({
   handleSearch,
   apiAboutData,
   aboutTownGalleryItems,
+  aboutGridCards,
+  aboutTownText,
   navigateTo,
 }) => {
   return (
@@ -58,6 +62,8 @@ export const HomePage: FC<HomePageProps> = ({
       <TownAboutSection
         data={apiAboutData}
         galleryItems={aboutTownGalleryItems}
+        gridCards={aboutGridCards}
+        aboutTownText={aboutTownText}
         onLearnMore={() => (navigateTo ? navigateTo("/about-us") : null)}
       />
 

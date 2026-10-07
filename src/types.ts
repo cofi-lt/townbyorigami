@@ -40,6 +40,30 @@ export type TownGalleryResponse = {
   };
 };
 
+export type AboutGridCardItem = {
+  id: number;
+  slug: string;
+  title: string;
+  image_preview?: string;
+  rank: number;
+  description?: string;
+  subtitle?: string;
+};
+
+export type AboutGridCardsResponse = {
+  data: {
+    slug: string;
+    title: string;
+    items: AboutGridCardItem[];
+  };
+};
+
+export type AboutTownTextContent = {
+  eyebrow?: string;
+  title?: string;
+  description?: string;
+};
+
 export type ExplorerMediaItem = {
   id: number;
   type: string;

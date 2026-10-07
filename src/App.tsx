@@ -175,6 +175,8 @@ function App() {
     companyProjectsData: apiCompanyProjectsData,
     aboutData: apiAboutData,
     aboutTownGalleryItems: apiAboutTownGalleryItems,
+    aboutGridCards: apiAboutGridCards,
+    aboutTownText: apiAboutTownText,
     isAboutLoading
   } = useHomepageContent(language);
   const {
@@ -896,6 +898,8 @@ function App() {
         handleSearch={handleSearch}
         apiAboutData={apiAboutData}
         aboutTownGalleryItems={apiAboutTownGalleryItems}
+        aboutGridCards={apiAboutGridCards}
+        aboutTownText={apiAboutTownText}
         navigateTo={navigateTo}
         openModal={openModal}
       />

@@ -18,7 +18,11 @@ import type {
   OrigamiHoldingSectionResponse,
   SectionGridCardItem,
   TownGalleryItem,
-  TownGalleryResponse
+  TownGalleryResponse,
+  AboutGridCardItem,
+  AboutGridCardsResponse,
+  AboutTownTextContent,
+  WebsiteSectionResponse
 } from "../types";
 
 export type BiohackingContent = {
@@ -112,4 +116,24 @@ export async function fetchAboutTownGallery(language: Language, signal: AbortSig
   const payload = await fetchApi<TownGalleryResponse>(`/sections/about-town-gallery/compact?locale=${language}&platform=${PLATFORM_SLUG}`, signal);
   return (payload.data?.items || []).sort((a, b) => a.rank - b.rank);
 }
+
+export async function fetchAboutGridCards(language: Language, signal: AbortSignal): Promise<AboutGridCardItem[]> {
+  const payload = await fetchApi<AboutGridCardsResponse>(`/sections/about-grid-cards/compact?locale=${language}&platform=${PLATFORM_SLUG}`, signal);
+  return (payload.data?.items || []).sort((a, b) => a.rank - b.rank);
+}
+
+export async function fetchAboutTownText(language: Language, signal: AbortSignal): Promise<AboutTownTextContent | null> {
+  try {
+    const payload = await fetchApi<WebsiteSectionResponse>(`/sections/about-town-text?locale=${language}&platform=${PLATFORM_SLUG}`, signal);
+    return {
+      eyebrow: payload.data?.eyebrow || undefined,
+      title: payload.data?.title || undefined,
+      description: payload.data?.description || undefined
+    };
+  } catch (error) {
+    return null;
+  }
+}
+
+
 
