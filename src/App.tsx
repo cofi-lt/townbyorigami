@@ -173,6 +173,7 @@ function App() {
   const {
     companyProjectsData: apiCompanyProjectsData,
     aboutData: apiAboutData,
+    aboutTownGalleryItems: apiAboutTownGalleryItems,
     isAboutLoading
   } = useHomepageContent(language);
   const {
@@ -889,6 +890,7 @@ function App() {
         setMobileFilterOpen={setMobileFilterOpen}
         handleSearch={handleSearch}
         apiAboutData={apiAboutData}
+        aboutTownGalleryItems={apiAboutTownGalleryItems}
         navigateTo={navigateTo}
         openModal={openModal}
       />

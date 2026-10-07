@@ -16,7 +16,9 @@ import type {
   InfrastructureSectionResponse,
   OrigamiHoldingApiItem,
   OrigamiHoldingSectionResponse,
-  SectionGridCardItem
+  SectionGridCardItem,
+  TownGalleryItem,
+  TownGalleryResponse
 } from "../types";
 
 export type BiohackingContent = {
@@ -105,3 +107,9 @@ export async function fetchAboutInfo(language: Language, signal: AbortSignal): P
   const payload = await fetchApi<AboutSectionResponse>(`/sections/about?locale=${language}&platform=${PLATFORM_SLUG}`, signal);
   return payload.data.items.filter((item) => item.status).sort((a, b) => a.rank - b.rank);
 }
+
+export async function fetchAboutTownGallery(language: Language, signal: AbortSignal): Promise<TownGalleryItem[]> {
+  const payload = await fetchApi<TownGalleryResponse>(`/sections/about-town-gallery/compact?locale=${language}&platform=${PLATFORM_SLUG}`, signal);
+  return (payload.data?.items || []).sort((a, b) => a.rank - b.rank);
+}
+

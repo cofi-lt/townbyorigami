@@ -3,6 +3,7 @@ import { HeroSection } from "../components/sections/HeroSection";
 import { TownAboutSection } from "../components/sections/TownAboutSection";
 import { TownFeaturesStrip } from "../components/sections/TownFeaturesStrip";
 import type { TranslationKey } from "../i18n";
+import type { TownGalleryItem } from "../types";
 
 export interface HomePageProps {
   t: (key: TranslationKey) => string;
@@ -17,6 +18,7 @@ export interface HomePageProps {
   setMobileFilterOpen: Dispatch<SetStateAction<boolean>>;
   handleSearch: () => void;
   apiAboutData?: any;
+  aboutTownGalleryItems?: TownGalleryItem[];
   navigateTo?: (path: string) => void;
   openModal?: (type: any, payload?: any) => void;
 }
@@ -34,6 +36,7 @@ export const HomePage: FC<HomePageProps> = ({
   setMobileFilterOpen,
   handleSearch,
   apiAboutData,
+  aboutTownGalleryItems,
   navigateTo,
 }) => {
   return (
@@ -54,6 +57,7 @@ export const HomePage: FC<HomePageProps> = ({
 
       <TownAboutSection
         data={apiAboutData}
+        galleryItems={aboutTownGalleryItems}
         onLearnMore={() => (navigateTo ? navigateTo("/about-us") : null)}
       />
 

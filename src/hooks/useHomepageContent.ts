@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import type { Language } from "../i18n";
-import type { AboutUsApiItem, InfrastructureApiItem, SectionGridCardItem } from "../types";
+import type { AboutUsApiItem, InfrastructureApiItem, SectionGridCardItem, TownGalleryItem } from "../types";
 import {
   fetchAbout,
   fetchAboutInfo,
+  fetchAboutTownGallery,
   fetchBiohacking,
   fetchChoose,
   fetchCompanyProjects,
@@ -30,6 +31,7 @@ export function useHomepageContent(language: Language) {
   const [companyProjectsData, setCompanyProjectsData] = useState<CompanyProjectsContent | null>(null);
   const [aboutData, setAboutData] = useState<AboutUsApiItem | null>(null);
   const [aboutInfoItems, setAboutInfoItems] = useState<SectionGridCardItem[]>([]);
+  const [aboutTownGalleryItems, setAboutTownGalleryItems] = useState<TownGalleryItem[]>([]);
   const [isCompanyProjectsLoading, setIsCompanyProjectsLoading] = useState(true);
   const [isAboutLoading, setIsAboutLoading] = useState(true);
   const [isAboutInfoLoading, setIsAboutInfoLoading] = useState(true);
@@ -77,6 +79,12 @@ export function useHomepageContent(language: Language) {
     );
     void load(fetchAbout(language, signal), setAboutData, () => setAboutData(null), "about us", () => setIsAboutLoading(false));
     void load(
+      fetchAboutTownGallery(language, signal),
+      setAboutTownGalleryItems,
+      () => setAboutTownGalleryItems([]),
+      "about town gallery"
+    );
+    void load(
       fetchAboutInfo(language, signal),
       setAboutInfoItems,
       () => setAboutInfoItems([]),
@@ -95,6 +103,7 @@ export function useHomepageContent(language: Language) {
     financeData,
     companyProjectsData,
     aboutData,
+    aboutTownGalleryItems,
     aboutInfoItems,
     isCompanyProjectsLoading,
     isAboutLoading,

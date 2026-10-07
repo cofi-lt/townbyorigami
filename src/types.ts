@@ -23,6 +23,23 @@ export type ExplorerQueryState = {
   condition: ConditionFilter;
 };
 
+export type TownGalleryItem = {
+  id: number;
+  slug: string;
+  title: string;
+  image_preview: string;
+  rank: number;
+  tag?: string;
+};
+
+export type TownGalleryResponse = {
+  data: {
+    slug: string;
+    title: string;
+    items: TownGalleryItem[];
+  };
+};
+
 export type ExplorerMediaItem = {
   id: number;
   type: string;
