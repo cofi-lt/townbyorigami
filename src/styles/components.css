@@ -36,25 +36,28 @@
 }
 
 .ui-btn--primary {
-  background: var(--text-primary);
-  color: var(--bg-primary);
+  background: var(--town-forest, #1e4844);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(30, 72, 68, 0.2);
 }
 
 .ui-btn--primary:hover {
-  background: var(--color-gold-400);
-  color: var(--color-dark-950);
-  box-shadow: var(--shadow-gold);
+  background: #143330;
+  color: #ffffff;
+  box-shadow: 0 8px 22px rgba(30, 72, 68, 0.32);
 }
 
 .ui-btn--gold {
-  background: linear-gradient(135deg, var(--color-gold-400), var(--color-gold-600));
-  color: #000;
-  box-shadow: var(--shadow-gold);
+  background: var(--town-forest, #1e4844);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(30, 72, 68, 0.2);
 }
 
 .ui-btn--gold:hover {
-  background: linear-gradient(135deg, var(--color-gold-300), var(--color-gold-500));
+  background: #143330;
+  color: #ffffff;
   transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(30, 72, 68, 0.32);
 }
 
 .ui-btn--outline {
@@ -323,8 +326,10 @@
 }
 
 /* Buttons */
-.town-btn-ochre {
-  background: var(--town-ochre, #AD9270);
+.town-btn-ochre,
+.town-btn-forest,
+.town-btn-primary {
+  background: var(--town-forest, #1e4844);
   color: #ffffff;
   padding: 0.85rem 1.85rem;
   border-radius: 2px;
@@ -339,37 +344,15 @@
   border: none;
   cursor: pointer;
   transition: all var(--transition-normal);
-  box-shadow: 0 4px 14px rgba(173, 146, 112, 0.25);
+  box-shadow: 0 4px 14px rgba(30, 72, 68, 0.2);
 }
 
-.town-btn-ochre:hover {
-  background: #967d5e;
+.town-btn-ochre:hover,
+.town-btn-forest:hover,
+.town-btn-primary:hover {
+  background: #143330;
   transform: translateY(-2px);
-  box-shadow: 0 8px 22px rgba(173, 146, 112, 0.35);
-}
-
-.town-btn-forest {
-  background: var(--town-forest, #1E4845);
-  color: #ffffff;
-  padding: 0.85rem 1.85rem;
-  border-radius: 2px;
-  font-family: var(--font-family-sans);
-  font-size: 0.8125rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  border: none;
-  cursor: pointer;
-  transition: all var(--transition-normal);
-}
-
-.town-btn-forest:hover {
-  background: #143331;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 22px rgba(30, 72, 69, 0.3);
+  box-shadow: 0 8px 22px rgba(30, 72, 68, 0.32);
 }
 
 /* Hero Play Button */
@@ -424,11 +407,19 @@
 }
 
 .town-about-desc {
-  font-size: clamp(1rem, 1.15vw, 1.125rem);
+  font-size: clamp(0.95rem, 1.05vw, 1.0625rem);
   line-height: 1.75;
   color: var(--town-text-body, #3D4A47);
   margin: 1.75rem 0 2.25rem;
-  max-width: 520px;
+  max-width: 560px;
+}
+
+.town-about-desc p {
+  margin: 0 0 1rem;
+}
+
+.town-about-desc p:last-child {
+  margin-bottom: 0;
 }
 
 .town-about-visual-wrapper {

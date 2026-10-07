@@ -256,21 +256,21 @@ body {
   align-items: center;
   justify-content: center;
   padding: 1rem 2.5rem;
-  font-family: var(--font-serif);
+  font-family: var(--font-family-sans, var(--font-serif));
   font-size: 0.85rem;
   font-weight: 600;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: #0b0b0c;
-  background: var(--gold-gradient);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  border-radius: var(--radius-pill);
+  color: #ffffff;
+  background: var(--town-forest, #1e4844);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
   cursor: pointer;
   position: relative;
   overflow: hidden;
   transition: var(--transition-smooth);
   text-decoration: none;
-  box-shadow: 0 4px 20px rgba(197, 168, 128, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 14px rgba(30, 72, 68, 0.25);
 }
 
 .gold-button::before {
@@ -280,7 +280,7 @@ body {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
   transition: 0.6s;
 }
 
@@ -289,10 +289,10 @@ body {
 }
 
 .gold-button:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 35px rgba(197, 168, 128, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.35);
-  background: var(--gold-gradient-hover);
-  color: #0b0b0c;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(30, 72, 68, 0.35);
+  background: #143330;
+  color: #ffffff;
 }
 
 .outline-button {
@@ -7058,13 +7058,13 @@ section[id].reveal-on-scroll.is-revealed,
   padding: 0 1.25rem 0 1rem;
   border-radius: 999px;
   border: 1.5px solid rgba(255, 255, 255, 0.6);
-  background: linear-gradient(135deg, #dfbf88 0%, #C5A46D 50%, #ab884f 100%);
+  background: var(--town-forest, #1e4844);
   color: #ffffff;
   cursor: pointer;
   box-shadow:
-    0 10px 26px rgba(197, 164, 109, 0.45),
+    0 10px 26px rgba(30, 72, 68, 0.4),
     0 3px 8px rgba(0, 0, 0, 0.2),
-    inset 0 1px 1px rgba(255, 255, 255, 0.65);
+    inset 0 1px 1px rgba(255, 255, 255, 0.35);
   transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease, border-color 0.3s ease;
   outline: none;
   -webkit-tap-highlight-color: transparent;
@@ -7073,10 +7073,11 @@ section[id].reveal-on-scroll.is-revealed,
 
 .floating-call-widget-btn:hover {
   transform: translateY(-3px) scale(1.03);
+  background: #143330;
   box-shadow:
-    0 14px 32px rgba(197, 164, 109, 0.65),
+    0 14px 32px rgba(30, 72, 68, 0.6),
     0 5px 12px rgba(0, 0, 0, 0.25),
-    inset 0 1px 1px rgba(255, 255, 255, 0.85);
+    inset 0 1px 1px rgba(255, 255, 255, 0.5);
   border-color: #ffffff;
 }
 

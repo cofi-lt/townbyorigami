@@ -2,7 +2,6 @@ import { FC, Dispatch, SetStateAction } from "react";
 import { HeroSection } from "../components/sections/HeroSection";
 import { TownAboutSection } from "../components/sections/TownAboutSection";
 import { TownFeaturesStrip } from "../components/sections/TownFeaturesStrip";
-import { TownBelongSection } from "../components/sections/TownBelongSection";
 import type { TranslationKey } from "../i18n";
 
 export interface HomePageProps {
@@ -36,7 +35,6 @@ export const HomePage: FC<HomePageProps> = ({
   handleSearch,
   apiAboutData,
   navigateTo,
-  openModal
 }) => {
   return (
     <main className="town-main-layout">
@@ -60,11 +58,6 @@ export const HomePage: FC<HomePageProps> = ({
       />
 
       <TownFeaturesStrip />
-
-      <TownBelongSection
-        t={t}
-        onCtaClick={() => (openModal ? openModal("request_call") : null)}
-      />
     </main>
   );
 };

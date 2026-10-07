@@ -1,6 +1,6 @@
 import { FC } from "react";
 import type { AboutUsApiItem } from "../../types";
-import { getOptimizedImageUrl } from "../../utils/media";
+import { getOptimizedImageUrl, normalizeApiImageUrl } from "../../utils/media";
 
 interface TownAboutSectionProps {
   data?: AboutUsApiItem | null;
@@ -16,7 +16,32 @@ export const TownAboutSection: FC<TownAboutSectionProps> = ({
   buttonText = "LEARN MORE"
 }) => {
   const fallbackImage = "/assets/hero_bg_2.png";
-  const displayImage = image || data?.image || fallbackImage;
+  const rawImage = data?.image || image || fallbackImage;
+  const displayImage = normalizeApiImageUrl(rawImage);
+
+  const renderTitle = () => {
+    if (!data?.title) {
+      return (
+        <>
+          Crafting Spaces<br />
+          That Reflect <span className="town-italic-accent">You</span>
+        </>
+      );
+    }
+
+    const words = data.title.trim().split(" ");
+    if (words.length > 1) {
+      const mainWords = words.slice(0, -1).join(" ");
+      const lastWord = words[words.length - 1];
+      return (
+        <>
+          {mainWords} <span className="town-italic-accent">{lastWord}</span>
+        </>
+      );
+    }
+
+    return <>{data.title}</>;
+  };
 
   return (
     <section id="about" className="town-about-section reveal-on-scroll">
@@ -30,22 +55,23 @@ export const TownAboutSection: FC<TownAboutSectionProps> = ({
             </div>
 
             <h2 className="town-heading-serif">
-              Crafting Spaces<br />
-              That Reflect <span className="town-italic-accent">You</span>
+              {renderTitle()}
             </h2>
 
-            <p className="town-about-desc">
+            <div className="town-about-desc">
               {data?.body ? (
-                <span dangerouslySetInnerHTML={{ __html: data.body }} />
+                <div dangerouslySetInnerHTML={{ __html: data.body }} />
               ) : (
-                "At Town, modern living meets a calmer rhythm. Thoughtful architecture, green surroundings, and a complete living environment come together to create a place where life feels balanced."
+                <p>
+                  At Town, modern living meets a calmer rhythm. Thoughtful architecture, green surroundings, and a complete living environment come together to create a place where life feels balanced.
+                </p>
               )}
-            </p>
+            </div>
 
             <div className="town-about-action">
               <button
                 type="button"
-                className="town-btn-ochre"
+                className="town-btn-forest"
                 onClick={onLearnMore}
               >
                 <span>{buttonText}</span>
@@ -63,7 +89,7 @@ export const TownAboutSection: FC<TownAboutSectionProps> = ({
               <div className="town-about-image-card">
                 <img
                   src={getOptimizedImageUrl(displayImage, { width: 1200, height: 900, crop: "fill", gravity: "auto" })}
-                  alt="Town by Origami Interior"
+                  alt={data?.title || "Town by Origami"}
                   className="town-about-image"
                   loading="lazy"
                   decoding="async"
