@@ -106,6 +106,35 @@ export const TownAboutSection: FC<TownAboutSectionProps> = ({
 
   const padNumber = (num: number) => String(num).padStart(2, "0");
 
+  const kickerContent =
+    aboutTownText?.button_text?.trim() ||
+    aboutTownText?.eyebrow?.trim() ||
+    "ABOUT TOWN";
+  const titleContent = aboutTownText?.title?.trim();
+
+  const renderTitle = () => {
+    if (!titleContent) {
+      return (
+        <>
+          Town within<br />
+          a <span className="town-italic-accent">Town</span>
+        </>
+      );
+    }
+
+    const words = titleContent.split(" ");
+    if (words.length > 1) {
+      const lastWord = words.pop();
+      return (
+        <>
+          {words.join(" ")} <span className="town-italic-accent">{lastWord}</span>
+        </>
+      );
+    }
+
+    return titleContent;
+  };
+
   const descriptionContent =
     aboutTownText?.description?.trim() ||
     summaryText ||
@@ -118,13 +147,12 @@ export const TownAboutSection: FC<TownAboutSectionProps> = ({
           {/* Left Column: Kicker, Heading, Description & Stats Grid */}
           <div className="town-about-content reveal-fade-up">
             <div className="town-kicker-wrapper">
-              <span className="town-kicker">ABOUT TOWN</span>
+              <span className="town-kicker">{kickerContent}</span>
               <span className="town-kicker-line" aria-hidden="true" />
             </div>
 
             <h2 className="town-heading-serif town-about-title">
-              Town within<br />
-              a <span className="town-italic-accent">Town</span>
+              {renderTitle()}
             </h2>
 
             <p className="town-about-summary">

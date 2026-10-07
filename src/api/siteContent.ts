@@ -124,14 +124,27 @@ export async function fetchAboutGridCards(language: Language, signal: AbortSigna
 
 export async function fetchAboutTownText(language: Language, signal: AbortSignal): Promise<AboutTownTextContent | null> {
   try {
-    const payload = await fetchApi<WebsiteSectionResponse>(`/sections/about-town-text?locale=${language}&platform=${PLATFORM_SLUG}`, signal);
+    const payload = await fetchApi<WebsiteSectionResponse>(`/sections/town-within-a-town?locale=${language}&platform=${PLATFORM_SLUG}`, signal);
     return {
       eyebrow: payload.data?.eyebrow || undefined,
       title: payload.data?.title || undefined,
-      description: payload.data?.description || undefined
+      description: payload.data?.description || undefined,
+      button_text: payload.data?.button_text || undefined,
+      button_link: payload.data?.button_link || undefined
     };
-  } catch (error) {
-    return null;
+  } catch {
+    try {
+      const fallbackPayload = await fetchApi<WebsiteSectionResponse>(`/sections/about-town-text?locale=${language}&platform=${PLATFORM_SLUG}`, signal);
+      return {
+        eyebrow: fallbackPayload.data?.eyebrow || undefined,
+        title: fallbackPayload.data?.title || undefined,
+        description: fallbackPayload.data?.description || undefined,
+        button_text: fallbackPayload.data?.button_text || undefined,
+        button_link: fallbackPayload.data?.button_link || undefined
+      };
+    } catch {
+      return null;
+    }
   }
 }
 
