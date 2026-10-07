@@ -1,5 +1,8 @@
 import { FC, Dispatch, SetStateAction } from "react";
 import { HeroSection } from "../components/sections/HeroSection";
+import { TownAboutSection } from "../components/sections/TownAboutSection";
+import { TownFeaturesStrip } from "../components/sections/TownFeaturesStrip";
+import { TownBelongSection } from "../components/sections/TownBelongSection";
 import type { TranslationKey } from "../i18n";
 
 export interface HomePageProps {
@@ -14,6 +17,9 @@ export interface HomePageProps {
   mobileFilterOpen: boolean;
   setMobileFilterOpen: Dispatch<SetStateAction<boolean>>;
   handleSearch: () => void;
+  apiAboutData?: any;
+  navigateTo?: (path: string) => void;
+  openModal?: (type: any, payload?: any) => void;
 }
 
 export const HomePage: FC<HomePageProps> = ({
@@ -27,10 +33,13 @@ export const HomePage: FC<HomePageProps> = ({
   setSelectedCondition,
   mobileFilterOpen,
   setMobileFilterOpen,
-  handleSearch
+  handleSearch,
+  apiAboutData,
+  navigateTo,
+  openModal
 }) => {
   return (
-    <main>
+    <main className="town-main-layout">
       <HeroSection
         t={t}
         unitFilters={heroUnitFilters}
@@ -43,6 +52,18 @@ export const HomePage: FC<HomePageProps> = ({
         mobileFilterOpen={mobileFilterOpen}
         setMobileFilterOpen={setMobileFilterOpen}
         handleSearch={handleSearch}
+      />
+
+      <TownAboutSection
+        data={apiAboutData}
+        onLearnMore={() => (navigateTo ? navigateTo("/about-us") : null)}
+      />
+
+      <TownFeaturesStrip />
+
+      <TownBelongSection
+        t={t}
+        onCtaClick={() => (openModal ? openModal("request_call") : null)}
       />
     </main>
   );

@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, useState } from "react";
 import { Theme } from "../../types";
 import { Language, TranslationKey } from "../../i18n";
-import { CloseIcon, GlobeOutlineIcon, MoonIcon, PhoneIcon, SunIcon } from "../Icons";
+import { CloseIcon, GlobeOutlineIcon, MoonIcon, SunIcon } from "../Icons";
 
 type HeaderProps = {
   headerShrunk: boolean;
@@ -102,15 +102,18 @@ export function Header({
               {openModal ? (
                 <button
                   type="button"
-                  className="nav-link-call-request"
+                  className="nav-link-call-request town-btn-forest"
                   aria-label={resolvedCallRequestLabel}
                   onClick={() => {
                     handleNavItemClick();
                     openModal("request_call");
                   }}
                 >
-                  <PhoneIcon />
                   <span>{resolvedCallRequestLabel}</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <path d="M5 12h14" />
+                    <path d="M12 5l7 7-7 7" />
+                  </svg>
                 </button>
               ) : null}
               <div className={`mobile-nav-lang-dropdown ${mobileLanguageDropdownOpen ? "is-open" : ""}`}>

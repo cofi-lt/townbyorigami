@@ -235,7 +235,7 @@ export const ka: Record<TranslationKey, string> = {
   footer_cookies: "ქუქიების პოლიტიკა",
   footer_copyright: "© 2026 ORIGAMI. ყველა უფლება დაცულია.",
   footer_author_label: "ავტორი",
-  request_call_title: "ზარის მოთხოვნა",
+  request_call_title: "დაინტერესების დაფიქსირება",
   request_call_desc: "დატოვეთ თქვენი ნომერი და ჩვენი პერსონალური კონსულტანტი დაგიკავშირდებათ",
   request_call_purpose_label: "ზარის მიზანი",
   request_call_purpose_opt_buy: "ბინის შეძენა",

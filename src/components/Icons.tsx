@@ -481,3 +481,54 @@ export function PenthouseIcon() {
     </svg>
   );
 }
+
+export function TownLeafIcon() {
+  return (
+    <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M16 28C16 28 26 23 26 12C26 6 20 6 20 6C20 6 20 12 14 16C8 20 6 26 6 26" />
+      <path d="M16 28C16 22 18 16 24 10" />
+    </svg>
+  );
+}
+
+export function TownWavesIcon() {
+  return (
+    <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M4 11C7 8.5 11 8.5 14 11C17 13.5 21 13.5 24 11C27 8.5 29 9 29 9" />
+      <path d="M4 16C7 13.5 11 13.5 14 16C17 18.5 21 18.5 24 16C27 13.5 29 14 29 14" />
+      <path d="M4 21C7 18.5 11 18.5 14 21C17 23.5 21 23.5 24 21C27 18.5 29 19 29 19" />
+    </svg>
+  );
+}
+
+export function TownCommunityIcon() {
+  return (
+    <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="16" cy="11" r="4" />
+      <path d="M8 24C8 20 11.5 18 16 18C20.5 18 24 20 24 24" />
+      <circle cx="7" cy="14" r="2.5" />
+      <path d="M3 24C3 21 5 19.5 7 19.5" />
+      <circle cx="25" cy="14" r="2.5" />
+      <path d="M29 24C29 21 27 19.5 25 19.5" />
+    </svg>
+  );
+}
+
+export function TownDiamondIcon() {
+  return (
+    <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M16 4L28 16L16 28L4 16L16 4Z" />
+      <path d="M16 9L23 16L16 23L9 16L16 9Z" />
+    </svg>
+  );
+}
+
+export function PlayCircleIcon() {
+  return (
+    <svg viewBox="0 0 64 64" fill="none">
+      <circle cx="32" cy="32" r="30" stroke="rgba(255, 255, 255, 0.7)" strokeWidth="1.5" />
+      <polygon points="27,22 43,32 27,42" fill="white" />
+    </svg>
+  );
+}
+

@@ -235,7 +235,7 @@ export const en: Record<TranslationKey, string> = {
   footer_cookies: "Cookies Policy",
   footer_copyright: "© 2026 ORIGAMI. All rights reserved.",
   footer_author_label: "Author",
-  request_call_title: "Request a call",
+  request_call_title: "REGISTER INTEREST",
   request_call_desc: "Leave your number and our personal advisor will contact you",
   request_call_purpose_label: "Call purpose",
   request_call_purpose_opt_buy: "Apartment Purchase",

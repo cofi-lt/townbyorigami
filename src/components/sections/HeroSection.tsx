@@ -1,7 +1,7 @@
 import { Dispatch, ReactNode, SetStateAction, useEffect, useRef, useState } from "react";
 import { TranslationKey } from "../../i18n";
 import { UnitFilterOptions } from "../../types";
-import { LocationIcon, SearchIcon, FilterAdjustIcon, BuildingIcon, CurrencyIcon, CloseIcon } from "../Icons";
+import { LocationIcon, SearchIcon, FilterAdjustIcon, BuildingIcon, CurrencyIcon, CloseIcon, PlayCircleIcon } from "../Icons";
 
 type HeroSectionProps = {
   t: (key: TranslationKey) => string;
@@ -129,6 +129,24 @@ export function HeroSection({
           </div>
 
           <div className="hero-content">
+            <div className="town-hero-play-wrapper reveal-fade-up">
+              <button
+                type="button"
+                className="town-hero-play-btn"
+                aria-label="Play video"
+                onClick={() => {
+                  if (videoRef.current) {
+                    if (videoRef.current.paused) {
+                      void videoRef.current.play();
+                    } else {
+                      videoRef.current.pause();
+                    }
+                  }
+                }}
+              >
+                <PlayCircleIcon />
+              </button>
+            </div>
           </div>
 
           <div className="filter-wrapper">

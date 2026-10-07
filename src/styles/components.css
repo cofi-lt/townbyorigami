@@ -270,3 +270,319 @@
   max-height: 80vh;
   overflow-y: auto;
 }
+
+/* ==========================================================================
+   Town by Origami - Modern Architectural Identity Styles
+   ========================================================================== */
+
+.town-main-layout {
+  background-color: var(--town-sand, #EFEDE7);
+  color: var(--town-text-body, #3D4A47);
+  min-height: 100vh;
+}
+
+/* Typography Helpers */
+.town-heading-serif {
+  font-family: var(--font-family-serif, "Cormorant Garamond", Georgia, serif);
+  font-size: clamp(2.2rem, 4.2vw, 3.8rem);
+  line-height: 1.12;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--town-text-dark, #1E4845);
+  margin: 0 0 1rem;
+}
+
+.town-italic-accent {
+  font-family: var(--font-family-serif, "Cormorant Garamond", Georgia, serif);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--town-ochre, #AD9270);
+}
+
+.town-kicker-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 1rem;
+}
+
+.town-kicker {
+  font-family: var(--font-family-sans);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--town-text-muted, #7E8C89);
+}
+
+.town-kicker-line {
+  display: inline-block;
+  width: 36px;
+  height: 1px;
+  background-color: var(--town-ochre, #AD9270);
+}
+
+/* Buttons */
+.town-btn-ochre {
+  background: var(--town-ochre, #AD9270);
+  color: #ffffff;
+  padding: 0.85rem 1.85rem;
+  border-radius: 2px;
+  font-family: var(--font-family-sans);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  box-shadow: 0 4px 14px rgba(173, 146, 112, 0.25);
+}
+
+.town-btn-ochre:hover {
+  background: #967d5e;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(173, 146, 112, 0.35);
+}
+
+.town-btn-forest {
+  background: var(--town-forest, #1E4845);
+  color: #ffffff;
+  padding: 0.85rem 1.85rem;
+  border-radius: 2px;
+  font-family: var(--font-family-sans);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+}
+
+.town-btn-forest:hover {
+  background: #143331;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(30, 72, 69, 0.3);
+}
+
+/* Hero Play Button */
+.town-hero-play-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+}
+
+.town-hero-play-btn {
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #ffffff;
+  transition: all var(--transition-normal);
+  padding: 0;
+}
+
+.town-hero-play-btn svg {
+  width: 100%;
+  height: 100%;
+}
+
+.town-hero-play-btn:hover {
+  transform: scale(1.1);
+  background: rgba(255, 255, 255, 0.35);
+  border-color: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* About Town Section */
+.town-about-section {
+  padding: clamp(4.5rem, 8vw, 7.5rem) 0;
+  background-color: var(--town-sand, #EFEDE7);
+}
+
+.town-about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(2.5rem, 6vw, 6rem);
+  align-items: center;
+}
+
+.town-about-desc {
+  font-size: clamp(1rem, 1.15vw, 1.125rem);
+  line-height: 1.75;
+  color: var(--town-text-body, #3D4A47);
+  margin: 1.75rem 0 2.25rem;
+  max-width: 520px;
+}
+
+.town-about-visual-wrapper {
+  position: relative;
+}
+
+.town-about-frame {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.town-about-image-card {
+  position: relative;
+  border-radius: 2px;
+  overflow: hidden;
+  box-shadow: 0 20px 48px rgba(30, 72, 69, 0.09);
+  aspect-ratio: 4 / 3;
+}
+
+.town-about-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.town-about-frame-border {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  right: -20px;
+  bottom: -20px;
+  border: 1px solid var(--town-ochre, #AD9270);
+  opacity: 0.6;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Features Strip (Sage Green) */
+.town-features-strip {
+  background-color: var(--town-sage, #71997E);
+  padding: 2.75rem 0;
+  color: #ffffff;
+}
+
+.town-features-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  align-items: center;
+}
+
+.town-feature-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+  padding: 0 1rem;
+  position: relative;
+}
+
+.town-feature-item:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 15%;
+  height: 70%;
+  width: 1px;
+  background-color: rgba(255, 255, 255, 0.22);
+}
+
+.town-feature-icon {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+}
+
+.town-feature-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.town-feature-title {
+  font-family: var(--font-family-sans);
+  font-size: 0.78125rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #ffffff;
+  margin: 0;
+}
+
+/* Belong Sub-Section */
+.town-belong-section {
+  padding: clamp(4rem, 6vw, 6rem) 0;
+  background-color: var(--town-sand, #EFEDE7);
+}
+
+.town-belong-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: flex-end;
+}
+
+.town-belong-desc {
+  font-size: clamp(0.95rem, 1.1vw, 1.0625rem);
+  line-height: 1.7;
+  color: var(--town-text-body, #3D4A47);
+  max-width: 480px;
+  margin: 0;
+}
+
+.town-belong-divider {
+  margin-top: 3.5rem;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, var(--town-ochre, #AD9270) 0%, rgba(173, 146, 112, 0.15) 100%);
+}
+
+/* Responsive adjustments */
+@media (max-width: 991px) {
+  .town-about-grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .town-features-grid {
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: 2rem;
+  }
+
+  .town-feature-item:nth-child(2)::after {
+    display: none;
+  }
+
+  .town-belong-header {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .town-features-grid {
+    grid-template-columns: 1fr;
+    row-gap: 2rem;
+  }
+
+  .town-feature-item::after {
+    display: none !important;
+  }
+}
+

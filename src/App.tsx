@@ -888,6 +888,9 @@ function App() {
         mobileFilterOpen={mobileFilterOpen}
         setMobileFilterOpen={setMobileFilterOpen}
         handleSearch={handleSearch}
+        apiAboutData={apiAboutData}
+        navigateTo={navigateTo}
+        openModal={openModal}
       />
     );
   }
