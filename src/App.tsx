@@ -2,8 +2,9 @@ import { FormEvent, InvalidEvent, useEffect, useRef, useState } from "react";
 import GA4React from "react-ga4";
 import "react-medium-image-zoom/dist/styles.css";
 import { translations, type Language, type TranslationKey } from "./i18n";
-import { API_BASE_URL } from "./config";
+import { API_BASE_URL, PLATFORM_SLUG } from "./config";
 import { normalizeApiImageUrl } from "./utils/media";
+import { getUtmParams } from "./utils/utm";
 
 import { PropertiesPage } from "./components/sections/PropertiesPage";
 import { UnitCatalogPage } from "./components/sections/UnitCatalogPage";
@@ -244,6 +245,7 @@ function App() {
 
   useEffect(() => {
     GA4React.initialize("G-QYSDYT7YGN");
+    getUtmParams();
   }, []);
 
   useEffect(() => {
@@ -670,6 +672,7 @@ function App() {
     const fullPhoneNumber = `${activeCountryCode} ${formPhone}`.trim();
 
     try {
+      const utmParams = getUtmParams();
       const response = await fetch(`${API_BASE_URL}/contact-messages`, {
         method: "POST",
         headers: {
@@ -685,8 +688,10 @@ function App() {
           subject: selectedChooseItem?.title || (modalStyle === "request_call" ? "Request a Call" : "Consultation"),
           message: modalStyle === "request_call"
             ? `Request a Call Submission:\nName: ${formName.trim()}\nPhone: ${fullPhoneNumber}\nPreferred Language: ${formPreferredLanguage}\nCountry: ${formCountry}`
-            : `${selectedChooseItem?.description || "Origami Island consultation request"}\nPreferred Language: ${formPreferredLanguage}\nPreferred Channel: ${formPreferredChannel}`,
-          source_page: window.location.pathname
+            : `${selectedChooseItem?.description || "Town by Origami consultation request"}\nPreferred Language: ${formPreferredLanguage}\nPreferred Channel: ${formPreferredChannel}`,
+          platform_slug: PLATFORM_SLUG,
+          source_page: window.location.href,
+          ...utmParams
         })
       });
 
