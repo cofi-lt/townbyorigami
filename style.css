@@ -6561,8 +6561,8 @@ html[data-theme="light"] .about-us-back {
 
 /* --- Footer --- */
 footer {
-  background-color: var(--bg-dark);
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  background-color: #EFEDE7;
+  border-top: 1px solid rgba(173, 146, 112, 0.2);
   padding: 6rem 0 2rem 0;
   position: relative;
 }

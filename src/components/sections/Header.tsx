@@ -1,7 +1,6 @@
 import { Dispatch, SetStateAction, useState, useRef, useEffect } from "react";
-import { Theme } from "../../types";
 import { Language, TranslationKey } from "../../i18n";
-import { CloseIcon, MoonIcon, SunIcon } from "../Icons";
+import { CloseIcon } from "../Icons";
 
 type HeaderProps = {
   headerShrunk: boolean;
@@ -19,8 +18,6 @@ type HeaderProps = {
   language: Language;
   languageOptions: Array<{ code: Language; label: string; shortLabel: string; flag?: string }>;
   handleLanguageSelect: (nextLanguage: Language) => void;
-  theme?: Theme;
-  handleThemeToggle?: () => void;
 };
 
 export function Header({
@@ -34,9 +31,7 @@ export function Header({
   openModal,
   language,
   languageOptions,
-  handleLanguageSelect,
-  theme,
-  handleThemeToggle
+  handleLanguageSelect
 }: HeaderProps) {
   const isUnitsVariant = variant === "units";
   const [langDropdownOpen, setLangDropdownOpen] = useState(false);
@@ -168,19 +163,6 @@ export function Header({
               </div>
             )}
           </div>
-
-          {/* Theme Toggle Button next to EN */}
-          {handleThemeToggle && (
-            <button
-              type="button"
-              className="town-theme-toggle-btn"
-              aria-label={theme === "light" ? "Switch to dark mode" : "Switch to light mode"}
-              title={theme === "light" ? "Dark Mode" : "Light Mode"}
-              onClick={handleThemeToggle}
-            >
-              {theme === "light" ? <MoonIcon /> : <SunIcon />}
-            </button>
-          )}
 
           <div className="town-header-divider" aria-hidden="true" />
 

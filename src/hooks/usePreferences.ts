@@ -6,11 +6,7 @@ import type { SupportedCurrency } from "../unitCatalog";
 const supportedLanguages: Language[] = ["en", "ka", "ru", "zh", "he", "it", "de", "ar"];
 
 function getInitialTheme(): Theme {
-  const savedTheme = localStorage.getItem("origami_theme");
-  if (savedTheme === "light" || savedTheme === "dark") {
-    return savedTheme;
-  }
-  return window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+  return "light";
 }
 
 function getInitialLanguage(): Language {

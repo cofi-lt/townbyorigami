@@ -1,4 +1,4 @@
-import { FC, Dispatch, SetStateAction } from "react";
+import { FC } from "react";
 import { HeroSection } from "../components/sections/HeroSection";
 import { TownAboutSection } from "../components/sections/TownAboutSection";
 import { TownFeaturesStrip } from "../components/sections/TownFeaturesStrip";
@@ -7,16 +7,6 @@ import type { AboutGridCardItem, AboutTownTextContent, TownGalleryItem } from ".
 
 export interface HomePageProps {
   t: (key: TranslationKey) => string;
-  heroUnitFilters: any;
-  selectedRoomType: string;
-  setSelectedRoomType: Dispatch<SetStateAction<string>>;
-  selectedPropertyType: string;
-  setSelectedPropertyType: Dispatch<SetStateAction<string>>;
-  selectedCondition: string;
-  setSelectedCondition: Dispatch<SetStateAction<string>>;
-  mobileFilterOpen: boolean;
-  setMobileFilterOpen: Dispatch<SetStateAction<boolean>>;
-  handleSearch: () => void;
   apiAboutData?: any;
   aboutTownGalleryItems?: TownGalleryItem[];
   aboutGridCards?: AboutGridCardItem[];
@@ -27,16 +17,6 @@ export interface HomePageProps {
 
 export const HomePage: FC<HomePageProps> = ({
   t,
-  heroUnitFilters,
-  selectedRoomType,
-  setSelectedRoomType,
-  selectedPropertyType,
-  setSelectedPropertyType,
-  selectedCondition,
-  setSelectedCondition,
-  mobileFilterOpen,
-  setMobileFilterOpen,
-  handleSearch,
   apiAboutData,
   aboutTownGalleryItems,
   aboutGridCards,
@@ -45,19 +25,7 @@ export const HomePage: FC<HomePageProps> = ({
 }) => {
   return (
     <main className="town-main-layout">
-      <HeroSection
-        t={t}
-        unitFilters={heroUnitFilters}
-        selectedRoomType={selectedRoomType}
-        setSelectedRoomType={setSelectedRoomType}
-        selectedPropertyType={selectedPropertyType}
-        setSelectedPropertyType={setSelectedPropertyType}
-        selectedCondition={selectedCondition}
-        setSelectedCondition={setSelectedCondition}
-        mobileFilterOpen={mobileFilterOpen}
-        setMobileFilterOpen={setMobileFilterOpen}
-        handleSearch={handleSearch}
-      />
+      <HeroSection t={t} />
 
       <TownAboutSection
         data={apiAboutData}

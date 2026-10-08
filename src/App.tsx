@@ -22,14 +22,12 @@ import {
   type GalleryItem,
   type GalleryApiItem,
   type GallerySectionResponse,
-  type ChooseApiItem,
-  type UnitFilterOptions
+  type ChooseApiItem
 } from "./types";
 import {
   DEFAULT_BUILDING_SLUG,
   buildUnitCatalogSearch,
   fetchCurrencyRates,
-  fetchUnitFilters,
   navigateTo,
   type CurrencyRates,
   type SupportedCurrency
@@ -135,13 +133,8 @@ function App() {
   const routeState = useAppRoute();
   const { language, setLanguage, theme, setTheme, currency, setCurrency } = usePreferences();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
   const [openFooterSection, setOpenFooterSection] = useState<FooterSection | null>(null);
   const [headerShrunk, setHeaderShrunk] = useState(false);
-  const [heroUnitFilters, setHeroUnitFilters] = useState<UnitFilterOptions | null>(null);
-  const [selectedRoomType, setSelectedRoomType] = useState("");
-  const [selectedPropertyType, setSelectedPropertyType] = useState("");
-  const [selectedCondition, setSelectedCondition] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLanguageModalOpen, setIsLanguageModalOpen] = useState(false);
   const [isCurrencyModalOpen, setIsCurrencyModalOpen] = useState(false);
@@ -299,24 +292,6 @@ function App() {
       cancelled = true;
     };
   }, []);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    fetchUnitFilters(DEFAULT_BUILDING_SLUG, language)
-      .then((filters) => {
-        if (!cancelled) {
-          setHeroUnitFilters(filters);
-        }
-      })
-      .catch((error) => {
-        console.error("Failed to load hero unit filters:", error);
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, [language]);
 
 
   useEffect(() => {
@@ -591,28 +566,6 @@ function App() {
   };
 
 
-  const handleSearch = () => {
-    setMobileFilterOpen(false);
-    navigateTo(
-      `/properties/${DEFAULT_BUILDING_SLUG}/units?${buildUnitCatalogSearch({
-        page: 1,
-        perPage: 9,
-        floors: [],
-        types: selectedPropertyType ? [selectedPropertyType] : [],
-        statuses: [],
-        roomTypes: selectedRoomType ? [selectedRoomType] : [],
-        rooms: [],
-        bedrooms: [],
-        bathrooms: [],
-        areaMin: "",
-        areaMax: "",
-        condition: selectedCondition,
-        sort: "rank",
-        view: "grid"
-      }, language)}`
-    );
-  };
-
   const handleThemeToggle = () => {
     setTheme((currentTheme) => (currentTheme === "light" ? "dark" : "light"));
   };
@@ -739,9 +692,7 @@ function App() {
     setIsLanguageModalOpen,
     language,
     languageOptions,
-    handleLanguageSelect,
-    theme,
-    handleThemeToggle
+    handleLanguageSelect
   };
 
   const commonFooterProps = {
@@ -886,16 +837,6 @@ function App() {
     pageContent = (
       <HomePage
         t={t}
-        heroUnitFilters={heroUnitFilters}
-        selectedRoomType={selectedRoomType}
-        setSelectedRoomType={setSelectedRoomType}
-        selectedPropertyType={selectedPropertyType}
-        setSelectedPropertyType={setSelectedPropertyType}
-        selectedCondition={selectedCondition}
-        setSelectedCondition={setSelectedCondition}
-        mobileFilterOpen={mobileFilterOpen}
-        setMobileFilterOpen={setMobileFilterOpen}
-        handleSearch={handleSearch}
         apiAboutData={apiAboutData}
         aboutTownGalleryItems={apiAboutTownGalleryItems}
         aboutGridCards={apiAboutGridCards}
