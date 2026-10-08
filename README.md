@@ -127,7 +127,7 @@ origamisland/
 
 ## 📄 License
 
-Private repository. All rights reserved by **Origami Holding**.
+Public repository. All rights reserved by **Origami Holding**.
 
 ---
 
