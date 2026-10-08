@@ -1,4 +1,4 @@
-import { Dispatch, ReactNode, SetStateAction, useEffect, useRef, useState } from "react";
+import { Dispatch, ReactNode, SetStateAction, useEffect, useState } from "react";
 import { TranslationKey } from "../../i18n";
 import { UnitFilterOptions } from "../../types";
 import { LocationIcon, SearchIcon, BuildingIcon, CurrencyIcon, CloseIcon } from "../Icons";
@@ -35,46 +35,12 @@ export function HeroSection({
   setSelectedCondition,
   handleSearch
 }: HeroSectionProps) {
-  const videoRef = useRef<HTMLVideoElement | null>(null);
   const [openFilter, setOpenFilter] = useState<FilterKey | null>(null);
   const roomTypeOptions = (unitFilters?.room_types || []).map((option) => ({ value: String(option.value), label: option.label }));
   const propertyTypeOptions = (unitFilters?.property_types || []).map((option) => ({ value: String(option.value), label: option.label }));
   const conditionOptions = (unitFilters?.conditions || []).map((option) => ({ value: String(option.value), label: option.label }));
   const hasFilterOptions = roomTypeOptions.length > 0 || propertyTypeOptions.length > 0 || conditionOptions.length > 0;
   const hasActiveFilters = Boolean(selectedRoomType || selectedPropertyType || selectedCondition);
-
-  useEffect(() => {
-    const video = videoRef.current;
-
-    if (!video) {
-      return;
-    }
-
-    const playVideo = () => {
-      video.muted = true;
-      video.defaultMuted = true;
-      void video.play().catch(() => {
-        // Browser autoplay policies can still reject in some profiles.
-      });
-    };
-
-    video.muted = true;
-    video.defaultMuted = true;
-    video.load();
-    playVideo();
-
-    video.addEventListener("canplay", playVideo);
-    video.addEventListener("loadeddata", playVideo);
-    document.addEventListener("visibilitychange", playVideo);
-    document.addEventListener("pointerdown", playVideo, { once: true });
-
-    return () => {
-      video.removeEventListener("canplay", playVideo);
-      video.removeEventListener("loadeddata", playVideo);
-      document.removeEventListener("visibilitychange", playVideo);
-      document.removeEventListener("pointerdown", playVideo);
-    };
-  }, []);
 
   useEffect(() => {
     const handlePointerDown = (event: PointerEvent) => {
@@ -112,40 +78,12 @@ export function HeroSection({
   return (
     <section className="town-hero-section">
       <div className="town-hero-media">
-        <video
-          ref={videoRef}
-          src="https://origam.ge/video/origami.mp4?v=20260815"
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="auto"
-          poster="/assets/hero_bg_2.png"
-          className="town-hero-video"
+        <img
+          src="/assets/hero_bg_2.png"
+          alt="Town by Origami"
+          className="town-hero-image"
         />
         <div className="town-hero-overlay" />
-      </div>
-
-      {/* Center Play Button */}
-      <div className="town-hero-center">
-        <button
-          type="button"
-          className="town-hero-play-glass"
-          aria-label="Play or pause video"
-          onClick={() => {
-            if (videoRef.current) {
-              if (videoRef.current.paused) {
-                void videoRef.current.play();
-              } else {
-                videoRef.current.pause();
-              }
-            }
-          }}
-        >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="town-play-icon">
-            <polygon points="6 3 20 12 6 21 6 3" fill="#ffffff" />
-          </svg>
-        </button>
       </div>
 
       {/* Floating Filter Bar */}
@@ -162,8 +100,6 @@ export function HeroSection({
             onChange={setSelectedRoomType}
           />
 
-          <div className="town-filter-divider" />
-
           <FilterDropdown
             id="property"
             icon={<BuildingIcon />}
@@ -174,8 +110,6 @@ export function HeroSection({
             setOpenFilter={setOpenFilter}
             onChange={setSelectedPropertyType}
           />
-
-          <div className="town-filter-divider" />
 
           <FilterDropdown
             id="condition"

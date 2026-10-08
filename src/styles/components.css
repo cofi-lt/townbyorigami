@@ -650,7 +650,8 @@ header.town-header nav a::after,
   overflow: hidden;
 }
 
-.town-hero-video {
+.town-hero-video,
+.town-hero-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
