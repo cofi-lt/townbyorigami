@@ -1404,7 +1404,7 @@ html[data-theme="light"] .utility-link {
   height: 16px;
 }
 
-.filter-select-trigger {
+.filter-container:not(.town-filter-card) .filter-select-trigger {
   background: transparent;
   border: none;
   padding: 0.3rem 0;
@@ -1424,19 +1424,19 @@ html[data-theme="light"] .utility-link {
   min-width: 0;
 }
 
-.filter-select-trigger span:first-child {
+.filter-container:not(.town-filter-card) .filter-select-trigger span:first-child {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.filter-select-trigger:hover,
-.filter-select-trigger:focus-visible,
-.filter-dropdown.is-open .filter-select-trigger {
+.filter-container:not(.town-filter-card) .filter-select-trigger:hover,
+.filter-container:not(.town-filter-card) .filter-select-trigger:focus-visible,
+.filter-container:not(.town-filter-card) .filter-dropdown.is-open .filter-select-trigger {
   color: var(--primary-gold-light);
 }
 
-.filter-select-chevron {
+.filter-container:not(.town-filter-card) .filter-select-chevron {
   width: 7px;
   height: 7px;
   border-right: 1.5px solid currentColor;
@@ -1447,12 +1447,12 @@ html[data-theme="light"] .utility-link {
   transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
-.filter-dropdown.is-open .filter-select-chevron {
+.filter-container:not(.town-filter-card) .filter-dropdown.is-open .filter-select-chevron {
   transform: rotate(225deg) translate(-2px, -1px);
   opacity: 1;
 }
 
-.filter-dropdown-menu {
+.filter-container:not(.town-filter-card) .filter-dropdown-menu {
   position: absolute;
   left: 0.2rem;
   right: 0.2rem;
@@ -1472,16 +1472,16 @@ html[data-theme="light"] .utility-link {
   -webkit-backdrop-filter: blur(22px) saturate(1.35);
 }
 
-.filter-dropdown-menu::-webkit-scrollbar {
+.filter-container:not(.town-filter-card) .filter-dropdown-menu::-webkit-scrollbar {
   width: 5px;
 }
 
-.filter-dropdown-menu::-webkit-scrollbar-thumb {
+.filter-container:not(.town-filter-card) .filter-dropdown-menu::-webkit-scrollbar-thumb {
   background: rgba(197, 168, 128, 0.42);
   border-radius: 999px;
 }
 
-.filter-dropdown-option {
+.filter-container:not(.town-filter-card) .filter-dropdown-option {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1500,14 +1500,14 @@ html[data-theme="light"] .utility-link {
   transition: background 0.18s ease, color 0.18s ease, transform 0.18s ease;
 }
 
-.filter-dropdown-option:hover,
-.filter-dropdown-option:focus-visible {
+.filter-container:not(.town-filter-card) .filter-dropdown-option:hover,
+.filter-container:not(.town-filter-card) .filter-dropdown-option:focus-visible {
   background: rgba(255, 255, 255, 0.08);
   color: #ffffff;
   outline: none;
 }
 
-.filter-dropdown-option.is-selected {
+.filter-container:not(.town-filter-card) .filter-dropdown-option.is-selected {
   background: rgba(197, 168, 128, 0.16);
   color: var(--primary-gold-light);
 }
