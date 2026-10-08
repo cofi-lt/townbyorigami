@@ -25,8 +25,6 @@ import {
   type ChooseApiItem
 } from "./types";
 import {
-  DEFAULT_BUILDING_SLUG,
-  buildUnitCatalogSearch,
   fetchCurrencyRates,
   navigateTo,
   type CurrencyRates,
