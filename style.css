@@ -461,7 +461,7 @@ header.header-surface>.container::after {
 }
 
 /* Header default (not shrunk) - always light text over transparent background (which is over hero video) */
-header:not(.header-shrunk) nav a {
+header:not(.header-shrunk):not(.town-header) nav a {
   color: #ffffff;
 }
 
@@ -659,7 +659,8 @@ nav {
   box-shadow: none;
 }
 
-nav a {
+header:not(.town-header) nav a,
+nav:not(.town-nav-menu) a {
   text-decoration: none;
   color: var(--text-white);
   font-family: 'FiraGO', var(--font-sans), sans-serif;

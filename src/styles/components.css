@@ -283,7 +283,7 @@
    ========================================================================== */
 
 .town-main-layout {
-  background-color: var(--town-sand, #FAF8F5);
+  background-color: var(--town-sand, #EFEDE7);
   color: var(--town-text-body, #4A5552);
   min-height: 100vh;
 }
@@ -391,13 +391,13 @@
   left: 0;
   width: 100%;
   z-index: 500;
-  background-color: var(--town-sand, #FAF8F5);
+  background-color: var(--town-sand, #EFEDE7);
   border-bottom: 1px solid rgba(173, 146, 112, 0.18);
   transition: all var(--transition-normal);
 }
 
 .town-header--shrunk {
-  background-color: rgba(250, 248, 245, 0.96);
+  background-color: rgba(239, 237, 231, 0.96);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
@@ -446,23 +446,38 @@
 .town-nav-menu {
   display: flex;
   align-items: center;
-  gap: clamp(1rem, 2.2vw, 2.4rem);
+  gap: clamp(1.2rem, 2.4vw, 2.8rem);
   margin: 0 auto;
 }
 
-.town-nav-link {
+header.town-header nav a,
+header.town-header .town-nav-link,
+.town-header nav a,
+.town-header .town-nav-link,
+header:not(.header-shrunk).town-header nav a {
   font-family: var(--font-family-sans);
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: var(--town-text-dark, #1E2D2B);
-  text-decoration: none;
-  transition: color var(--transition-fast);
-  padding: 0.35rem 0.2rem;
+  font-size: 0.9375rem !important;
+  font-weight: 500 !important;
+  color: #1E2D2B !important;
+  text-decoration: none !important;
+  transition: color var(--transition-fast) !important;
+  padding: 0.35rem 0.2rem !important;
   position: relative;
+  opacity: 1 !important;
+  letter-spacing: 0.01em;
 }
 
-.town-nav-link:hover {
-  color: var(--town-ochre, #AD9270);
+header.town-header nav a:hover,
+header.town-header .town-nav-link:hover,
+.town-header nav a:hover,
+.town-header .town-nav-link:hover,
+header:not(.header-shrunk).town-header nav a:hover {
+  color: var(--town-ochre, #AD9270) !important;
+}
+
+header.town-header nav a::after,
+.town-header .town-nav-link::after {
+  display: none !important;
 }
 
 .town-header-right {
@@ -810,7 +825,7 @@
    ========================================================================== */
 .town-about-section {
   padding: clamp(4.5rem, 7vw, 7rem) 0;
-  background-color: var(--town-sand, #FAF8F5);
+  background-color: var(--town-sand, #EFEDE7);
   position: relative;
   overflow: hidden;
 }
