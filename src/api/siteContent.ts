@@ -128,7 +128,7 @@ export async function fetchAboutTownGallery(language: Language, signal: AbortSig
 
 export async function fetchAboutGridCards(language: Language, signal: AbortSignal): Promise<AboutGridCardItem[]> {
   try {
-    const payload = await fetchApi<AboutGridCardsResponse>(`/sections/about-grid-cards/compact?locale=${language}&platform=${PLATFORM_SLUG}`, signal);
+    const payload = await fetchApi<AboutGridCardsResponse>(`/sections/about-town-cards/compact?locale=${language}&platform=${PLATFORM_SLUG}`, signal);
     if (payload.data?.status === false) {
       return [];
     }
@@ -136,7 +136,17 @@ export async function fetchAboutGridCards(language: Language, signal: AbortSigna
       .filter((item) => item.status !== false)
       .sort((a, b) => a.rank - b.rank);
   } catch {
-    return [];
+    try {
+      const fallbackPayload = await fetchApi<AboutGridCardsResponse>(`/sections/about-grid-cards/compact?locale=${language}&platform=${PLATFORM_SLUG}`, signal);
+      if (fallbackPayload.data?.status === false) {
+        return [];
+      }
+      return (fallbackPayload.data?.items || [])
+        .filter((item) => item.status !== false)
+        .sort((a, b) => a.rank - b.rank);
+    } catch {
+      return [];
+    }
   }
 }
 
