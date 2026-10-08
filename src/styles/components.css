@@ -568,6 +568,33 @@ header.town-header nav a::after,
   background-color: rgba(173, 146, 112, 0.35);
 }
 
+.town-theme-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: transparent;
+  border: 1px solid rgba(173, 146, 112, 0.3);
+  color: var(--town-text-dark, #1E2D2B);
+  cursor: pointer;
+  padding: 0;
+  transition: all var(--transition-fast);
+}
+
+.town-theme-toggle-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+.town-theme-toggle-btn:hover {
+  background-color: rgba(173, 146, 112, 0.15);
+  border-color: var(--town-ochre, #AD9270);
+  color: var(--town-ochre, #AD9270);
+  transform: scale(1.05);
+}
+
 .town-header-cta {
   padding: 0.7rem 1.45rem;
   font-size: 0.75rem;
@@ -718,8 +745,8 @@ header.town-header nav a::after,
   display: flex;
   align-items: center;
   flex-shrink: 0;
-  color: var(--town-ochre, #AD9270);
-  opacity: 0.9;
+  color: #AD9270 !important;
+  opacity: 1 !important;
 }
 
 .town-filter-card .filter-icon svg {
@@ -727,14 +754,15 @@ header.town-header nav a::after,
   height: 18px;
 }
 
-.town-filter-card .filter-select-trigger {
+.town-filter-card .filter-select-trigger,
+.town-filter-card .filter-select-trigger span {
   background: transparent;
   border: none;
   padding: 0.2rem 0;
-  color: var(--town-text-dark, #1E2D2B);
+  color: #1E2D2B !important;
   font-family: var(--font-family-sans);
-  font-size: 0.9rem;
-  font-weight: 500;
+  font-size: 0.9rem !important;
+  font-weight: 500 !important;
   outline: none;
   cursor: pointer;
   width: 100%;
@@ -742,13 +770,22 @@ header.town-header nav a::after,
   align-items: center;
   justify-content: space-between;
   gap: 0.75rem;
+  opacity: 1 !important;
+  letter-spacing: 0.01em;
+}
+
+.town-filter-card .filter-select-trigger:hover,
+.town-filter-card .filter-select-trigger:hover span,
+.town-filter-card .filter-dropdown.is-open .filter-select-trigger,
+.town-filter-card .filter-dropdown.is-open .filter-select-trigger span {
+  color: #AD9270 !important;
 }
 
 .town-filter-card .filter-select-chevron {
   width: 7px;
   height: 7px;
-  border-right: 1.5px solid var(--town-text-muted, #8A8A85);
-  border-bottom: 1.5px solid var(--town-text-muted, #8A8A85);
+  border-right: 1.5px solid #8A8A85 !important;
+  border-bottom: 1.5px solid #8A8A85 !important;
   transform: rotate(45deg) translateY(-2px);
   flex-shrink: 0;
   transition: transform 0.2s ease;
@@ -756,6 +793,7 @@ header.town-header nav a::after,
 
 .town-filter-card .filter-dropdown.is-open .filter-select-chevron {
   transform: rotate(225deg) translate(-2px, -1px);
+  border-color: #AD9270 !important;
 }
 
 .town-filter-card .filter-dropdown-menu {
@@ -764,38 +802,38 @@ header.town-header nav a::after,
   right: 0;
   top: calc(100% + 8px);
   z-index: 100;
-  background: #ffffff;
-  border: 1px solid rgba(173, 146, 112, 0.2);
-  border-radius: 2px;
-  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.12);
-  padding: 0.4rem;
+  background: #FFFFFF !important;
+  border: 1px solid rgba(173, 146, 112, 0.25) !important;
+  border-radius: 4px !important;
+  box-shadow: 0 12px 32px rgba(30, 45, 43, 0.12) !important;
+  padding: 0.4rem !important;
   max-height: 240px;
   overflow-y: auto;
 }
 
 .town-filter-card .filter-dropdown-option {
   width: 100%;
-  padding: 0.55rem 0.75rem;
+  padding: 0.6rem 0.85rem !important;
   border: none;
-  background: transparent;
+  background: transparent !important;
   text-align: left;
   font-family: var(--font-family-sans);
-  font-size: 0.85rem;
-  color: var(--town-text-dark, #1E2D2B);
+  font-size: 0.875rem !important;
+  color: #1E2D2B !important;
   cursor: pointer;
   border-radius: 2px;
-  transition: background-color var(--transition-fast);
+  transition: background-color var(--transition-fast), color var(--transition-fast);
 }
 
 .town-filter-card .filter-dropdown-option:hover {
-  background-color: var(--town-sand, #FAF8F5);
-  color: var(--town-ochre, #AD9270);
+  background-color: #EFEDE7 !important;
+  color: #AD9270 !important;
 }
 
 .town-filter-card .filter-dropdown-option.is-selected {
-  background-color: rgba(173, 146, 112, 0.12);
-  color: var(--town-ochre, #AD9270);
-  font-weight: 600;
+  background-color: rgba(173, 146, 112, 0.18) !important;
+  color: #AD9270 !important;
+  font-weight: 600 !important;
 }
 
 .town-filter-search-btn {
