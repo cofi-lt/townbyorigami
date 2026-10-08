@@ -1,18 +1,18 @@
 :root {
   /* ==========================================================================
-     Color Palette - Luxury Architectural Aesthetic
+     Color Palette - Luxury Architectural Aesthetic (Town by Origami)
      ========================================================================== */
   
   /* Town by Origami Official Color Palette */
-  --town-sand: #EFEDE7;
+  --town-sand: #FAF8F5;
   --town-ochre: #AD9270;
   --town-sage: #71997E;
-  --town-forest: #1e4844;
-  --town-btn-bg: #1e4844;
+  --town-forest: #1E392F;
+  --town-btn-bg: #1E392F;
   --town-white: #FFFFFF;
-  --town-text-dark: #1e4844;
-  --town-text-body: #3D4A47;
-  --town-text-muted: #7E8C89;
+  --town-text-dark: #1E2D2B;
+  --town-text-body: #4A5552;
+  --town-text-muted: #8A8A85;
   --town-border: rgba(173, 146, 112, 0.25);
   --town-border-green: rgba(113, 153, 126, 0.35);
 

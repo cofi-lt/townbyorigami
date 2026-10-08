@@ -54,8 +54,7 @@
     <script>
       {
         const savedTheme = localStorage.getItem("origami_theme");
-        const prefersLight = window.matchMedia("(prefers-color-scheme: light)").matches;
-        const theme = savedTheme || (prefersLight ? "light" : "dark");
+        const theme = savedTheme || "light";
         const savedLanguage = localStorage.getItem("origami_language");
         const supportedLanguages = ["en", "ka", "ru", "zh", "he", "it", "de", "ar"];
         const language = supportedLanguages.includes(savedLanguage) ? savedLanguage : "ka";

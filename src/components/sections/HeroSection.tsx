@@ -1,7 +1,7 @@
 import { Dispatch, ReactNode, SetStateAction, useEffect, useRef, useState } from "react";
 import { TranslationKey } from "../../i18n";
 import { UnitFilterOptions } from "../../types";
-import { LocationIcon, SearchIcon, FilterAdjustIcon, BuildingIcon, CurrencyIcon, CloseIcon, PlayCircleIcon } from "../Icons";
+import { LocationIcon, SearchIcon, BuildingIcon, CurrencyIcon, CloseIcon } from "../Icons";
 
 type HeroSectionProps = {
   t: (key: TranslationKey) => string;
@@ -12,8 +12,8 @@ type HeroSectionProps = {
   setSelectedPropertyType: Dispatch<SetStateAction<string>>;
   selectedCondition: string;
   setSelectedCondition: Dispatch<SetStateAction<string>>;
-  mobileFilterOpen: boolean;
-  setMobileFilterOpen: Dispatch<SetStateAction<boolean>>;
+  mobileFilterOpen?: boolean;
+  setMobileFilterOpen?: Dispatch<SetStateAction<boolean>>;
   handleSearch: () => void;
 };
 
@@ -33,8 +33,6 @@ export function HeroSection({
   setSelectedPropertyType,
   selectedCondition,
   setSelectedCondition,
-  mobileFilterOpen,
-  setMobileFilterOpen,
   handleSearch
 }: HeroSectionProps) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -43,7 +41,6 @@ export function HeroSection({
   const propertyTypeOptions = (unitFilters?.property_types || []).map((option) => ({ value: String(option.value), label: option.label }));
   const conditionOptions = (unitFilters?.conditions || []).map((option) => ({ value: String(option.value), label: option.label }));
   const hasFilterOptions = roomTypeOptions.length > 0 || propertyTypeOptions.length > 0 || conditionOptions.length > 0;
-  const selectedRoomLabel = roomTypeOptions.find((option) => option.value === selectedRoomType)?.label || t("filter_room_all");
   const hasActiveFilters = Boolean(selectedRoomType || selectedPropertyType || selectedCondition);
 
   useEffect(() => {
@@ -113,124 +110,108 @@ export function HeroSection({
   }
 
   return (
-        <section className="hero">
-          <div className="hero-bg">
-            <video
-              ref={videoRef}
-              src="https://origam.ge/video/origami.mp4?v=20260815"
-              autoPlay
-              loop
-              muted
-              playsInline
-              preload="auto"
-              poster="/assets/hero_bg_2.png"
-              className="hero-video"
-            />
-          </div>
+    <section className="town-hero-section">
+      <div className="town-hero-media">
+        <video
+          ref={videoRef}
+          src="https://origam.ge/video/origami.mp4?v=20260815"
+          autoPlay
+          loop
+          muted
+          playsInline
+          preload="auto"
+          poster="/assets/hero_bg_2.png"
+          className="town-hero-video"
+        />
+        <div className="town-hero-overlay" />
+      </div>
 
-          <div className="hero-content">
-            <div className="town-hero-play-wrapper reveal-fade-up">
-              <button
-                type="button"
-                className="town-hero-play-btn"
-                aria-label="Play video"
-                onClick={() => {
-                  if (videoRef.current) {
-                    if (videoRef.current.paused) {
-                      void videoRef.current.play();
-                    } else {
-                      videoRef.current.pause();
-                    }
-                  }
-                }}
-              >
-                <PlayCircleIcon />
-              </button>
-            </div>
-          </div>
+      {/* Center Play Button */}
+      <div className="town-hero-center">
+        <button
+          type="button"
+          className="town-hero-play-glass"
+          aria-label="Play or pause video"
+          onClick={() => {
+            if (videoRef.current) {
+              if (videoRef.current.paused) {
+                void videoRef.current.play();
+              } else {
+                videoRef.current.pause();
+              }
+            }
+          }}
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="town-play-icon">
+            <polygon points="6 3 20 12 6 21 6 3" fill="#ffffff" />
+          </svg>
+        </button>
+      </div>
 
-          <div className="filter-wrapper">
-            <div className="mobile-filter-dock">
-              <div className="mobile-filter-summary">
-                <span className="filter-icon">
-                  <LocationIcon />
-                </span>
-                <span>{selectedRoomLabel}</span>
-              </div>
-              <button
-                className="mobile-filter-search"
-                type="button"
-                aria-label="Search properties"
-                onClick={handleSearch}
-              >
-                <SearchIcon />
-              </button>
-              <button
-                className={`mobile-filter-toggle ${mobileFilterOpen ? "active" : ""}`}
-                type="button"
-                aria-label={mobileFilterOpen ? "Hide property filters" : "Show property filters"}
-                aria-expanded={mobileFilterOpen}
-                onClick={() => setMobileFilterOpen((open) => !open)}
-              >
-                <FilterAdjustIcon />
-              </button>
-            </div>
-            <div className={`filter-container ${mobileFilterOpen ? "mobile-open" : ""}`}>
-              <FilterDropdown
-                id="room"
-                icon={<LocationIcon />}
-                value={selectedRoomType}
-                fallbackLabel={t("filter_room_all")}
-                options={roomTypeOptions}
-                openFilter={openFilter}
-                setOpenFilter={setOpenFilter}
-                onChange={setSelectedRoomType}
-              />
-              <div className="filter-divider"></div>
+      {/* Floating Filter Bar */}
+      <div className="town-filter-wrapper">
+        <div className="town-filter-card">
+          <FilterDropdown
+            id="room"
+            icon={<LocationIcon />}
+            value={selectedRoomType}
+            fallbackLabel={t("filter_room_all") || "Room Type"}
+            options={roomTypeOptions}
+            openFilter={openFilter}
+            setOpenFilter={setOpenFilter}
+            onChange={setSelectedRoomType}
+          />
 
-              <FilterDropdown
-                id="property"
-                icon={<BuildingIcon />}
-                value={selectedPropertyType}
-                fallbackLabel={t("filter_kind_all")}
-                options={propertyTypeOptions}
-                openFilter={openFilter}
-                setOpenFilter={setOpenFilter}
-                onChange={setSelectedPropertyType}
-              />
-              <div className="filter-divider"></div>
+          <div className="town-filter-divider" />
 
-              <FilterDropdown
-                id="condition"
-                icon={<CurrencyIcon />}
-                value={selectedCondition}
-                fallbackLabel={t("filter_condition_all")}
-                options={conditionOptions}
-                openFilter={openFilter}
-                setOpenFilter={setOpenFilter}
-                onChange={setSelectedCondition}
-              />
+          <FilterDropdown
+            id="property"
+            icon={<BuildingIcon />}
+            value={selectedPropertyType}
+            fallbackLabel={t("filter_kind_all") || "Property type"}
+            options={propertyTypeOptions}
+            openFilter={openFilter}
+            setOpenFilter={setOpenFilter}
+            onChange={setSelectedPropertyType}
+          />
 
-              <button id="search-filter-btn" className="gold-button filter-search-btn" type="button" onClick={handleSearch}>
-                <SearchIcon />
-                <span>{t("filter_search")}</span>
-              </button>
+          <div className="town-filter-divider" />
 
-              {hasActiveFilters ? (
-                <button
-                  className="filter-reset-btn"
-                  type="button"
-                  aria-label={t("filter_reset")}
-                  title={t("filter_reset")}
-                  onClick={handleResetFilters}
-                >
-                  <CloseIcon />
-                </button>
-              ) : null}
-            </div>
-          </div>
-        </section>
+          <FilterDropdown
+            id="condition"
+            icon={<CurrencyIcon />}
+            value={selectedCondition}
+            fallbackLabel={t("filter_condition_all") || "Condition"}
+            options={conditionOptions}
+            openFilter={openFilter}
+            setOpenFilter={setOpenFilter}
+            onChange={setSelectedCondition}
+          />
 
+          <button
+            id="search-filter-btn"
+            className="town-btn-forest town-filter-search-btn"
+            type="button"
+            onClick={handleSearch}
+          >
+            <SearchIcon />
+            <span>{t("filter_search") || "SEARCH"}</span>
+          </button>
+
+          {hasActiveFilters ? (
+            <button
+              className="town-filter-reset-btn"
+              type="button"
+              aria-label={t("filter_reset")}
+              title={t("filter_reset")}
+              onClick={handleResetFilters}
+            >
+              <CloseIcon />
+            </button>
+          ) : null}
+        </div>
+      </div>
+    </section>
   );
 }
 
