@@ -461,6 +461,21 @@ export type FinanceSectionResponse = {
 
 export type InfrastructureSectionResponse = {
   data: {
+    platform_id?: number;
+    platform_slug?: string;
+    slug?: string;
+    type?: string;
+    status?: boolean;
+    eyebrow?: string;
+    title?: string;
+    description?: string;
+    button_text?: string;
+    button_link?: string;
+    background_image?: string;
+    meta_title?: string;
+    meta_description?: string;
+    rank?: number;
+    updated_at?: string;
     items: InfrastructureApiItem[];
   };
 };

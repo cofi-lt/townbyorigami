@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import type { Language } from "../i18n";
-import type { AboutGridCardItem, AboutTownTextContent, AboutUsApiItem, InfrastructureApiItem, SectionGridCardItem, TownGalleryItem } from "../types";
+import type { AboutGridCardItem, AboutTownTextContent, AboutUsApiItem, SectionGridCardItem, TownGalleryItem } from "../types";
 import {
   fetchAbout,
   fetchAboutGridCards,
@@ -17,6 +17,7 @@ import {
   type ChooseContent,
   type CompanyProjectsContent,
   type FinanceContent,
+  type InfrastructureContent,
   type OrigamiHoldingContent
 } from "../api/siteContent";
 
@@ -25,7 +26,7 @@ function isAbortError(error: unknown) {
 }
 
 export function useHomepageContent(language: Language) {
-  const [infrastructureItems, setInfrastructureItems] = useState<InfrastructureApiItem[]>([]);
+  const [infrastructureData, setInfrastructureData] = useState<InfrastructureContent | null>(null);
   const [biohackingData, setBiohackingData] = useState<BiohackingContent | null>(null);
   const [origamiHoldingData, setOrigamiHoldingData] = useState<OrigamiHoldingContent | null>(null);
   const [chooseData, setChooseData] = useState<ChooseContent | null>(null);
@@ -69,7 +70,7 @@ export function useHomepageContent(language: Language) {
       }
     };
 
-    void load(fetchInfrastructure(language, signal), setInfrastructureItems, () => setInfrastructureItems([]), "infrastructure");
+    void load(fetchInfrastructure(language, signal), setInfrastructureData, () => setInfrastructureData(null), "infrastructure");
     void load(fetchBiohacking(language, signal), setBiohackingData, () => setBiohackingData(null), "biohacking");
     void load(fetchOrigamiHolding(language, signal), setOrigamiHoldingData, () => setOrigamiHoldingData(null), "origami holding");
     void load(fetchChoose(language, signal), setChooseData, () => setChooseData(null), "choose section");
@@ -112,7 +113,8 @@ export function useHomepageContent(language: Language) {
   }, [language]);
 
   return {
-    infrastructureItems,
+    infrastructureData,
+    infrastructureItems: infrastructureData?.items || [],
     biohackingData,
     origamiHoldingData,
     chooseData,

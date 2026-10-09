@@ -49,11 +49,32 @@ async function fetchApi<T>(path: string, signal: AbortSignal): Promise<T> {
   return response.json() as Promise<T>;
 }
 
-export async function fetchInfrastructure(language: Language, signal: AbortSignal) {
-  const payload = await fetchApi<InfrastructureSectionResponse>(`/sections/infrastructure?locale=${language}&platform=${PLATFORM_SLUG}`, signal);
-  return payload.data.items
-    .filter((item) => item.status)
-    .sort((a, b) => a.rank - b.rank) as InfrastructureApiItem[];
+export type InfrastructureContent = {
+  eyebrow?: string;
+  title?: string;
+  description?: string;
+  button_text?: string;
+  button_link?: string;
+  background_image?: string;
+  items: InfrastructureApiItem[];
+};
+
+export async function fetchInfrastructure(language: Language, signal: AbortSignal): Promise<InfrastructureContent> {
+  const payload = await fetchApi<InfrastructureSectionResponse>(
+    `/sections/infrastructure-1?locale=${language}&platform=${PLATFORM_SLUG}`,
+    signal
+  );
+  return {
+    eyebrow: payload.data?.eyebrow,
+    title: payload.data?.title,
+    description: payload.data?.description,
+    button_text: payload.data?.button_text,
+    button_link: payload.data?.button_link,
+    background_image: payload.data?.background_image,
+    items: (payload.data?.items || [])
+      .filter((item) => item.status)
+      .sort((a, b) => a.rank - b.rank)
+  };
 }
 
 export async function fetchBiohacking(language: Language, signal: AbortSignal): Promise<BiohackingContent> {
