@@ -12077,3 +12077,478 @@ html[data-theme="dark"] .holding-project-card {
     padding: 0.85rem 1rem;
   }
 }
+
+/* ==========================================================================
+   Location Section (Town by Origami - Everything Within Reach)
+   ========================================================================== */
+.town-location-section {
+  position: relative;
+  background-color: var(--town-sand, #EFEDE7);
+  padding: clamp(4.5rem, 6.5vw, 7.5rem) 0 clamp(4rem, 6vw, 7rem);
+  color: var(--town-text-dark, #1E2D2B);
+  overflow: hidden;
+}
+
+.town-location-container {
+  max-width: var(--container-max-width, 1440px);
+  margin: 0 auto;
+  padding: 0 clamp(1.25rem, 3.5vw, 3.5rem);
+}
+
+/* Top Part: Editorial Content & Architecture Preview */
+.town-location-top {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: clamp(2rem, 4.5vw, 4.5rem);
+  align-items: center;
+  margin-bottom: clamp(2.5rem, 4.5vw, 4.25rem);
+}
+
+.town-location-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.town-location-eyebrow-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 1.25rem;
+}
+
+.town-location-eyebrow-line {
+  display: inline-block;
+  width: 42px;
+  height: 1px;
+  background-color: var(--town-ochre, #AD9270);
+}
+
+.town-location-eyebrow {
+  font-family: var(--font-family-sans, "FiraGO", sans-serif);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--town-ochre, #AD9270);
+  line-height: 1.2;
+}
+
+.town-location-title {
+  margin: 0 0 1.25rem;
+  font-family: var(--font-family-serif, "Cormorant Garamond", "Playfair Display", Georgia, serif);
+  font-size: clamp(1.65rem, 2.25vw, 2.35rem);
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--town-text-dark, #1E2D2B);
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+.town-location-description {
+  margin: 0 0 2.25rem;
+  font-family: var(--font-family-sans, "FiraGO", sans-serif);
+  font-size: clamp(0.9rem, 1vw, 0.98rem);
+  line-height: 1.75;
+  color: var(--town-text-body, #4A5552);
+  max-width: 530px;
+}
+
+/* Amenity Cards Grid (2x2) */
+.town-location-amenities {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  max-width: 530px;
+}
+
+.town-location-amenity-card {
+  background: #FFFFFF;
+  border: 1px solid rgba(173, 146, 112, 0.25);
+  border-radius: 12px;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 4px 14px rgba(30, 45, 43, 0.04);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.town-location-amenity-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(173, 146, 112, 0.2);
+  border-color: var(--town-ochre, #AD9270);
+}
+
+.town-location-amenity-icon {
+  color: var(--town-ochre, #AD9270);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 0.25s ease;
+}
+
+.town-location-amenity-card:hover .town-location-amenity-icon {
+  transform: scale(1.08);
+}
+
+.town-location-amenity-img-icon {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+}
+
+.town-location-amenity-title {
+  font-family: var(--font-family-sans, "FiraGO", sans-serif);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--town-text-dark, #1E2D2B);
+  line-height: 1.35;
+  letter-spacing: 0.01em;
+}
+
+/* Right Column Media / Photo */
+.town-location-media {
+  position: relative;
+  width: 100%;
+}
+
+.town-location-media-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+  background-color: #E2DFD8;
+}
+
+.town-location-media-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.town-location-media-frame:hover img {
+  transform: scale(1.02);
+}
+
+.town-location-media-badge {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  background: rgba(22, 33, 31, 0.82);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 9999px;
+  padding: 7px 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #FFFFFF;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+  pointer-events: none;
+}
+
+.town-location-media-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #D9483B;
+  box-shadow: 0 0 6px rgba(217, 72, 59, 0.8);
+  flex-shrink: 0;
+}
+
+.town-location-media-text {
+  font-family: var(--font-family-sans, sans-serif);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  color: #FFFFFF;
+}
+
+/* Bottom Part: Map Wrap & Viewport */
+.town-location-map-wrap {
+  width: 100%;
+}
+
+.town-location-map-viewport {
+  position: relative;
+  width: 100%;
+  height: clamp(380px, 45vw, 580px);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  background-color: #E8EEE5;
+  user-select: none;
+}
+
+.town-location-map-viewport.is-zoomed {
+  cursor: grab;
+}
+
+.town-location-map-viewport.is-panning {
+  cursor: grabbing;
+}
+
+.town-location-map-canvas {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-origin: center center;
+  transition: transform 0.2s ease-out;
+}
+
+.town-location-map-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+}
+
+/* Map Top-Right Zoom Controls */
+.town-location-map-controls {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  z-index: 10;
+}
+
+.town-location-map-ctrl-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  color: var(--town-text-dark, #1E2D2B);
+  font-size: 1.15rem;
+  font-weight: 600;
+  padding: 0;
+  transition: all 0.2s ease;
+}
+
+.town-location-map-ctrl-btn:hover {
+  background: #FFFFFF;
+  color: var(--town-ochre, #AD9270);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.town-location-map-ctrl-reset svg {
+  color: currentColor;
+}
+
+/* Map Bottom-Center Expand Button */
+.town-location-map-expand-btn {
+  position: absolute;
+  bottom: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(30, 45, 43, 0.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: #FFFFFF;
+  font-family: var(--font-family-sans, "FiraGO", sans-serif);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  border-radius: 9999px;
+  padding: 10px 24px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.16);
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 10;
+  white-space: nowrap;
+}
+
+.town-location-map-expand-btn:hover {
+  background: var(--town-forest, #1E4845);
+  transform: translateX(-50%) translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.24);
+}
+
+/* Expanded Interactive Map Modal */
+.town-location-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: rgba(14, 23, 22, 0.78);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(1rem, 3vw, 2.5rem);
+  animation: townLocationFadeIn 0.25s ease-out;
+}
+
+@keyframes townLocationFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.town-location-modal-card {
+  width: 100%;
+  max-width: 1100px;
+  height: min(85vh, 760px);
+  background: #FFFFFF;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
+  display: flex;
+  flex-direction: column;
+  animation: townLocationScaleUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes townLocationScaleUp {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.town-location-modal-header {
+  padding: 1.25rem 1.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  background: #FAF8F5;
+  gap: 1rem;
+}
+
+.town-location-modal-header-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.town-location-modal-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-family-sans, "FiraGO", sans-serif);
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--town-ochre, #AD9270);
+}
+
+.town-location-modal-title {
+  margin: 0;
+  font-family: var(--font-family-serif), "Playfair Display", Georgia, serif;
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: var(--town-text-dark, #1E2D2B);
+}
+
+.town-location-modal-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.town-location-modal-gmaps-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--town-forest, #1E4845);
+  color: #FFFFFF;
+  font-family: var(--font-family-sans, "FiraGO", sans-serif);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 9999px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.town-location-modal-gmaps-link:hover {
+  background: var(--town-ochre, #AD9270);
+  transform: translateY(-1px);
+}
+
+.town-location-modal-close {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background: #FFFFFF;
+  color: var(--town-text-dark, #1E2D2B);
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;
+}
+
+.town-location-modal-close:hover {
+  background: #1E2D2B;
+  color: #FFFFFF;
+}
+
+.town-location-modal-body {
+  flex: 1 1 0;
+  min-height: 0;
+  position: relative;
+  background: #E5E1D8;
+}
+
+.town-location-modal-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .town-location-top {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .town-location-description,
+  .town-location-amenities {
+    max-width: 100%;
+  }
+
+  .town-location-map-viewport {
+    height: 420px;
+  }
+}
+
+@media (max-width: 580px) {
+  .town-location-amenities {
+    grid-template-columns: 1fr;
+  }
+
+  .town-location-map-viewport {
+    height: 340px;
+    border-radius: 14px;
+  }
+
+  .town-location-modal-header {
+    padding: 1rem;
+    flex-wrap: wrap;
+  }
+}

@@ -660,3 +660,39 @@ export type Community = {
   titleKey: TranslationKey;
   descKey: TranslationKey;
 };
+
+export type LocationAmenityItem = {
+  id?: number | string;
+  slug?: string;
+  title: string;
+  titleKa?: string;
+  subtitle?: string;
+  description?: string;
+  image?: string;
+  icon?: string;
+};
+
+export type LocationContent = {
+  platform_id?: number | null;
+  platform_slug?: string | null;
+  slug?: string;
+  type?: string;
+  status?: boolean;
+  eyebrow?: string;
+  title?: string;
+  description?: string;
+  button_text?: string;
+  button_link?: string;
+  background_image?: string;
+  image?: string;
+  image_badge?: string;
+  map_image?: string;
+  address?: string;
+  city?: string;
+  items?: LocationAmenityItem[];
+};
+
+export type LocationSectionResponse = {
+  data: LocationContent;
+};
+

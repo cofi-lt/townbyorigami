@@ -12,6 +12,7 @@ import {
   fetchCompanyProjects,
   fetchFinance,
   fetchInfrastructure,
+  fetchLocation,
   fetchOrigamiHolding,
   type BiohackingContent,
   type ChooseContent,
@@ -20,12 +21,14 @@ import {
   type InfrastructureContent,
   type OrigamiHoldingContent
 } from "../api/siteContent";
+import type { LocationContent } from "../types";
 
 function isAbortError(error: unknown) {
   return error instanceof DOMException && error.name === "AbortError";
 }
 
 export function useHomepageContent(language: Language) {
+  const [locationData, setLocationData] = useState<LocationContent | null>(null);
   const [infrastructureData, setInfrastructureData] = useState<InfrastructureContent | null>(null);
   const [biohackingData, setBiohackingData] = useState<BiohackingContent | null>(null);
   const [origamiHoldingData, setOrigamiHoldingData] = useState<OrigamiHoldingContent | null>(null);
@@ -108,11 +111,18 @@ export function useHomepageContent(language: Language) {
       "about section",
       () => setIsAboutInfoLoading(false)
     );
+    void load(
+      fetchLocation(language, signal),
+      setLocationData,
+      () => setLocationData(null),
+      "location"
+    );
 
     return () => controller.abort();
   }, [language]);
 
   return {
+    locationData,
     infrastructureData,
     infrastructureItems: infrastructureData?.items || [],
     biohackingData,

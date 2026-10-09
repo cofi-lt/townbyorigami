@@ -22,7 +22,9 @@ import type {
   AboutGridCardItem,
   AboutGridCardsResponse,
   AboutTownTextContent,
-  WebsiteSectionResponse
+  WebsiteSectionResponse,
+  LocationContent,
+  LocationSectionResponse
 } from "../types";
 
 export type BiohackingContent = {
@@ -192,6 +194,36 @@ export async function fetchAboutTownText(language: Language, signal: AbortSignal
         description: fallbackPayload.data?.description || undefined,
         button_text: fallbackPayload.data?.button_text || undefined,
         button_link: fallbackPayload.data?.button_link || undefined
+      };
+    } catch {
+      return null;
+    }
+  }
+}
+
+export async function fetchLocation(language: Language, signal: AbortSignal): Promise<LocationContent | null> {
+  try {
+    const payload = await fetchApi<LocationSectionResponse>(`/sections/location?locale=${language}&platform=${PLATFORM_SLUG}`, signal);
+    if (!payload.data || payload.data.status === false) {
+      return null;
+    }
+    return {
+      ...payload.data,
+      items: (payload.data.items || [])
+        .filter((item: any) => item.status !== false)
+        .sort((a: any, b: any) => (a.rank ?? 0) - (b.rank ?? 0))
+    };
+  } catch {
+    try {
+      const fallbackPayload = await fetchApi<LocationSectionResponse>(`/sections/location?platform=${PLATFORM_SLUG}`, signal);
+      if (!fallbackPayload.data || fallbackPayload.data.status === false) {
+        return null;
+      }
+      return {
+        ...fallbackPayload.data,
+        items: (fallbackPayload.data.items || [])
+          .filter((item: any) => item.status !== false)
+          .sort((a: any, b: any) => (a.rank ?? 0) - (b.rank ?? 0))
       };
     } catch {
       return null;
