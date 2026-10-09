@@ -3720,8 +3720,44 @@ html[data-theme="light"] .available-building-featured-card {
   will-change: transform;
 }
 
+.town-infra-card-media {
+  cursor: zoom-in;
+}
+
 .town-infra-card:hover .town-infra-card-media img {
   transform: scale(1.05);
+}
+
+.town-infra-card-zoom-hint {
+  position: absolute;
+  bottom: 0.75rem;
+  right: 0.75rem;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(30, 45, 43, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.town-infra-card-zoom-hint svg {
+  width: 15px;
+  height: 15px;
+}
+
+.town-infra-card:hover .town-infra-card-zoom-hint {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .town-infra-card-badge {
@@ -3844,6 +3880,228 @@ html[data-theme="light"] .available-building-featured-card {
 @media (prefers-reduced-motion: reduce) {
   .town-infra-card:hover .town-infra-card-media img {
     transform: none;
+  }
+}
+
+/* Lightbox Modal (Click to Enlarge Photos) */
+.town-infra-lightbox {
+  position: fixed !important;
+  inset: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 9999999 !important;
+  background: rgba(12, 20, 18, 0.95) !important;
+  backdrop-filter: blur(24px) !important;
+  -webkit-backdrop-filter: blur(24px) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 1.5rem !important;
+  box-sizing: border-box !important;
+  animation: townLightboxFadeIn 0.25s ease-out;
+}
+
+.town-infra-lightbox-inner {
+  width: 100%;
+  max-width: 1200px;
+  height: 100%;
+  max-height: 94vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.town-infra-lightbox-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.town-infra-lightbox-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.town-infra-lightbox-counter {
+  font-family: var(--font-family-sans, sans-serif);
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  color: var(--town-ochre, #AD9270);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.town-infra-lightbox-title {
+  margin: 0;
+  font-family: var(--font-family-serif, "Playfair Display", Georgia, serif);
+  font-size: clamp(1.2rem, 2vw, 1.6rem);
+  color: #ffffff !important;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
+.town-infra-lightbox-close {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.town-infra-lightbox-close:hover {
+  background: var(--town-ochre, #AD9270);
+  border-color: var(--town-ochre, #AD9270);
+  transform: rotate(90deg);
+}
+
+.town-infra-lightbox-close svg {
+  width: 20px;
+  height: 20px;
+}
+
+.town-infra-lightbox-body {
+  flex: 1 1 0;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 0.5rem 0;
+}
+
+.town-infra-lightbox-media {
+  flex: 1 1 auto;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.town-infra-lightbox-media img {
+  max-width: 100%;
+  max-height: 72vh;
+  object-fit: contain;
+  border-radius: 4px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.65);
+  animation: townLightboxScaleIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.town-infra-lightbox-nav {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  flex-shrink: 0;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.town-infra-lightbox-nav:hover {
+  background: var(--town-forest, #1E392F);
+  border-color: var(--town-ochre, #AD9270);
+  color: #ffffff;
+  transform: scale(1.08);
+}
+
+.town-infra-lightbox-nav svg {
+  width: 20px;
+  height: 20px;
+}
+
+.town-infra-lightbox-caption {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem 0 0.25rem;
+  width: 100%;
+}
+
+.town-infra-lightbox-caption-text {
+  display: inline-block;
+  padding: 0.6rem 1.75rem;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #ffffff !important;
+  font-family: var(--font-family-sans, sans-serif);
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-align: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+@keyframes townLightboxFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes townLightboxScaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 640px) {
+  .town-infra-lightbox {
+    padding: 1rem 0.75rem;
+  }
+
+  .town-infra-lightbox-body {
+    position: relative;
+    gap: 0;
+  }
+
+  .town-infra-lightbox-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    z-index: 10;
+    background: rgba(0, 0, 0, 0.5);
+  }
+
+  .town-infra-lightbox-prev {
+    left: 0.5rem;
+  }
+
+  .town-infra-lightbox-next {
+    right: 0.5rem;
+  }
+
+  .town-infra-lightbox-media img {
+    max-height: 65vh;
   }
 }
 
