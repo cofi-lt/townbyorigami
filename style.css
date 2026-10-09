@@ -3479,32 +3479,34 @@ html[data-theme="light"] .available-building-featured-card {
 
 .town-infra-layout {
   display: flex;
-  gap: clamp(2.5rem, 4vw, 4.5rem);
+  gap: clamp(2rem, 3.5vw, 4rem);
   align-items: stretch;
 }
 
 /* Sidebar / Left Column */
 .town-infra-sidebar {
-  flex: 0 0 clamp(280px, 24vw, 340px);
+  flex: 0 0 clamp(270px, 22vw, 330px);
+  max-width: 330px;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  gap: 2.25rem;
-  padding: 0.5rem 0 1rem;
+  gap: 1.5rem;
+  padding: 0.25rem 0 0.5rem;
 }
 
 .town-infra-sidebar-top {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 0.85rem;
 }
 
 .town-infra-eyebrow {
   display: inline-block;
   font-family: var(--font-family-sans, sans-serif);
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   font-weight: 600;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--town-ochre, #AD9270);
   line-height: 1.2;
@@ -3512,27 +3514,32 @@ html[data-theme="light"] .available-building-featured-card {
 
 .town-infra-title {
   margin: 0;
-  font-family: var(--font-family-serif, "Playfair Display", "Cormorant Garamond", Georgia, serif);
-  font-size: clamp(2.2rem, 2.8vw, 3rem);
+  font-family: var(--font-family-serif), "Playfair Display", "Cormorant Garamond", Georgia, serif;
+  font-size: clamp(1.35rem, 1.7vw, 1.9rem);
   font-weight: 400;
-  line-height: 1.15;
+  line-height: 1.25;
   letter-spacing: -0.01em;
   color: var(--town-text-dark, #1E2D2B);
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
 }
 
 .town-infra-description {
   margin: 0;
   font-family: var(--font-family-sans, sans-serif);
-  font-size: 0.92rem;
-  line-height: 1.65;
+  font-size: 0.825rem;
+  line-height: 1.55;
   color: var(--town-text-body, #4A5552);
   white-space: pre-line;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 }
 
 .town-infra-sidebar-bottom {
   display: flex;
   flex-direction: column;
-  margin-top: 0.5rem;
+  margin-top: 0.25rem;
 }
 
 /* View All CTA Link matching reference */
@@ -3691,11 +3698,11 @@ html[data-theme="light"] .available-building-featured-card {
   scroll-behavior: auto;
 }
 
-/* Card - Exactly matching the reference image layout */
+/* Card - Enlarged & Imposing Presence */
 .town-infra-card {
-  flex: 0 0 calc((100% - (3 * 24px)) / 4);
-  max-width: calc((100% - (3 * 24px)) / 4);
-  min-width: calc((100% - (3 * 24px)) / 4);
+  flex: 0 0 calc((100% - (3 * 22px)) / 3.65);
+  max-width: calc((100% - (3 * 22px)) / 3.65);
+  min-width: 285px;
   scroll-snap-align: start;
   display: flex;
   flex-direction: column;
@@ -3705,10 +3712,11 @@ html[data-theme="light"] .available-building-featured-card {
 .town-infra-card-media {
   position: relative;
   width: 100%;
-  aspect-ratio: 3.8 / 5;
+  aspect-ratio: 3.55 / 5;
   border-radius: 2px;
   overflow: hidden;
   background: #E5E1D8;
+  cursor: zoom-in;
 }
 
 .town-infra-card-media img {
@@ -3718,10 +3726,6 @@ html[data-theme="light"] .available-building-featured-card {
   display: block;
   transition: transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: transform;
-}
-
-.town-infra-card-media {
-  cursor: zoom-in;
 }
 
 .town-infra-card:hover .town-infra-card-media img {
@@ -3776,18 +3780,18 @@ html[data-theme="light"] .available-building-featured-card {
   -webkit-backdrop-filter: blur(8px);
 }
 
-/* Card Body below the image */
+/* Card Body below the image (Clean & Compact) */
 .town-infra-card-info {
-  padding: 1rem 0 0.25rem;
+  padding: 0.85rem 0 0.2rem;
   display: flex;
   flex-direction: column;
-  gap: 0.3rem;
+  gap: 0.2rem;
 }
 
 .town-infra-card-title {
   margin: 0;
   font-family: var(--font-family-sans, sans-serif);
-  font-size: 0.84rem;
+  font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: 0.07em;
   text-transform: uppercase;
@@ -3797,7 +3801,7 @@ html[data-theme="light"] .available-building-featured-card {
 
 .town-infra-card-subtitle {
   font-family: var(--font-family-sans, sans-serif);
-  font-size: 0.775rem;
+  font-size: 0.74rem;
   font-weight: 400;
   color: var(--town-text-muted, #8A8A85);
   line-height: 1.4;
@@ -3813,7 +3817,7 @@ html[data-theme="light"] .available-building-featured-card {
 }
 
 .town-infra-controls-box {
-  width: clamp(260px, 24vw, 320px);
+  width: clamp(250px, 22vw, 300px);
   display: flex;
   flex-direction: column;
   gap: 1.15rem;
@@ -3822,28 +3826,28 @@ html[data-theme="light"] .available-building-featured-card {
 /* Responsive adjustments */
 @media (max-width: 1280px) {
   .town-infra-card {
-    flex: 0 0 calc((100% - (2 * 20px)) / 3);
-    max-width: calc((100% - (2 * 20px)) / 3);
-    min-width: calc((100% - (2 * 20px)) / 3);
+    flex: 0 0 calc((100% - (2 * 18px)) / 2.75);
+    max-width: calc((100% - (2 * 18px)) / 2.75);
+    min-width: 260px;
   }
 }
 
 @media (max-width: 960px) {
   .town-infra-layout {
     flex-direction: column;
-    gap: 3rem;
+    gap: 2.25rem;
   }
 
   .town-infra-sidebar {
     flex: none;
     max-width: 100%;
-    gap: 2rem;
+    gap: 1.25rem;
   }
 
   .town-infra-card {
-    flex: 0 0 calc((100% - 20px) / 2.3);
-    max-width: calc((100% - 20px) / 2.3);
-    min-width: calc((100% - 20px) / 2.3);
+    flex: 0 0 calc((100% - 16px) / 2.15);
+    max-width: calc((100% - 16px) / 2.15);
+    min-width: 240px;
   }
 
   .town-infra-carousel-footer {
@@ -3865,7 +3869,7 @@ html[data-theme="light"] .available-building-featured-card {
   }
 
   .town-infra-card-media {
-    aspect-ratio: 3.6 / 4.8;
+    aspect-ratio: 3.5 / 4.8;
   }
 
   .town-infra-carousel-footer {
