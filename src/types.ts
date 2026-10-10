@@ -670,6 +670,7 @@ export type LocationAmenityItem = {
   description?: string;
   image?: string;
   icon?: string;
+  badge?: string;
 };
 
 export type LocationContent = {

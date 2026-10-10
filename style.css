@@ -12276,8 +12276,42 @@ html[data-theme="dark"] .holding-project-card {
 }
 
 .town-location-map-frame {
+  position: relative;
   height: clamp(380px, 45vw, 580px);
   overflow: hidden;
+}
+
+.town-location-map-info {
+  position: absolute;
+  z-index: 2;
+  top: 23%;
+  left: 12px;
+  width: min(290px, calc(100% - 24px));
+  padding: 14px 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.45rem;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 4px 18px rgba(30, 45, 43, 0.14);
+}
+
+.town-location-map-info-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-family-sans, "FiraGO", sans-serif);
+  font-size: clamp(0.9rem, 1vw, 0.98rem);
+  line-height: 1.6;
+  color: var(--town-text-body, #4A5552);
+}
+
+.town-location-map-info-icon {
+  width: 22px;
+  height: 22px;
+  flex: 0 0 22px;
+  object-fit: contain;
 }
 
 .town-location-map-iframe {

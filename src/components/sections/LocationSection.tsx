@@ -64,6 +64,7 @@ export const LocationSection: FC<LocationSectionProps> = ({
   const buildingImage = data?.background_image?.trim() || data?.image?.trim() || "";
   const mapEmbedUrl = mapData?.description?.trim() || "";
   const amenities = (data?.items || []).filter((item) => (item as any).status !== false && Boolean(item.title?.trim()));
+  const mapItems = (mapData?.items || []).filter((item) => (item as any).status !== false && Boolean(item.title?.trim()));
 
   if (!data && !mapData) return null;
 
@@ -130,15 +131,25 @@ export const LocationSection: FC<LocationSectionProps> = ({
         </>}
 
         {/* Bottom Part: Stylized Map Graphic with Interactive Overlays */}
-        {mapEmbedUrl && <div className="town-location-map-wrap town-location-map-frame reveal-fade-up">
-          <iframe
-            title={mapData?.title || title}
-            src={mapEmbedUrl}
-            className="town-location-map-iframe"
-            loading="lazy"
-            allowFullScreen
-            referrerPolicy="no-referrer-when-downgrade"
-          />
+        {mapEmbedUrl && <div className="town-location-map-wrap reveal-fade-up">
+          <div className="town-location-map-frame">
+            <iframe
+              title={mapData?.title || title}
+              src={mapEmbedUrl}
+              className="town-location-map-iframe"
+              loading="lazy"
+              allowFullScreen
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+            {mapItems.length > 0 && <div className="town-location-map-info">
+              {mapItems.map((item, index) => (
+                <div className="town-location-map-info-item" key={item.id ?? item.slug ?? index}>
+                  {item.badge && <img className="town-location-map-info-icon" src={item.badge} alt="" aria-hidden="true" />}
+                  <span>{item.title}</span>
+                </div>
+              ))}
+            </div>}
+          </div>
         </div>}
       </div>
     </section>
