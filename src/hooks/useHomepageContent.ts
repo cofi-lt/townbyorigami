@@ -119,7 +119,7 @@ export function useHomepageContent(language: Language) {
       () => setLocationData(null),
       "location"
     );
-    void load(fetchMapLocation(signal), setMapLocationData, () => setMapLocationData(null), "map location");
+    void load(fetchMapLocation(language, signal), setMapLocationData, () => setMapLocationData(null), "map location");
 
     return () => controller.abort();
   }, [language]);

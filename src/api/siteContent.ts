@@ -231,9 +231,9 @@ export async function fetchLocation(language: Language, signal: AbortSignal): Pr
   }
 }
 
-export async function fetchMapLocation(signal: AbortSignal): Promise<LocationContent | null> {
+export async function fetchMapLocation(language: Language, signal: AbortSignal): Promise<LocationContent | null> {
   try {
-    const payload = await fetchApi<LocationSectionResponse>(`/sections/map-location?platform=${PLATFORM_SLUG}`, signal);
+    const payload = await fetchApi<LocationSectionResponse>(`/sections/map-location?locale=${language}&platform=${PLATFORM_SLUG}`, signal);
     return payload.data?.status === false ? null : payload.data || null;
   } catch {
     return null;
