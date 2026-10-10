@@ -59,6 +59,7 @@ export const HomePage: FC<HomePageProps> = ({
       <LocationSection
         data={locationData}
         mapData={mapLocationData}
+        language={language}
         t={t}
       />
     </main>

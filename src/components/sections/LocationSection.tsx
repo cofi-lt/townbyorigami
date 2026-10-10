@@ -1,10 +1,11 @@
 import type { FC, RefObject } from "react";
-import type { TranslationKey } from "../../i18n";
+import type { Language, TranslationKey } from "../../i18n";
 import type { LocationContent } from "../../types";
 
 export interface LocationSectionProps {
   data?: LocationContent | null;
   mapData?: LocationContent | null;
+  language?: Language;
   sectionRef?: RefObject<HTMLElement>;
   t?: (key: TranslationKey) => string;
 }
@@ -55,6 +56,7 @@ function renderAmenityIcon(iconType?: string) {
 export const LocationSection: FC<LocationSectionProps> = ({
   data,
   mapData,
+  language = "en",
   sectionRef,
   t: _t
 }) => {
@@ -63,6 +65,23 @@ export const LocationSection: FC<LocationSectionProps> = ({
   const description = data?.description?.trim() || "";
   const buildingImage = data?.background_image?.trim() || data?.image?.trim() || "";
   const mapEmbedUrl = mapData?.description?.trim() || "";
+  const localizedMapEmbedUrl = (() => {
+    if (!mapEmbedUrl) return "";
+    try {
+      const url = new URL(mapEmbedUrl);
+      url.searchParams.set("hl", language);
+      const embeddedMapParameters = url.searchParams.get("pb");
+      if (embeddedMapParameters) {
+        url.searchParams.set(
+          "pb",
+          embeddedMapParameters.replace(/!1s[a-z]{2,3}(?=!|$)/i, `!1s${language}`)
+        );
+      }
+      return url.toString();
+    } catch {
+      return mapEmbedUrl;
+    }
+  })();
   const amenities = (data?.items || []).filter((item) => (item as any).status !== false && Boolean(item.title?.trim()));
   const mapItems = (mapData?.items || []).filter((item) => (item as any).status !== false && Boolean(item.title?.trim()));
 
@@ -131,11 +150,11 @@ export const LocationSection: FC<LocationSectionProps> = ({
         </>}
 
         {/* Bottom Part: Stylized Map Graphic with Interactive Overlays */}
-        {mapEmbedUrl && <div className="town-location-map-wrap reveal-fade-up">
+        {localizedMapEmbedUrl && <div className="town-location-map-wrap reveal-fade-up">
           <div className="town-location-map-frame">
             <iframe
               title={mapData?.title || title}
-              src={mapEmbedUrl}
+              src={localizedMapEmbedUrl}
               className="town-location-map-iframe"
               loading="lazy"
               allowFullScreen
