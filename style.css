@@ -3465,7 +3465,7 @@ html[data-theme="light"] .available-building-featured-card {
 .town-infra-section,
 .infrastructure-section {
   background-color: var(--town-sand, #EFEDE7);
-  padding: 6.5rem 0 7.5rem;
+  padding: 6.5rem 0 2rem;
   position: relative;
   overflow: hidden;
   color: var(--town-text-dark, #1E2D2B);
@@ -12084,7 +12084,7 @@ html[data-theme="dark"] .holding-project-card {
 .town-location-section {
   position: relative;
   background-color: var(--town-sand, #EFEDE7);
-  padding: clamp(4.5rem, 6.5vw, 7.5rem) 0 clamp(4rem, 6vw, 7rem);
+  padding: 2rem 0 clamp(4rem, 6vw, 7rem);
   color: var(--town-text-dark, #1E2D2B);
   overflow: hidden;
 }
@@ -12218,7 +12218,7 @@ html[data-theme="dark"] .holding-project-card {
   position: relative;
   width: 100%;
   aspect-ratio: 4 / 3;
-  border-radius: 18px;
+  border-radius: 0;
   overflow: hidden;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
   background-color: #E2DFD8;

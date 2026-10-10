@@ -399,7 +399,7 @@ export const LocationSection: FC<LocationSectionProps> = ({
             </div>
           </div>
 
-          {/* Right Column: Architectural Photo with Floating Badge */}
+          {/* Right Column: Architectural Photo */}
           <div className="town-location-media reveal-fade-up">
             <div className="town-location-media-frame">
               <img
@@ -408,10 +408,6 @@ export const LocationSection: FC<LocationSectionProps> = ({
                 loading="lazy"
                 decoding="async"
               />
-              <div className="town-location-media-badge" aria-label="Location label">
-                <span className="town-location-media-dot" aria-hidden="true" />
-                <span className="town-location-media-text">{badgeText}</span>
-              </div>
             </div>
           </div>
         </div>
