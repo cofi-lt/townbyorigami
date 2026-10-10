@@ -1,167 +1,13 @@
 import { useEffect, useRef, useState, type FC, type RefObject } from "react";
 import { createPortal } from "react-dom";
-import type { Language, TranslationKey } from "../../i18n";
-import type { LocationContent, LocationAmenityItem } from "../../types";
+import type { TranslationKey } from "../../i18n";
+import type { LocationContent } from "../../types";
 
 export interface LocationSectionProps {
   data?: LocationContent | null;
-  language?: Language;
   sectionRef?: RefObject<HTMLElement>;
   t?: (key: TranslationKey) => string;
 }
-
-const DEFAULT_AMENITIES_BY_LANG: Record<string, LocationAmenityItem[]> = {
-  ka: [
-    {
-      id: "admin",
-      slug: "admin",
-      icon: "office",
-      title: "ადმინისტრაციული დაწესებულებები"
-    },
-    {
-      id: "cafes",
-      slug: "cafes",
-      icon: "cafe",
-      title: "კაფეები და რესტორნები"
-    },
-    {
-      id: "medical",
-      slug: "medical",
-      icon: "medical",
-      title: "სამედიცინო დაწესებულებები"
-    },
-    {
-      id: "schools",
-      slug: "schools",
-      icon: "school",
-      title: "საბავშვო ბაღები და სკოლები"
-    }
-  ],
-  en: [
-    {
-      id: "admin",
-      slug: "admin",
-      icon: "office",
-      title: "Administrative Offices"
-    },
-    {
-      id: "cafes",
-      slug: "cafes",
-      icon: "cafe",
-      title: "Cafes & Restaurants"
-    },
-    {
-      id: "medical",
-      slug: "medical",
-      icon: "medical",
-      title: "Medical Facilities"
-    },
-    {
-      id: "schools",
-      slug: "schools",
-      icon: "school",
-      title: "Kindergartens & Schools"
-    }
-  ],
-  ru: [
-    {
-      id: "admin",
-      slug: "admin",
-      icon: "office",
-      title: "Административные офисы"
-    },
-    {
-      id: "cafes",
-      slug: "cafes",
-      icon: "cafe",
-      title: "Кафе и рестораны"
-    },
-    {
-      id: "medical",
-      slug: "medical",
-      icon: "medical",
-      title: "Медицинские учреждения"
-    },
-    {
-      id: "schools",
-      slug: "schools",
-      icon: "school",
-      title: "Детские сады и школы"
-    }
-  ]
-};
-
-const I18N_FALLBACKS: Record<
-  string,
-  {
-    eyebrow: string;
-    title: string;
-    description: string;
-    badge: string;
-    legendTown: string;
-    legendCenter: string;
-    legendParks: string;
-    cityMarker: string;
-    townPinTitle: string;
-    townPinAddress: string;
-    expandBtn: string;
-    modalTitle: string;
-    openInGoogleMaps: string;
-    close: string;
-  }
-> = {
-  ka: {
-    eyebrow: "LOCATION",
-    title: "Everything Within Reach",
-    description:
-      "Origami Town is surrounded by educational, sports, medical and everyday amenities, making it easy to stay connected to the places you need throughout the day.",
-    badge: "Origami Town · ბათუმი",
-    legendTown: "Origami Town",
-    legendCenter: "ქალაქის ცენტრი",
-    legendParks: "პარკები და მწვანე ზონა",
-    cityMarker: "ქალაქი ბათუმი",
-    townPinTitle: "Origami Town",
-    townPinAddress: "[მისამართი], ბათუმი",
-    expandBtn: "დააჭირეთ რუკას გასადიდებლად",
-    modalTitle: "Origami Town — მდებარეობა ბათუმში",
-    openInGoogleMaps: "Google Maps-ში გახსნა",
-    close: "დახურვა"
-  },
-  en: {
-    eyebrow: "LOCATION",
-    title: "Everything Within Reach",
-    description:
-      "Origami Town is surrounded by educational, sports, medical and everyday amenities, making it easy to stay connected to the places you need throughout the day.",
-    badge: "Origami Town · Batumi",
-    legendTown: "Origami Town",
-    legendCenter: "City Center",
-    legendParks: "Parks & Green Zones",
-    cityMarker: "Batumi City",
-    townPinTitle: "Origami Town",
-    townPinAddress: "Batumi, Georgia",
-    expandBtn: "Click map to expand",
-    modalTitle: "Origami Town — Location in Batumi",
-    openInGoogleMaps: "Open in Google Maps",
-    close: "Close"
-  },
-  ru: {
-    eyebrow: "ЛОКАЦИЯ",
-    title: "Всё в шаговой доступности",
-    description:
-      "Origami Town окружен образовательными, спортивными, медицинскими и бытовыми объектами, обеспечивая легкий доступ ко всему необходимому в течение дня.",
-    badge: "Origami Town · Батуми",
-    legendTown: "Origami Town",
-    legendCenter: "Центр города",
-    legendParks: "Парки и зеленая зона",
-    cityMarker: "Город Батуми",
-    townPinTitle: "Origami Town",
-    townPinAddress: "Батуми, Грузия",
-    expandBtn: "Нажмите для увеличения карты",
-    modalTitle: "Origami Town — Локация в Батуми",
-    openInGoogleMaps: "Открыть в Google Maps",
-    close: "Закрыть"
-  }
-};
 
 function renderAmenityIcon(iconType?: string) {
   switch (iconType) {
@@ -206,51 +52,8 @@ function renderAmenityIcon(iconType?: string) {
   }
 }
 
-function getAmenityIconType(slug?: string, icon?: string): string {
-  const key = `${slug || ""} ${icon || ""}`.toLowerCase();
-  if (
-    key.includes("admin") ||
-    key.includes("office") ||
-    key.includes("building") ||
-    key.includes("ოფის") ||
-    key.includes("ადმინ")
-  ) {
-    return "office";
-  }
-  if (
-    key.includes("cafe") ||
-    key.includes("restaurant") ||
-    key.includes("food") ||
-    key.includes("coffee") ||
-    key.includes("კაფე") ||
-    key.includes("რესტორ")
-  ) {
-    return "cafe";
-  }
-  if (
-    key.includes("medic") ||
-    key.includes("hospital") ||
-    key.includes("health") ||
-    key.includes("clinic") ||
-    key.includes("სამედიცინო")
-  ) {
-    return "medical";
-  }
-  if (
-    key.includes("school") ||
-    key.includes("kindergarten") ||
-    key.includes("edu") ||
-    key.includes("სკოლ") ||
-    key.includes("ბაღ")
-  ) {
-    return "school";
-  }
-  return "office";
-}
-
 export const LocationSection: FC<LocationSectionProps> = ({
   data,
-  language = "en",
   sectionRef,
   t: _t
 }) => {
@@ -261,32 +64,14 @@ export const LocationSection: FC<LocationSectionProps> = ({
   const panStartRef = useRef({ x: 0, y: 0 });
   const startOffsetRef = useRef({ x: 0, y: 0 });
 
-  const fallback = I18N_FALLBACKS[language] || I18N_FALLBACKS.en;
-  const defaultAmenities = DEFAULT_AMENITIES_BY_LANG[language] || DEFAULT_AMENITIES_BY_LANG.en;
-
-  const eyebrow = data?.eyebrow?.trim() || fallback.eyebrow;
-  const rawTitle = data?.title?.trim() || fallback.title;
-  const title = rawTitle.replace(/\s+,/g, ",");
-  const description = data?.description?.trim() || fallback.description;
-  const buildingImage =
-    data?.background_image?.trim() ||
-    data?.image?.trim() ||
-    "/assets/location_building.png";
-  const badgeText = data?.image_badge?.trim() || fallback.badge;
-  const mapImage = data?.map_image?.trim() || "/assets/location_map_batumi.png";
-
-  const amenities: LocationAmenityItem[] =
-    data?.items && data.items.length > 0
-      ? data.items
-          .filter((item) => (item as any).status !== false)
-          .map((item, idx) => ({
-            id: item.id || idx,
-            slug: item.slug || `amenity-${idx}`,
-            title: item.title?.trim() || defaultAmenities[idx]?.title || "",
-            image: item.image || (item as any).logo || "",
-            icon: item.icon || getAmenityIconType(item.slug, item.icon || defaultAmenities[idx]?.icon)
-          }))
-      : defaultAmenities;
+  const eyebrow = data?.eyebrow?.trim() || "";
+  const title = (data?.title?.trim() || "").replace(/\s+,/g, ",");
+  const description = data?.description?.trim() || "";
+  const buildingImage = data?.background_image?.trim() || data?.image?.trim() || "";
+  const mapImage = data?.map_image?.trim() || "";
+  const amenities = (data?.items || []).filter((item) => (item as any).status !== false && Boolean(item.title?.trim()));
+  const addressQuery = [data?.address, data?.city].filter(Boolean).join(",");
+  const googleMapsUrl = addressQuery ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(addressQuery)}` : "";
 
   // Zoom controls for the interactive preview map
   const handleZoomIn = (e: React.MouseEvent) => {
@@ -350,28 +135,28 @@ export const LocationSection: FC<LocationSectionProps> = ({
     };
   }, [isMapModalOpen]);
 
-  const googleMapsUrl = "https://www.google.com/maps/search/?api=1&query=41.6168,41.6367";
+  if (!data) return null;
 
   return (
     <section
       id="location"
       className="town-location-section reveal-on-scroll"
       ref={sectionRef}
-      aria-label="Location"
+      aria-label={title}
     >
       <div className="container town-location-container">
         {/* Top Part: Editorial Content & Complex Preview */}
         <div className="town-location-top">
           {/* Left Column: Heading, Description, Amenity Cards */}
           <div className="town-location-content reveal-fade-up">
-            <div className="town-location-eyebrow-wrap">
+            {eyebrow && <div className="town-location-eyebrow-wrap">
               <span className="town-location-eyebrow-line" aria-hidden="true" />
               <span className="town-location-eyebrow">{eyebrow}</span>
-            </div>
+            </div>}
 
-            <h2 className="town-location-title">{title}</h2>
+            {title && <h2 className="town-location-title">{title}</h2>}
 
-            <p className="town-location-description">{description}</p>
+            {description && <p className="town-location-description">{description}</p>}
 
             <div className="town-location-amenities" role="list">
               {amenities.map((item, index) => (
@@ -388,7 +173,7 @@ export const LocationSection: FC<LocationSectionProps> = ({
                         className="town-location-amenity-img-icon"
                       />
                     ) : (
-                      renderAmenityIcon(item.icon)
+                      (item.icon ? renderAmenityIcon(item.icon) : null)
                     )}
                   </div>
                   <span className="town-location-amenity-title">
@@ -400,7 +185,7 @@ export const LocationSection: FC<LocationSectionProps> = ({
           </div>
 
           {/* Right Column: Architectural Photo */}
-          <div className="town-location-media reveal-fade-up">
+          {buildingImage && <div className="town-location-media reveal-fade-up">
             <div className="town-location-media-frame">
               <img
                 src={buildingImage}
@@ -409,11 +194,11 @@ export const LocationSection: FC<LocationSectionProps> = ({
                 decoding="async"
               />
             </div>
-          </div>
+          </div>}
         </div>
 
         {/* Bottom Part: Stylized Map Graphic with Interactive Overlays */}
-        <div className="town-location-map-wrap reveal-fade-up">
+        {mapImage && <div className="town-location-map-wrap reveal-fade-up">
           <div
             className={`town-location-map-viewport ${zoomScale > 1 ? "is-zoomed" : ""} ${isPanning ? "is-panning" : ""}`}
             onMouseDown={handleMouseDown}
@@ -421,7 +206,7 @@ export const LocationSection: FC<LocationSectionProps> = ({
             onMouseUp={handleMouseUp}
             onMouseLeave={handleMouseUp}
           >
-            {/* The Stylized Batumi Map Graphic */}
+            {/* Map image from the location API */}
             <div
               className="town-location-map-canvas"
               style={{
@@ -430,7 +215,7 @@ export const LocationSection: FC<LocationSectionProps> = ({
             >
               <img
                 src={mapImage}
-                alt="Batumi Origami Town Map"
+                alt={title}
                 className="town-location-map-img"
                 draggable={false}
               />
@@ -478,12 +263,12 @@ export const LocationSection: FC<LocationSectionProps> = ({
               type="button"
               className="town-location-map-expand-btn"
               onClick={() => setIsMapModalOpen(true)}
-              aria-label={fallback.expandBtn}
+              aria-label={data?.button_text || title}
             >
-              <span>{fallback.expandBtn}</span>
+              <span>{data?.button_text}</span>
             </button>
           </div>
-        </div>
+        </div>}
       </div>
 
       {/* Expanded Interactive Map Modal */}
@@ -494,7 +279,7 @@ export const LocationSection: FC<LocationSectionProps> = ({
             onClick={() => setIsMapModalOpen(false)}
             role="dialog"
             aria-modal="true"
-            aria-label={fallback.modalTitle}
+            aria-label={title}
           >
             <div
               className="town-location-modal-card"
@@ -502,21 +287,17 @@ export const LocationSection: FC<LocationSectionProps> = ({
             >
               <div className="town-location-modal-header">
                 <div className="town-location-modal-header-info">
-                  <div className="town-location-modal-badge">
-                    <span className="town-location-media-dot" />
-                    <span>Origami Town</span>
-                  </div>
-                  <h3 className="town-location-modal-title">{fallback.modalTitle}</h3>
+                  <h3 className="town-location-modal-title">{title}</h3>
                 </div>
 
                 <div className="town-location-modal-actions">
                   <a
-                    href={googleMapsUrl}
+                    href={googleMapsUrl || "#"}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="town-location-modal-gmaps-link"
                   >
-                    <span>{fallback.openInGoogleMaps}</span>
+                    <span>{data?.button_text}</span>
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <line x1="7" y1="17" x2="17" y2="7" />
                       <polyline points="7 7 17 7 17 17" />
@@ -526,7 +307,7 @@ export const LocationSection: FC<LocationSectionProps> = ({
                     type="button"
                     className="town-location-modal-close"
                     onClick={() => setIsMapModalOpen(false)}
-                    aria-label={fallback.close}
+                    aria-label={title}
                   >
                     ✕
                   </button>
@@ -535,8 +316,8 @@ export const LocationSection: FC<LocationSectionProps> = ({
 
               <div className="town-location-modal-body">
                 <iframe
-                  title="Origami Town Batumi Interactive Map"
-                  src="https://maps.google.com/maps?q=41.6168,41.6367&z=15&output=embed"
+                  title={title}
+                  src={`https://maps.google.com/maps?q=${encodeURIComponent(addressQuery)}&z=15&output=embed`}
                   className="town-location-modal-iframe"
                   loading="lazy"
                   allowFullScreen
