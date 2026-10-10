@@ -13,6 +13,7 @@ import {
   fetchFinance,
   fetchInfrastructure,
   fetchLocation,
+  fetchMapLocation,
   fetchOrigamiHolding,
   type BiohackingContent,
   type ChooseContent,
@@ -29,6 +30,7 @@ function isAbortError(error: unknown) {
 
 export function useHomepageContent(language: Language) {
   const [locationData, setLocationData] = useState<LocationContent | null>(null);
+  const [mapLocationData, setMapLocationData] = useState<LocationContent | null>(null);
   const [infrastructureData, setInfrastructureData] = useState<InfrastructureContent | null>(null);
   const [biohackingData, setBiohackingData] = useState<BiohackingContent | null>(null);
   const [origamiHoldingData, setOrigamiHoldingData] = useState<OrigamiHoldingContent | null>(null);
@@ -117,12 +119,14 @@ export function useHomepageContent(language: Language) {
       () => setLocationData(null),
       "location"
     );
+    void load(fetchMapLocation(signal), setMapLocationData, () => setMapLocationData(null), "map location");
 
     return () => controller.abort();
   }, [language]);
 
   return {
     locationData,
+    mapLocationData,
     infrastructureData,
     infrastructureItems: infrastructureData?.items || [],
     biohackingData,

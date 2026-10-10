@@ -1,10 +1,10 @@
-import { useEffect, useRef, useState, type FC, type RefObject } from "react";
-import { createPortal } from "react-dom";
+import type { FC, RefObject } from "react";
 import type { TranslationKey } from "../../i18n";
 import type { LocationContent } from "../../types";
 
 export interface LocationSectionProps {
   data?: LocationContent | null;
+  mapData?: LocationContent | null;
   sectionRef?: RefObject<HTMLElement>;
   t?: (key: TranslationKey) => string;
 }
@@ -54,88 +54,18 @@ function renderAmenityIcon(iconType?: string) {
 
 export const LocationSection: FC<LocationSectionProps> = ({
   data,
+  mapData,
   sectionRef,
   t: _t
 }) => {
-  const [isMapModalOpen, setIsMapModalOpen] = useState(false);
-  const [zoomScale, setZoomScale] = useState(1);
-  const [panOffset, setPanOffset] = useState({ x: 0, y: 0 });
-  const [isPanning, setIsPanning] = useState(false);
-  const panStartRef = useRef({ x: 0, y: 0 });
-  const startOffsetRef = useRef({ x: 0, y: 0 });
-
   const eyebrow = data?.eyebrow?.trim() || "";
   const title = (data?.title?.trim() || "").replace(/\s+,/g, ",");
   const description = data?.description?.trim() || "";
   const buildingImage = data?.background_image?.trim() || data?.image?.trim() || "";
-  const mapImage = data?.map_image?.trim() || "";
+  const mapEmbedUrl = mapData?.description?.trim() || "";
   const amenities = (data?.items || []).filter((item) => (item as any).status !== false && Boolean(item.title?.trim()));
-  const addressQuery = [data?.address, data?.city].filter(Boolean).join(",");
-  const googleMapsUrl = addressQuery ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(addressQuery)}` : "";
 
-  // Zoom controls for the interactive preview map
-  const handleZoomIn = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setZoomScale((prev) => Math.min(2.2, +(prev + 0.25).toFixed(2)));
-  };
-
-  const handleZoomOut = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setZoomScale((prev) => {
-      const next = Math.max(1, +(prev - 0.25).toFixed(2));
-      if (next === 1) setPanOffset({ x: 0, y: 0 });
-      return next;
-    });
-  };
-
-  const handleResetZoom = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setZoomScale(1);
-    setPanOffset({ x: 0, y: 0 });
-  };
-
-  // Drag-to-pan handlers when zoomed in
-  const handleMouseDown = (e: React.MouseEvent) => {
-    if (zoomScale <= 1) return;
-    setIsPanning(true);
-    panStartRef.current = { x: e.clientX, y: e.clientY };
-    startOffsetRef.current = { ...panOffset };
-  };
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isPanning || zoomScale <= 1) return;
-    const dx = e.clientX - panStartRef.current.x;
-    const dy = e.clientY - panStartRef.current.y;
-    setPanOffset({
-      x: startOffsetRef.current.x + dx,
-      y: startOffsetRef.current.y + dy
-    });
-  };
-
-  const handleMouseUp = () => {
-    setIsPanning(false);
-  };
-
-  // Modal keyboard & body scroll lock
-  useEffect(() => {
-    if (!isMapModalOpen) return;
-    const originalOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        setIsMapModalOpen(false);
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => {
-      document.body.style.overflow = originalOverflow;
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [isMapModalOpen]);
-
-  if (!data) return null;
+  if (!data && !mapData) return null;
 
   return (
     <section
@@ -145,6 +75,7 @@ export const LocationSection: FC<LocationSectionProps> = ({
       aria-label={title}
     >
       <div className="container town-location-container">
+        {data && <>
         {/* Top Part: Editorial Content & Complex Preview */}
         <div className="town-location-top">
           {/* Left Column: Heading, Description, Amenity Cards */}
@@ -196,137 +127,20 @@ export const LocationSection: FC<LocationSectionProps> = ({
             </div>
           </div>}
         </div>
+        </>}
 
         {/* Bottom Part: Stylized Map Graphic with Interactive Overlays */}
-        {mapImage && <div className="town-location-map-wrap reveal-fade-up">
-          <div
-            className={`town-location-map-viewport ${zoomScale > 1 ? "is-zoomed" : ""} ${isPanning ? "is-panning" : ""}`}
-            onMouseDown={handleMouseDown}
-            onMouseMove={handleMouseMove}
-            onMouseUp={handleMouseUp}
-            onMouseLeave={handleMouseUp}
-          >
-            {/* Map image from the location API */}
-            <div
-              className="town-location-map-canvas"
-              style={{
-                transform: `translate(${panOffset.x}px, ${panOffset.y}px) scale(${zoomScale})`
-              }}
-            >
-              <img
-                src={mapImage}
-                alt={title}
-                className="town-location-map-img"
-                draggable={false}
-              />
-            </div>
-
-            {/* Top-Right Zoom Controls */}
-            <div className="town-location-map-controls" aria-label="Map zoom controls">
-              <button
-                type="button"
-                className="town-location-map-ctrl-btn"
-                onClick={handleZoomIn}
-                title="Zoom In"
-                aria-label="Zoom in map"
-              >
-                +
-              </button>
-              <button
-                type="button"
-                className="town-location-map-ctrl-btn"
-                onClick={handleZoomOut}
-                title="Zoom Out"
-                aria-label="Zoom out map"
-              >
-                −
-              </button>
-              <button
-                type="button"
-                className="town-location-map-ctrl-btn town-location-map-ctrl-reset"
-                onClick={handleResetZoom}
-                title="Reset Position"
-                aria-label="Reset map view"
-              >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                  <circle cx="12" cy="12" r="10" />
-                  <line x1="22" y1="12" x2="18" y2="12" />
-                  <line x1="6" y1="12" x2="2" y2="12" />
-                  <line x1="12" y1="6" x2="12" y2="2" />
-                  <line x1="12" y1="22" x2="12" y2="18" />
-                </svg>
-              </button>
-            </div>
-
-            {/* Bottom-Center Interactive Expand Button */}
-            <button
-              type="button"
-              className="town-location-map-expand-btn"
-              onClick={() => setIsMapModalOpen(true)}
-              aria-label={data?.button_text || title}
-            >
-              <span>{data?.button_text}</span>
-            </button>
-          </div>
+        {mapEmbedUrl && <div className="town-location-map-wrap town-location-map-frame reveal-fade-up">
+          <iframe
+            title={mapData?.title || title}
+            src={mapEmbedUrl}
+            className="town-location-map-iframe"
+            loading="lazy"
+            allowFullScreen
+            referrerPolicy="no-referrer-when-downgrade"
+          />
         </div>}
       </div>
-
-      {/* Expanded Interactive Map Modal */}
-      {isMapModalOpen &&
-        createPortal(
-          <div
-            className="town-location-modal-backdrop"
-            onClick={() => setIsMapModalOpen(false)}
-            role="dialog"
-            aria-modal="true"
-            aria-label={title}
-          >
-            <div
-              className="town-location-modal-card"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="town-location-modal-header">
-                <div className="town-location-modal-header-info">
-                  <h3 className="town-location-modal-title">{title}</h3>
-                </div>
-
-                <div className="town-location-modal-actions">
-                  <a
-                    href={googleMapsUrl || "#"}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="town-location-modal-gmaps-link"
-                  >
-                    <span>{data?.button_text}</span>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <line x1="7" y1="17" x2="17" y2="7" />
-                      <polyline points="7 7 17 7 17 17" />
-                    </svg>
-                  </a>
-                  <button
-                    type="button"
-                    className="town-location-modal-close"
-                    onClick={() => setIsMapModalOpen(false)}
-                    aria-label={title}
-                  >
-                    ✕
-                  </button>
-                </div>
-              </div>
-
-              <div className="town-location-modal-body">
-                <iframe
-                  title={title}
-                  src={`https://maps.google.com/maps?q=${encodeURIComponent(addressQuery)}&z=15&output=embed`}
-                  className="town-location-modal-iframe"
-                  loading="lazy"
-                  allowFullScreen
-                />
-              </div>
-            </div>
-          </div>,
-          document.body
-        )}
     </section>
   );
 };

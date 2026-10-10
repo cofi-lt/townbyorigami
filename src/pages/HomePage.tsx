@@ -12,6 +12,7 @@ export interface HomePageProps {
   t: (key: TranslationKey) => string;
   language?: Language;
   locationData?: LocationContent | null;
+  mapLocationData?: LocationContent | null;
   infrastructureData?: InfrastructureContent | null;
   apiAboutData?: any;
   aboutTownGalleryItems?: TownGalleryItem[];
@@ -25,6 +26,7 @@ export const HomePage: FC<HomePageProps> = ({
   t,
   language = "en",
   locationData,
+  mapLocationData,
   infrastructureData,
   apiAboutData,
   aboutTownGalleryItems,
@@ -56,6 +58,7 @@ export const HomePage: FC<HomePageProps> = ({
 
       <LocationSection
         data={locationData}
+        mapData={mapLocationData}
         t={t}
       />
     </main>

@@ -164,6 +164,7 @@ function App() {
   } = useNews(language, routeState.name === "newsDetail" ? routeState.slug : null, t("news_category"));
   const {
     locationData: apiLocationData,
+    mapLocationData: apiMapLocationData,
     companyProjectsData: apiCompanyProjectsData,
     infrastructureData: apiInfrastructureData,
     aboutData: apiAboutData,
@@ -839,6 +840,7 @@ function App() {
         t={t}
         language={language}
         locationData={apiLocationData}
+        mapLocationData={apiMapLocationData}
         infrastructureData={apiInfrastructureData}
         apiAboutData={apiAboutData}
         aboutTownGalleryItems={apiAboutTownGalleryItems}
