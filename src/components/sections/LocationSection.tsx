@@ -135,41 +135,34 @@ export const LocationSection: FC<LocationSectionProps> = ({
             </div>
           </div>
 
-          {/* Right Column: Architectural Photo */}
-          {buildingImage && <div className="town-location-media reveal-fade-up">
-            <div className="town-location-media-frame">
-              <img
-                src={buildingImage}
-                alt={title}
+          {/* Right Column: Map (replaces Architectural Photo) */}
+          {localizedMapEmbedUrl && <div className="town-location-media reveal-fade-up">
+            <div className="town-location-media-frame town-location-media-frame--map">
+              <iframe
+                title={mapData?.title || title}
+                src={localizedMapEmbedUrl}
+                className="town-location-media-map-iframe"
                 loading="lazy"
-                decoding="async"
+                allowFullScreen
+                referrerPolicy="no-referrer-when-downgrade"
               />
+              {mapItems.length > 0 && <div className="town-location-map-info">
+                {mapItems.map((item, index) => (
+                  <div className="town-location-map-info-item" key={item.id ?? item.slug ?? index}>
+                    {item.badge ? (
+                      <img className="town-location-map-info-icon" src={item.badge} alt="" aria-hidden="true" />
+                    ) : (
+                      <span className="town-location-map-info-icon" aria-hidden="true">{renderAmenityIcon(item.icon)}</span>
+                    )}
+                    <span>{item.title}</span>
+                  </div>
+                ))}
+              </div>}
             </div>
           </div>}
         </div>
         </>}
 
-        {/* Bottom Part: Stylized Map Graphic with Interactive Overlays */}
-        {localizedMapEmbedUrl && <div className="town-location-map-wrap reveal-fade-up">
-          <div className="town-location-map-frame">
-            <iframe
-              title={mapData?.title || title}
-              src={localizedMapEmbedUrl}
-              className="town-location-map-iframe"
-              loading="lazy"
-              allowFullScreen
-              referrerPolicy="no-referrer-when-downgrade"
-            />
-            {mapItems.length > 0 && <div className="town-location-map-info">
-              {mapItems.map((item, index) => (
-                <div className="town-location-map-info-item" key={item.id ?? item.slug ?? index}>
-                  {item.badge && <img className="town-location-map-info-icon" src={item.badge} alt="" aria-hidden="true" />}
-                  <span>{item.title}</span>
-                </div>
-              ))}
-            </div>}
-          </div>
-        </div>}
       </div>
     </section>
   );

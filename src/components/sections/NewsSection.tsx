@@ -173,11 +173,6 @@ export function NewsSection({
                         <div className="town-news-active-main">
                           <h3 className="town-news-active-title">{item.title}</h3>
                         </div>
-
-                        {/* Right Meta Column (divider + date/category) */}
-                        <div className="town-news-active-meta">
-                          <div className="town-news-active-date">{item.date}</div>
-                        </div>
                       </div>
                     ) : (
                       /* Content Layer for Collapsed Cards */

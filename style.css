@@ -12236,6 +12236,55 @@ html[data-theme="dark"] .holding-project-card {
   transform: scale(1.02);
 }
 
+.town-location-media-frame--map {
+  position: relative;
+  overflow: hidden;
+  background-color: #e8e4dc;
+}
+
+.town-location-media-frame--map .town-location-map-info {
+  top: 40%;
+  bottom: auto;
+  left: 12px;
+  width: max-content;
+  max-width: calc(100% - 20px);
+  padding: 6px 10px;
+  gap: 2px;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 2px 10px rgba(30, 45, 43, 0.14);
+}
+
+.town-location-media-frame--map .town-location-map-info-item {
+  gap: 7px;
+  font-size: 0.68rem;
+  line-height: 1.35;
+}
+
+.town-location-media-frame--map .town-location-map-info-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #1f2927;
+}
+
+.town-location-media-frame--map .town-location-map-info-icon svg {
+  width: 13px;
+  height: 13px;
+}
+
+.town-location-media-frame--map .town-location-map-info-icon {
+  width: 14px;
+  height: 14px;
+  flex: 0 0 14px;
+}
+
+.town-location-media-map-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+}
+
 .town-location-media-badge {
   position: absolute;
   bottom: 16px;
