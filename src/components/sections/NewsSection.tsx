@@ -8,19 +8,9 @@ import { ArrowIcon, LocationIcon } from "../Icons";
 export type NewsSectionProps = {
   items?: NewsCard[];
   language?: Language;
+  title?: string;
   t: (key: TranslationKey) => string;
   navigateTo: (path: string) => void;
-};
-
-const NEWS_DESCRIPTIONS: Record<string, string> = {
-  ka: "გაეცანით Origami Holding-ისა და Town-ის უახლეს მოვლენებს, განვითარების ეტაპებსა და არქიტექტურულ სიახლეებს.",
-  en: "A curated selection of news, updates, and milestones from Town by Origami. Stay informed with our latest architectural progress.",
-  ru: "Эксклюзивная подборка ключевых новостей, этапов развития и архитектурных решений Town by Origami.",
-  de: "Eine kuratierte Auswahl an Neuigkeiten, Meilensteinen und architektonischen Einblicken von Town by Origami.",
-  it: "Una selezione curata di notizie, aggiornamenti e traguardi di Town by Origami.",
-  zh: "精选 Origami Holding 与 Town by Origami 的最新动态、里程碑和建筑进展。",
-  he: "מבחר חדשות, עדכונים וציוני דרך מבית Town by Origami.",
-  ar: "مجموعة مختارة من الأخبار وآخر التطورات والإنجازات المعمارية من تاონ باي أوريغامي."
 };
 
 const VIEW_ALL_LABELS: Record<string, string> = {
@@ -34,18 +24,13 @@ const VIEW_ALL_LABELS: Record<string, string> = {
   ar: "جميع الأخبار"
 };
 
-const EXPLORE_LABELS: Record<string, string> = {
-  ka: "სრულად ნახვა",
-  en: "EXPLORE OPTIONS",
-  ru: "ЧИТАТЬ ДАЛЕЕ",
-  de: "MEHR ERFAHREN",
-  it: "SCOPRI DI PIÙ",
-  zh: "查看详情",
-  he: "לפרטים נוספים",
-  ar: "اكتشف المزيد"
-};
-
-export function NewsSection({ items: propItems, language = "ka", t, navigateTo }: NewsSectionProps) {
+export function NewsSection({
+  items: propItems,
+  language = "ka",
+  title = "Latest from Origami",
+  t,
+  navigateTo
+}: NewsSectionProps) {
   const [newsList, setNewsList] = useState<NewsCard[]>(propItems || []);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isLoading, setIsLoading] = useState(!propItems?.length);
@@ -99,18 +84,8 @@ export function NewsSection({ items: propItems, language = "ka", t, navigateTo }
     }
   };
 
-  const handleExploreClick = () => {
-    if (newsList[activeIndex]) {
-      navigateTo(`/news/${newsList[activeIndex].slug}`);
-    }
-  };
-
-  const descriptionText =
-    NEWS_DESCRIPTIONS[language] || NEWS_DESCRIPTIONS.en;
   const viewAllText =
     VIEW_ALL_LABELS[language] || VIEW_ALL_LABELS.en;
-  const exploreBtnText =
-    EXPLORE_LABELS[language] || EXPLORE_LABELS.en;
 
   if (!isLoading && totalItems === 0) {
     return null;
@@ -124,7 +99,7 @@ export function NewsSection({ items: propItems, language = "ka", t, navigateTo }
         {/* Top Header Row matching reference */}
         <div className="town-news-header reveal-fade-up">
           <div className="town-news-header-left">
-            <p className="town-news-description">{descriptionText}</p>
+            <h2 className="town-news-title">{title}</h2>
           </div>
           <div className="town-news-header-right">
             <button
@@ -276,21 +251,6 @@ export function NewsSection({ items: propItems, language = "ka", t, navigateTo }
                 {String(totalItems).padStart(2, "0")}
               </span>
             </div>
-          </div>
-
-          {/* Right CTA Pill Button matching reference */}
-          <div className="town-news-controls-right">
-            <button
-              type="button"
-              className="town-news-explore-pill-btn"
-              onClick={handleExploreClick}
-              aria-label={exploreBtnText}
-            >
-              <span>{exploreBtnText}</span>
-              <span className="town-news-explore-arrow" aria-hidden="true">
-                <ArrowIcon direction="right" />
-              </span>
-            </button>
           </div>
         </div>
       </div>

@@ -1152,7 +1152,17 @@ header.town-header nav a::after,
 }
 
 .town-news-header-left {
-  max-width: 580px;
+  max-width: 650px;
+}
+
+.town-news-title {
+  font-family: var(--font-family-serif, "Cormorant Garamond", "Playfair Display", Georgia, serif);
+  font-size: clamp(2rem, 3.2vw, 3rem);
+  line-height: 1.1;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+  color: var(--town-text-dark, #1E2D2B);
+  margin: 0;
 }
 
 .town-news-description {
