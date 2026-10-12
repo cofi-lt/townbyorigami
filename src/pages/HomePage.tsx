@@ -54,8 +54,6 @@ export const HomePage: FC<HomePageProps> = ({
         onLearnMore={() => (navigateTo ? navigateTo("/about-us") : null)}
       />
 
-      <TownFeaturesStrip items={origamiHoldingCompactData?.items} holdingData={origamiHoldingData} />
-
       <InfrastructureSection
         data={infrastructureData}
         language={language}
@@ -69,6 +67,8 @@ export const HomePage: FC<HomePageProps> = ({
         language={language}
         t={t}
       />
+
+      <TownFeaturesStrip items={origamiHoldingCompactData?.items} holdingData={origamiHoldingData} />
 
       <NewsSection
         items={newsItems}
