@@ -12197,6 +12197,22 @@ html[data-theme="dark"] .holding-project-card {
   padding-bottom: 0;
 }
 
+/* Align homepage section content with the shared header and footer container. */
+.town-main-layout > section .container,
+.town-main-layout > section .town-news-container {
+  width: min(calc(100% - 4rem), var(--container-width, 1400px));
+  max-width: var(--container-width, 1400px);
+  padding-left: 0;
+  padding-right: 0;
+}
+
+@media (max-width: 650px) {
+  .town-main-layout > section .container,
+  .town-main-layout > section .town-news-container {
+    width: calc(100% - 0.7rem);
+  }
+}
+
 .town-location-description {
   margin: 0 0 2.25rem;
   font-family: var(--font-family-sans, "FiraGO", sans-serif);
