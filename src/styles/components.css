@@ -1343,9 +1343,9 @@ header.town-header nav a::after,
 }
 
 .town-news-active-title {
-  font-family: var(--font-family-serif, "Cormorant Garamond", Georgia, serif);
-  font-size: clamp(1.35rem, 2.1vw, 2rem);
-  font-weight: 500;
+  font-family: var(--font-family-serif, "FiraGO", sans-serif);
+  font-size: clamp(0.95rem, 1.3vw, 1.25rem);
+  font-weight: 700;
   color: #FFFFFF;
   line-height: 1.2;
   margin: 0;
@@ -1394,9 +1394,9 @@ header.town-header nav a::after,
 }
 
 .town-news-active-date {
-  font-family: var(--font-family-serif, "Cormorant Garamond", Georgia, serif);
-  font-size: clamp(1.15rem, 1.6vw, 1.5rem);
-  font-weight: 500;
+  font-family: var(--font-family-sans, "FiraGO", sans-serif);
+  font-size: clamp(0.72rem, 0.9vw, 0.85rem);
+  font-weight: 400;
   color: #FFFFFF;
   letter-spacing: 0.02em;
   text-transform: uppercase;

@@ -109,28 +109,10 @@ export function NewsSection({
   return (
     <section id="news" className="town-news-section reveal-on-scroll">
       <div className="town-news-container">
-        {/* Top Header Row matching reference */}
+        {/* Top Header Row */}
         <div className="town-news-header reveal-fade-up">
           <div className="town-news-header-left">
             <h2 className="town-news-title">{sectionTitle}</h2>
-          </div>
-          <div className="town-news-header-right">
-            <button
-              type="button"
-              className="town-news-view-all-link"
-              onClick={() => {
-                if (activeItem) {
-                  navigateTo(`/news/${activeItem.slug}`);
-                }
-              }}
-              aria-label={viewAllText}
-            >
-              <span className="town-news-view-all-line" aria-hidden="true" />
-              <span className="town-news-view-all-text">{viewAllText}</span>
-              <span className="town-news-view-all-arrow" aria-hidden="true">
-                <ArrowIcon direction="right" />
-              </span>
-            </button>
           </div>
         </div>
 
