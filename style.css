@@ -12084,7 +12084,7 @@ html[data-theme="dark"] .holding-project-card {
 .town-location-section {
   position: relative;
   background-color: var(--town-sand, #EFEDE7);
-  padding: 2rem 0 clamp(4rem, 6vw, 7rem);
+  padding: 2rem 0 1.5rem;
   color: var(--town-text-dark, #1E2D2B);
   overflow: hidden;
 }
@@ -12101,7 +12101,7 @@ html[data-theme="dark"] .holding-project-card {
   grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
   gap: clamp(2rem, 4.5vw, 4.5rem);
   align-items: center;
-  margin-bottom: clamp(2.5rem, 4.5vw, 4.25rem);
+  margin-bottom: 0;
 }
 
 .town-location-content {
