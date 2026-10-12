@@ -177,7 +177,7 @@ export const ka: Record<TranslationKey, string> = {
   comm_marina_desc:
     "დახვეწილი ფუფუნება მარინას თავზე, პრემიუმ კლასის ცათამბრჯენებითა და საუკეთესო ხედებით.",
   comm_explore: "დაათვალიერე უბანი",
-  news_title: "სიახლეები",
+  news_title: "უახლესი Origami-სგან",
   news_all: "ყველა",
   news_category: "კორპორატიული",
   news_read_more: "ვრცლად",

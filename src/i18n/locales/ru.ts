@@ -17,5 +17,6 @@ export const ru: Record<TranslationKey, string> = {
   channel_telegram: "Telegram",
   channel_viber: "Viber",
   channel_email: "Эл. почта",
+  news_title: "Последние новости Origami",
   form_success_title: "Спасибо"
 };

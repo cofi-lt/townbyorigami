@@ -13,6 +13,17 @@ export type NewsSectionProps = {
   navigateTo: (path: string) => void;
 };
 
+const NEWS_TITLE_LABELS: Record<string, string> = {
+  ka: "სიახლეები",
+  en: "Latest from Origami",
+  ru: "Последние новости Origami",
+  de: "Neues von Origami",
+  it: "Le novità di Origami",
+  zh: "来自 Origami 的最新动态",
+  he: "חדשות אחרונות מ-Origami",
+  ar: "آخر الأخبار من أوريغامي"
+};
+
 const VIEW_ALL_LABELS: Record<string, string> = {
   ka: "ყველა სიახლე",
   en: "VIEW ALL NEWS",
@@ -27,7 +38,7 @@ const VIEW_ALL_LABELS: Record<string, string> = {
 export function NewsSection({
   items: propItems,
   language = "ka",
-  title = "Latest from Origami",
+  title,
   t,
   navigateTo
 }: NewsSectionProps) {
@@ -92,6 +103,8 @@ export function NewsSection({
   }
 
   const activeItem = newsList[activeIndex] || newsList[0];
+  const sectionTitle =
+    title || NEWS_TITLE_LABELS[language] || NEWS_TITLE_LABELS.en;
 
   return (
     <section id="news" className="town-news-section reveal-on-scroll">
@@ -99,7 +112,7 @@ export function NewsSection({
         {/* Top Header Row matching reference */}
         <div className="town-news-header reveal-fade-up">
           <div className="town-news-header-left">
-            <h2 className="town-news-title">{title}</h2>
+            <h2 className="town-news-title">{sectionTitle}</h2>
           </div>
           <div className="town-news-header-right">
             <button

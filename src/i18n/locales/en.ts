@@ -177,7 +177,7 @@ export const en: Record<TranslationKey, string> = {
   comm_marina_desc:
     "Sophisticated luxury living high above the bustling marina with premium sky towers.",
   comm_explore: "Explore Community",
-  news_title: "News",
+  news_title: "Latest from Origami",
   news_all: "All",
   news_category: "Corporate",
   news_read_more: "Read More",
