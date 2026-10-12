@@ -12207,6 +12207,10 @@ html[data-theme="dark"] .holding-project-card {
 }
 
 @media (max-width: 650px) {
+  .town-header-container {
+    width: calc(100% - 0.7rem);
+  }
+
   .town-main-layout > section .container,
   .town-main-layout > section .town-news-container {
     width: calc(100% - 0.7rem);

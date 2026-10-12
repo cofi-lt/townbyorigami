@@ -404,9 +404,10 @@
 }
 
 .town-header-container {
-  max-width: 1440px;
+  width: min(calc(100% - 4rem), var(--container-width, 1400px));
+  max-width: var(--container-width, 1400px);
   margin: 0 auto;
-  padding: 0.9rem clamp(1rem, 3.5vw, 3rem);
+  padding: 0.9rem 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1167,6 +1168,23 @@ header.town-header nav a::after,
     grid-template-columns: 1fr;
     gap: 2.5rem;
     text-align: center;
+  }
+
+  .town-about-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2rem;
+    align-items: start;
+  }
+
+  .town-about-content,
+  .town-about-visual-wrapper {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .town-blueprint-line-h,
+  .town-blueprint-line-v {
+    display: none;
   }
 
   .town-about-col--heading,
