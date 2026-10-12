@@ -1008,6 +1008,142 @@ header.town-header nav a::after,
   text-transform: none;
 }
 
+.town-projects-section {
+  padding: clamp(2.5rem, 5vw, 4.5rem) 0;
+  overflow: hidden;
+  background: var(--town-sand, #efede7);
+  color: var(--town-text-dark, #1e2d2b);
+}
+
+.town-projects-heading {
+  margin-bottom: 1.25rem;
+}
+
+.town-projects-eyebrow {
+  margin: 0 0 0.4rem;
+  color: var(--town-ochre, #ad9270);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.town-projects-track {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  padding-bottom: 2px;
+}
+
+.town-projects-track::-webkit-scrollbar {
+  display: none;
+}
+
+.town-project-card {
+  position: relative;
+  flex: 0 0 min(82%, 560px);
+  aspect-ratio: 1.72;
+  overflow: hidden;
+  border-radius: 6px;
+  scroll-snap-align: start;
+  background: #c7d0c9;
+}
+
+.town-project-card > img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.town-project-card:hover > img {
+  transform: scale(1.035);
+}
+
+.town-project-card-shade {
+  position: absolute;
+  inset: 35% 0 0;
+  background: linear-gradient(transparent, rgba(17, 31, 28, 0.82));
+}
+
+.town-project-card-copy {
+  position: absolute;
+  inset: auto 1.2rem 1.1rem;
+  color: #fff;
+}
+
+.town-project-card-copy h3 {
+  margin: 0;
+  font-family: var(--font-family-sans, "FiraGO", sans-serif);
+  font-size: clamp(1.2rem, 2vw, 1.8rem);
+  font-weight: 500;
+}
+
+.town-project-card-copy p {
+  margin: 0.3rem 0 0;
+  font-size: 0.72rem;
+}
+
+.town-projects-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+  color: #62706b;
+}
+
+.town-projects-count {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.town-projects-progress {
+  width: min(200px, 35vw);
+  height: 2px;
+  background: rgba(30, 45, 43, 0.14);
+}
+
+.town-projects-progress span {
+  display: block;
+  height: 100%;
+  background: #1e4844;
+  transition: width 0.25s ease;
+}
+
+.town-projects-arrows {
+  display: flex;
+  gap: 6px;
+  margin-left: auto;
+}
+
+.town-projects-arrows button {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid rgba(30, 45, 43, 0.18);
+  border-radius: 50%;
+  background: transparent;
+  color: inherit;
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.town-projects-arrows button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+@media (max-width: 600px) {
+  .town-project-card {
+    flex-basis: 88%;
+  }
+}
+
 /* ==========================================================================
    Responsive Adaptations
    ========================================================================== */

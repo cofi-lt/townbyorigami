@@ -5,8 +5,9 @@ import { TownFeaturesStrip } from "../components/sections/TownFeaturesStrip";
 import { InfrastructureSection } from "../components/sections/InfrastructureSection";
 import { LocationSection } from "../components/sections/LocationSection";
 import { NewsSection } from "../components/sections/NewsSection";
+import { ProjectsSection } from "../components/sections/ProjectsSection";
 import type { Language, TranslationKey } from "../i18n";
-import type { InfrastructureContent, OrigamiHoldingCompactContent, OrigamiHoldingContent } from "../api/siteContent";
+import type { CompanyProjectsContent, InfrastructureContent, OrigamiHoldingCompactContent, OrigamiHoldingContent } from "../api/siteContent";
 import type { AboutGridCardItem, AboutTownTextContent, LocationContent, NewsCard, TownGalleryItem } from "../types";
 
 export interface HomePageProps {
@@ -18,6 +19,7 @@ export interface HomePageProps {
   infrastructureData?: InfrastructureContent | null;
   origamiHoldingCompactData?: OrigamiHoldingCompactContent | null;
   origamiHoldingData?: OrigamiHoldingContent | null;
+  companyProjectsData?: CompanyProjectsContent | null;
   apiAboutData?: any;
   aboutTownGalleryItems?: TownGalleryItem[];
   aboutGridCards?: AboutGridCardItem[];
@@ -35,6 +37,7 @@ export const HomePage: FC<HomePageProps> = ({
   infrastructureData,
   origamiHoldingCompactData,
   origamiHoldingData,
+  companyProjectsData,
   apiAboutData,
   aboutTownGalleryItems,
   aboutGridCards,
@@ -69,6 +72,8 @@ export const HomePage: FC<HomePageProps> = ({
       />
 
       <TownFeaturesStrip items={origamiHoldingCompactData?.items} holdingData={origamiHoldingData} />
+
+      <ProjectsSection data={companyProjectsData || null} />
 
       <NewsSection
         items={newsItems}

@@ -848,6 +848,7 @@ function App() {
         infrastructureData={apiInfrastructureData}
         origamiHoldingCompactData={apiOrigamiHoldingCompactData}
         origamiHoldingData={apiOrigamiHoldingData}
+        companyProjectsData={apiCompanyProjectsData}
         apiAboutData={apiAboutData}
         aboutTownGalleryItems={apiAboutTownGalleryItems}
         aboutGridCards={apiAboutGridCards}
