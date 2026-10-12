@@ -12186,6 +12186,12 @@ html[data-theme="dark"] .holding-project-card {
   word-wrap: break-word;
 }
 
+/* Keep a consistent amount of vertical space around homepage sections. */
+.town-main-layout > section:not(.town-hero-section) {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
 .town-location-description {
   margin: 0 0 2.25rem;
   font-family: var(--font-family-sans, "FiraGO", sans-serif);
