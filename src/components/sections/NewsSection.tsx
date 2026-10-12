@@ -1,165 +1,297 @@
-import { useEffect, useRef, useState } from "react";
-import type { TranslationKey } from "../../i18n";
+import { useEffect, useState, useCallback, useRef } from "react";
+import type { Language, TranslationKey } from "../../i18n";
 import type { NewsCard } from "../../types";
+import { fetchNews } from "../../api/news";
 import { getOptimizedImageUrl, getResponsiveImageSrcSet } from "../../utils/media";
-import { ArrowIcon } from "../Icons";
+import { ArrowIcon, LocationIcon } from "../Icons";
 
-type NewsSectionProps = {
-  items: NewsCard[];
+export type NewsSectionProps = {
+  items?: NewsCard[];
+  language?: Language;
   t: (key: TranslationKey) => string;
   navigateTo: (path: string) => void;
 };
 
-export function NewsSection({ items, t, navigateTo }: NewsSectionProps) {
-  const trackRef = useRef<HTMLDivElement | null>(null);
-  const [activeIndex, setActiveIndex] = useState(1);
+const NEWS_DESCRIPTIONS: Record<string, string> = {
+  ka: "გაეცანით Origami Holding-ისა და Town-ის უახლეს მოვლენებს, განვითარების ეტაპებსა და არქიტექტურულ სიახლეებს.",
+  en: "A curated selection of news, updates, and milestones from Town by Origami. Stay informed with our latest architectural progress.",
+  ru: "Эксклюзивная подборка ключевых новостей, этапов развития и архитектурных решений Town by Origami.",
+  de: "Eine kuratierte Auswahl an Neuigkeiten, Meilensteinen und architektonischen Einblicken von Town by Origami.",
+  it: "Una selezione curata di notizie, aggiornamenti e traguardi di Town by Origami.",
+  zh: "精选 Origami Holding 与 Town by Origami 的最新动态、里程碑和建筑进展。",
+  he: "מבחר חדשות, עדכונים וציוני דרך מבית Town by Origami.",
+  ar: "مجموعة مختارة من الأخبار وآخر التطورات والإنجازات المعمارية من تاონ باي أوريغامي."
+};
 
-  const carouselItems = items.length <= 3 ? [...items, ...items] : items;
+const VIEW_ALL_LABELS: Record<string, string> = {
+  ka: "ყველა სიახლე",
+  en: "VIEW ALL NEWS",
+  ru: "ВСЕ НОВОСТИ",
+  de: "ALLE NEUIGKEITEN",
+  it: "TUTTE LE NOTIZIE",
+  zh: "查看全部新闻",
+  he: "כל החדשות",
+  ar: "جميع الأخبار"
+};
 
+const EXPLORE_LABELS: Record<string, string> = {
+  ka: "სრულად ნახვა",
+  en: "EXPLORE OPTIONS",
+  ru: "ЧИТАТЬ ДАЛЕЕ",
+  de: "MEHR ERFAHREN",
+  it: "SCOPRI DI PIÙ",
+  zh: "查看详情",
+  he: "לפרטים נוספים",
+  ar: "اكتشف المزيد"
+};
+
+export function NewsSection({ items: propItems, language = "ka", t, navigateTo }: NewsSectionProps) {
+  const [newsList, setNewsList] = useState<NewsCard[]>(propItems || []);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isLoading, setIsLoading] = useState(!propItems?.length);
+  const galleryRef = useRef<HTMLDivElement | null>(null);
+
+  // Sync propItems or fetch if empty
   useEffect(() => {
-    const track = trackRef.current;
-    if (!track) {
+    if (propItems && propItems.length > 0) {
+      setNewsList(propItems);
+      setIsLoading(false);
       return;
     }
 
-    const updateActiveIndex = () => {
-      const cards = track.querySelectorAll<HTMLElement>(".news-card");
-      if (!cards.length) {
-        return;
-      }
-
-      const trackRect = track.getBoundingClientRect();
-      const trackCenter = trackRect.left + trackRect.width / 2;
-
-      let closestIndex = 0;
-      let minDistance = Infinity;
-
-      cards.forEach((card, index) => {
-        const cardRect = card.getBoundingClientRect();
-        const cardCenter = cardRect.left + cardRect.width / 2;
-        const distance = Math.abs(trackCenter - cardCenter);
-
-        if (distance < minDistance) {
-          minDistance = distance;
-          closestIndex = index;
+    const controller = new AbortController();
+    setIsLoading(true);
+    fetchNews(language, t("news_category") || "Corporate", controller.signal)
+      .then((data) => {
+        if (!controller.signal.aborted) {
+          setNewsList(data);
+          setIsLoading(false);
+        }
+      })
+      .catch((err) => {
+        if (!controller.signal.aborted) {
+          console.error("NewsSection: Failed to load news", err);
+          setIsLoading(false);
         }
       });
 
-      setActiveIndex(closestIndex);
-    };
+    return () => controller.abort();
+  }, [propItems, language, t]);
 
-    updateActiveIndex();
+  const totalItems = newsList.length;
 
-    let animationFrameId: number;
-    const handleScroll = () => {
-      cancelAnimationFrame(animationFrameId);
-      animationFrameId = requestAnimationFrame(updateActiveIndex);
-    };
+  const handlePrev = useCallback(() => {
+    if (totalItems <= 1) return;
+    setActiveIndex((prev) => (prev > 0 ? prev - 1 : totalItems - 1));
+  }, [totalItems]);
 
-    track.addEventListener("scroll", handleScroll, { passive: true });
-    window.addEventListener("resize", handleScroll);
+  const handleNext = useCallback(() => {
+    if (totalItems <= 1) return;
+    setActiveIndex((prev) => (prev < totalItems - 1 ? prev + 1 : 0));
+  }, [totalItems]);
 
-    return () => {
-      cancelAnimationFrame(animationFrameId);
-      track.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", handleScroll);
-    };
-  }, [carouselItems.length]);
+  const handleCardClick = (index: number, slug: string) => {
+    if (index === activeIndex) {
+      // If already active, clicking navigates directly into the news detail page
+      navigateTo(`/news/${slug}`);
+    } else {
+      setActiveIndex(index);
+    }
+  };
 
-  if (!items.length) {
+  const handleExploreClick = () => {
+    if (newsList[activeIndex]) {
+      navigateTo(`/news/${newsList[activeIndex].slug}`);
+    }
+  };
+
+  const descriptionText =
+    NEWS_DESCRIPTIONS[language] || NEWS_DESCRIPTIONS.en;
+  const viewAllText =
+    VIEW_ALL_LABELS[language] || VIEW_ALL_LABELS.en;
+  const exploreBtnText =
+    EXPLORE_LABELS[language] || EXPLORE_LABELS.en;
+
+  if (!isLoading && totalItems === 0) {
     return null;
   }
 
-  const scrollNews = (direction: "left" | "right") => {
-    const track = trackRef.current;
-    if (!track) {
-      return;
-    }
-
-    const firstCard = track.querySelector<HTMLElement>(".news-card");
-    const gap = parseFloat(window.getComputedStyle(track).columnGap || "0");
-    const step = firstCard ? firstCard.offsetWidth + gap : track.clientWidth * 0.85;
-    const maxScroll = track.scrollWidth - track.clientWidth;
-
-    if (direction === "left" && track.scrollLeft <= 2) {
-      track.scrollTo({ left: maxScroll, behavior: "smooth" });
-      return;
-    }
-
-    if (direction === "right" && track.scrollLeft >= maxScroll - 2) {
-      track.scrollTo({ left: 0, behavior: "smooth" });
-      return;
-    }
-
-    track.scrollBy({
-      left: direction === "left" ? -step : step,
-      behavior: "smooth"
-    });
-  };
+  const activeItem = newsList[activeIndex] || newsList[0];
 
   return (
-    <section id="news" className="news-section reveal-on-scroll">
-      <div className="container">
-        <div className="news-header reveal-fade-up">
-          <h2 className="section-title">{t("news_title")}</h2>
-          <div className="news-carousel-controls" aria-label="News carousel controls">
+    <section id="news" className="town-news-section reveal-on-scroll">
+      <div className="town-news-container">
+        {/* Top Header Row matching reference */}
+        <div className="town-news-header reveal-fade-up">
+          <div className="town-news-header-left">
+            <p className="town-news-description">{descriptionText}</p>
+          </div>
+          <div className="town-news-header-right">
             <button
               type="button"
-              className="news-carousel-button"
-              onClick={() => scrollNews("left")}
-              aria-label="Previous news"
+              className="town-news-view-all-link"
+              onClick={() => {
+                if (activeItem) {
+                  navigateTo(`/news/${activeItem.slug}`);
+                }
+              }}
+              aria-label={viewAllText}
             >
-              <ArrowIcon direction="left" />
-            </button>
-            <button
-              type="button"
-              className="news-carousel-button"
-              onClick={() => scrollNews("right")}
-              aria-label="Next news"
-            >
-              <ArrowIcon direction="right" />
+              <span className="town-news-view-all-line" aria-hidden="true" />
+              <span className="town-news-view-all-text">{viewAllText}</span>
+              <span className="town-news-view-all-arrow" aria-hidden="true">
+                <ArrowIcon direction="right" />
+              </span>
             </button>
           </div>
         </div>
 
-        <div className="news-grid reveal-scale" ref={trackRef}>
-          {carouselItems.map((item, index) => (
-            <article className={`news-card${index === activeIndex ? " is-featured" : ""}`} key={`${item.id}-${index}`}>
-              <div className="news-card-media">
-                <span className="news-card-badge">{item.category}</span>
-                <img
-                  src={getOptimizedImageUrl(item.image, { width: 640, height: 420, crop: "fill", gravity: "auto" })}
-                  srcSet={getResponsiveImageSrcSet(item.image, [360, 520, 720, 900], { crop: "limit" })}
-                  sizes="(max-width: 760px) 92vw, 30vw"
-                  alt={item.title}
-                  loading="lazy"
-                  decoding="async"
-                />
-              </div>
-
-              <div className="news-card-content">
-                <div className="news-card-meta">
-                  <span>{item.category}</span>
-                  <span className="news-card-divider">|</span>
-                  <span>{item.date}</span>
-                </div>
-
-                <h3 className="news-card-title">{item.title}</h3>
-
-                <a
-                  href={`/news/${item.slug}`}
-                  className="news-card-link"
-                  onClick={(event) => {
-                    event.preventDefault();
-                    navigateTo(`/news/${item.slug}`);
-                  }}
+        {/* Central Gallery: Expanding Accordion Cards matching reference */}
+        <div className="town-news-gallery reveal-scale" ref={galleryRef}>
+          {isLoading
+            ? Array.from({ length: 4 }).map((_, idx) => (
+                <div
+                  key={idx}
+                  className={`town-news-card town-news-skeleton ${idx === 0 ? "is-active" : "is-collapsed"}`}
                 >
-                  <span>{t("news_read_more")}</span>
-                  <span className="news-all-arrow">{">"}</span>
-                </a>
-              </div>
-            </article>
-          ))}
+                  <div className="town-news-skeleton-shimmer" />
+                </div>
+              ))
+            : newsList.map((item, index) => {
+                const isActive = index === activeIndex;
+
+                return (
+                  <article
+                    key={item.id}
+                    className={`town-news-card ${isActive ? "is-active" : "is-collapsed"}`}
+                    onClick={() => handleCardClick(index, item.slug)}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        handleCardClick(index, item.slug);
+                      }
+                    }}
+                    aria-label={item.title}
+                    aria-expanded={isActive}
+                  >
+                    {/* Media Layer */}
+                    <div className="town-news-card-media">
+                      <img
+                        src={getOptimizedImageUrl(item.image, {
+                          width: isActive ? 1080 : 420,
+                          height: 720,
+                          crop: "fill",
+                          gravity: "auto"
+                        })}
+                        srcSet={getResponsiveImageSrcSet(item.image, [380, 600, 900, 1200], {
+                          crop: "limit"
+                        })}
+                        sizes={isActive ? "(max-width: 900px) 92vw, 55vw" : "(max-width: 900px) 45vw, 16vw"}
+                        alt={item.title}
+                        loading={index < 2 ? "eager" : "lazy"}
+                        decoding="async"
+                        className="town-news-card-img"
+                      />
+                      <div className="town-news-card-overlay" />
+                    </div>
+
+                    {/* Content Layer for Active Card */}
+                    {isActive ? (
+                      <div className="town-news-active-content">
+                        <div className="town-news-active-main">
+                          <h3 className="town-news-active-title">{item.title}</h3>
+                          <div className="town-news-active-location">
+                            <span className="town-news-location-icon" aria-hidden="true">
+                              <LocationIcon />
+                            </span>
+                            <span className="town-news-location-text">
+                              Batumi, Georgia
+                              {item.category && item.category !== "Corporate" ? ` · ${item.category}` : ""}
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Right Meta Column (divider + date/category) */}
+                        <div className="town-news-active-meta">
+                          <div className="town-news-active-date">{item.date}</div>
+                        </div>
+                      </div>
+                    ) : (
+                      /* Content Layer for Collapsed Cards */
+                      <div className="town-news-collapsed-content">
+                        <h4 className="town-news-collapsed-title">{item.title}</h4>
+                        <div className="town-news-collapsed-indicator" aria-hidden="true" />
+                      </div>
+                    )}
+                  </article>
+                );
+              })}
+        </div>
+
+        {/* Bottom Control Bar matching reference */}
+        <div className="town-news-bottom-bar reveal-fade-up">
+          <div className="town-news-controls-left">
+            {/* Prev Circle Button */}
+            <button
+              type="button"
+              className="town-news-circle-btn"
+              onClick={handlePrev}
+              aria-label="Previous article"
+              disabled={totalItems <= 1}
+            >
+              <ArrowIcon direction="left" />
+            </button>
+
+            {/* Next Circle Button */}
+            <button
+              type="button"
+              className="town-news-circle-btn"
+              onClick={handleNext}
+              aria-label="Next article"
+              disabled={totalItems <= 1}
+            >
+              <ArrowIcon direction="right" />
+            </button>
+
+            {/* Progress Slider Track + Fill */}
+            <div className="town-news-progress-track" aria-hidden="true">
+              <div
+                className="town-news-progress-fill"
+                style={{
+                  width: `${totalItems > 0 ? (1 / totalItems) * 100 : 25}%`,
+                  left: `${totalItems > 0 ? (activeIndex / totalItems) * 100 : 0}%`
+                }}
+              />
+            </div>
+
+            {/* Step Counter (e.g. 01 / 05) */}
+            <div className="town-news-counter">
+              <span className="town-news-counter-current">
+                {String(activeIndex + 1).padStart(2, "0")}
+              </span>
+              <span className="town-news-counter-divider"> / </span>
+              <span className="town-news-counter-total">
+                {String(totalItems).padStart(2, "0")}
+              </span>
+            </div>
+          </div>
+
+          {/* Right CTA Pill Button matching reference */}
+          <div className="town-news-controls-right">
+            <button
+              type="button"
+              className="town-news-explore-pill-btn"
+              onClick={handleExploreClick}
+              aria-label={exploreBtnText}
+            >
+              <span>{exploreBtnText}</span>
+              <span className="town-news-explore-arrow" aria-hidden="true">
+                <ArrowIcon direction="right" />
+              </span>
+            </button>
+          </div>
         </div>
       </div>
     </section>

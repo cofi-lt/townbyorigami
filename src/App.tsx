@@ -158,6 +158,7 @@ function App() {
   const galleryTrackRef = useRef<HTMLDivElement | null>(null);
   const t = (key: TranslationKey) => translations[language][key];
   const {
+    items: newsItems,
     detail: newsDetail,
     isDetailLoading: isNewsDetailLoading,
     detailError: newsDetailError
@@ -839,6 +840,7 @@ function App() {
       <HomePage
         t={t}
         language={language}
+        newsItems={newsItems}
         locationData={apiLocationData}
         mapLocationData={apiMapLocationData}
         infrastructureData={apiInfrastructureData}

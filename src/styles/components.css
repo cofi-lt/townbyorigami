@@ -1123,3 +1123,529 @@ header.town-header nav a::after,
     grid-template-columns: 1fr;
   }
 }
+
+/* ==========================================================================
+   Town News Section Styles (Interactive Expanding Accordion from Reference)
+   ========================================================================== */
+.town-news-section {
+  background-color: var(--town-sand, #EFEDE7);
+  padding: clamp(4.5rem, 6.5vw, 6.5rem) 0;
+  position: relative;
+  overflow: hidden;
+  color: var(--town-text-dark, #1E2D2B);
+  font-family: var(--font-family-sans, 'Outfit', sans-serif);
+}
+
+.town-news-container {
+  max-width: var(--container-max-width, 1440px);
+  margin: 0 auto;
+  padding: 0 clamp(1.25rem, 3.5vw, 3.5rem);
+}
+
+/* Header Row */
+.town-news-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 2rem;
+  margin-bottom: clamp(2rem, 3vw, 2.75rem);
+}
+
+.town-news-header-left {
+  max-width: 580px;
+}
+
+.town-news-description {
+  font-size: clamp(0.92rem, 1.05vw, 1.02rem);
+  line-height: 1.68;
+  color: var(--town-text-body, #4A5552);
+  margin: 0;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+.town-news-header-right {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.town-news-view-all-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.85rem;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--town-ochre, #AD9270);
+  text-decoration: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.town-news-view-all-link:hover {
+  opacity: 0.85;
+}
+
+.town-news-view-all-line {
+  display: inline-block;
+  width: 44px;
+  height: 1px;
+  background-color: var(--town-ochre, #AD9270);
+  transition: width 0.3s ease;
+}
+
+.town-news-view-all-link:hover .town-news-view-all-line {
+  width: 56px;
+}
+
+.town-news-view-all-text {
+  font-family: var(--font-family-sans, 'Outfit', sans-serif);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--town-ochre, #AD9270);
+}
+
+.town-news-view-all-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  color: var(--town-ochre, #AD9270);
+  transition: transform 0.3s ease;
+}
+
+.town-news-view-all-arrow svg {
+  width: 100%;
+  height: 100%;
+}
+
+.town-news-view-all-link:hover .town-news-view-all-arrow {
+  transform: translateX(4px);
+}
+
+/* Central Gallery Accordion */
+.town-news-gallery {
+  display: flex;
+  gap: clamp(1rem, 1.4vw, 1.5rem);
+  height: clamp(440px, 38vw, 540px);
+  width: 100%;
+  align-items: stretch;
+}
+
+.town-news-card {
+  position: relative;
+  border-radius: clamp(20px, 1.8vw, 28px);
+  overflow: hidden;
+  background-color: #172822;
+  cursor: pointer;
+  user-select: none;
+  outline: none;
+  border: none;
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.08);
+  transition: flex 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 0.4s ease;
+}
+
+.town-news-card:focus-visible {
+  box-shadow: 0 0 0 3px var(--town-ochre, #AD9270);
+}
+
+.town-news-card.is-active {
+  flex: 3.8;
+  cursor: pointer;
+  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.18);
+}
+
+.town-news-card.is-collapsed {
+  flex: 1;
+  min-width: 120px;
+}
+
+.town-news-card.is-collapsed:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.14);
+}
+
+/* Card Media & Overlays */
+.town-news-card-media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.town-news-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.town-news-card:hover .town-news-card-img {
+  transform: scale(1.03);
+}
+
+.town-news-card-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(14, 25, 22, 0) 30%,
+    rgba(14, 25, 22, 0.5) 65%,
+    rgba(14, 25, 22, 0.94) 100%
+  );
+}
+
+.town-news-card.is-collapsed .town-news-card-overlay {
+  background: linear-gradient(
+    180deg,
+    rgba(14, 25, 22, 0) 40%,
+    rgba(14, 25, 22, 0.65) 75%,
+    rgba(14, 25, 22, 0.95) 100%
+  );
+}
+
+/* Active Card Content */
+.town-news-active-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: clamp(1.4rem, 2.4vw, 2.4rem);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1.5rem;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.town-news-active-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.town-news-active-title {
+  font-family: var(--font-family-serif, "Cormorant Garamond", Georgia, serif);
+  font-size: clamp(1.35rem, 2.1vw, 2rem);
+  font-weight: 500;
+  color: #FFFFFF;
+  line-height: 1.2;
+  margin: 0 0 0.65rem;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.town-news-active-location {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: clamp(0.78rem, 0.9vw, 0.88rem);
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
+.town-news-location-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  color: rgba(255, 255, 255, 0.8);
+  flex-shrink: 0;
+}
+
+.town-news-location-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.town-news-active-meta {
+  border-left: 1px solid rgba(255, 255, 255, 0.32);
+  padding-left: clamp(1.2rem, 1.8vw, 1.8rem);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: flex-end;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.town-news-active-date {
+  font-family: var(--font-family-serif, "Cormorant Garamond", Georgia, serif);
+  font-size: clamp(1.15rem, 1.6vw, 1.5rem);
+  font-weight: 500;
+  color: #FFFFFF;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+/* Collapsed Cards Content */
+.town-news-collapsed-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: clamp(1.2rem, 1.6vw, 1.6rem);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.town-news-collapsed-title {
+  font-family: var(--font-family-sans, 'Outfit', sans-serif);
+  font-size: clamp(0.85rem, 0.95vw, 0.98rem);
+  font-weight: 500;
+  color: #FFFFFF;
+  line-height: 1.35;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+}
+
+.town-news-collapsed-indicator {
+  width: 24px;
+  height: 2px;
+  background-color: rgba(255, 255, 255, 0.7);
+  margin-top: 0.75rem;
+  border-radius: 2px;
+}
+
+/* Bottom Control Row */
+.town-news-bottom-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: clamp(1.75rem, 2.8vw, 2.5rem);
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.town-news-controls-left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.town-news-circle-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid rgba(30, 45, 43, 0.22);
+  background: transparent;
+  color: var(--town-forest, #1E392F);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.town-news-circle-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+.town-news-circle-btn:hover:not(:disabled) {
+  border-color: var(--town-forest, #1E392F);
+  background: rgba(30, 57, 47, 0.08);
+  transform: translateY(-1px);
+}
+
+.town-news-circle-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.town-news-progress-track {
+  width: clamp(80px, 9vw, 130px);
+  height: 2px;
+  background: rgba(30, 45, 43, 0.16);
+  position: relative;
+  margin-left: 0.5rem;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.town-news-progress-fill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  height: 100%;
+  background: var(--town-ochre, #AD9270);
+  border-radius: 2px;
+  transition: left 0.45s cubic-bezier(0.22, 1, 0.36, 1), width 0.45s ease;
+}
+
+.town-news-counter {
+  font-family: var(--font-family-sans, 'Outfit', sans-serif);
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  color: var(--town-text-dark, #1E2D2B);
+  margin-left: 0.75rem;
+  display: inline-flex;
+  align-items: center;
+}
+
+.town-news-controls-right {
+  display: flex;
+  align-items: center;
+}
+
+.town-news-explore-pill-btn {
+  background-color: var(--town-forest, #1E392F);
+  color: #FFFFFF;
+  border-radius: 999px;
+  padding: 0.95rem 2.4rem;
+  font-family: var(--font-family-sans, 'Outfit', sans-serif);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.85rem;
+  transition: background-color 0.3s ease, transform 0.25s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 18px rgba(30, 57, 47, 0.2);
+}
+
+.town-news-explore-pill-btn:hover {
+  background-color: #142820;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 26px rgba(30, 57, 47, 0.32);
+}
+
+.town-news-explore-arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  transition: transform 0.25s ease;
+}
+
+.town-news-explore-arrow svg {
+  width: 100%;
+  height: 100%;
+}
+
+.town-news-explore-pill-btn:hover .town-news-explore-arrow {
+  transform: translateX(4px);
+}
+
+/* Skeleton Loading */
+.town-news-skeleton {
+  background: rgba(30, 45, 43, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+.town-news-skeleton-shimmer {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.3) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: town-shimmer 1.8s infinite;
+}
+
+@keyframes town-shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Responsive Adaptations */
+@media (max-width: 960px) {
+  .town-news-gallery {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    height: 440px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 0.5rem;
+  }
+
+  .town-news-gallery::-webkit-scrollbar {
+    display: none;
+  }
+
+  .town-news-card.is-active {
+    flex: 0 0 82vw;
+    scroll-snap-align: start;
+  }
+
+  .town-news-card.is-collapsed {
+    flex: 0 0 42vw;
+    scroll-snap-align: start;
+  }
+
+  .town-news-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.25rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .town-news-gallery {
+    height: 390px;
+  }
+
+  .town-news-card.is-active {
+    flex: 0 0 88vw;
+  }
+
+  .town-news-card.is-collapsed {
+    flex: 0 0 48vw;
+  }
+
+  .town-news-active-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .town-news-active-meta {
+    border-left: none;
+    padding-left: 0;
+    align-items: flex-start;
+  }
+
+  .town-news-bottom-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.25rem;
+  }
+
+  .town-news-controls-left {
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .town-news-explore-pill-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+

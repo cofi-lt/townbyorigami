@@ -21,7 +21,12 @@ export function formatNewsFallbackTitle(slug: string) {
 }
 
 async function fetchApi<T>(path: string, signal: AbortSignal): Promise<T> {
-  const response = await fetch(`${API_BASE_URL}${path}`, { signal });
+  const response = await fetch(`${API_BASE_URL}${path}`, {
+    signal,
+    headers: {
+      "platform": PLATFORM_SLUG
+    }
+  });
   if (!response.ok) {
     throw new Error(`${path} request failed: ${response.status}`);
   }
@@ -40,6 +45,7 @@ export async function fetchNews(language: Language, categoryFallback: string, si
       excerpt: item.excerpt?.trim() || "",
       image: item.image_url,
       date: formatNewsDate(item.published_at, language),
+      published_at: item.published_at,
       category: item.category?.name || categoryFallback
     }));
 }

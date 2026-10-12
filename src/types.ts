@@ -352,6 +352,7 @@ export type NewsCard = {
   excerpt: string;
   image: string;
   date: string;
+  published_at?: string;
   category: string;
 };
 

@@ -4,13 +4,15 @@ import { TownAboutSection } from "../components/sections/TownAboutSection";
 import { TownFeaturesStrip } from "../components/sections/TownFeaturesStrip";
 import { InfrastructureSection } from "../components/sections/InfrastructureSection";
 import { LocationSection } from "../components/sections/LocationSection";
+import { NewsSection } from "../components/sections/NewsSection";
 import type { Language, TranslationKey } from "../i18n";
 import type { InfrastructureContent } from "../api/siteContent";
-import type { AboutGridCardItem, AboutTownTextContent, LocationContent, TownGalleryItem } from "../types";
+import type { AboutGridCardItem, AboutTownTextContent, LocationContent, NewsCard, TownGalleryItem } from "../types";
 
 export interface HomePageProps {
   t: (key: TranslationKey) => string;
   language?: Language;
+  newsItems?: NewsCard[];
   locationData?: LocationContent | null;
   mapLocationData?: LocationContent | null;
   infrastructureData?: InfrastructureContent | null;
@@ -25,6 +27,7 @@ export interface HomePageProps {
 export const HomePage: FC<HomePageProps> = ({
   t,
   language = "en",
+  newsItems,
   locationData,
   mapLocationData,
   infrastructureData,
@@ -32,7 +35,7 @@ export const HomePage: FC<HomePageProps> = ({
   aboutTownGalleryItems,
   aboutGridCards,
   aboutTownText,
-  navigateTo,
+  navigateTo = () => {},
   openModal
 }) => {
   return (
@@ -54,6 +57,13 @@ export const HomePage: FC<HomePageProps> = ({
         language={language}
         t={t}
         onCtaClick={() => (openModal ? openModal("consultation") : undefined)}
+      />
+
+      <NewsSection
+        items={newsItems}
+        language={language}
+        t={t}
+        navigateTo={navigateTo}
       />
 
       <LocationSection
