@@ -6903,9 +6903,10 @@ footer>.container {
   justify-content: center;
   width: 42px;
   height: 42px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid transparent;
   border-radius: 50%;
-  color: var(--text-white);
+  background: #ffffff;
+  color: var(--bg-dark);
   transition: var(--transition-smooth);
 }
 
@@ -6913,10 +6914,21 @@ footer>.container {
   background: #ffffff;
 }
 
-.social-links a:hover {
-  border-color: var(--primary-gold);
-  background: var(--gold-gradient);
+.social-links a.social-link-instagram {
+  background: #ffffff;
   color: var(--bg-dark);
+}
+
+.social-links a.social-link-instagram:hover {
+  border-color: var(--town-forest, #1e4844);
+  background: var(--town-forest, #1e4844);
+  color: #ffffff;
+}
+
+.social-links a:hover {
+  border-color: var(--town-forest, #1e4844);
+  background: var(--town-forest, #1e4844);
+  color: #ffffff;
   transform: translateY(-3px);
 }
 

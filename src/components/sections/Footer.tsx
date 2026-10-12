@@ -64,7 +64,7 @@ export function Footer({
             <div className="social-links">
               {socialNetworks.length > 0 ? (
                 socialNetworks.map((network) => (
-                  <a key={network.id} href={network.link} target="_blank" rel="noreferrer" aria-label={network.name}>
+                  <a key={network.id} className={network.name.toLowerCase() === "instagram" ? "social-link-instagram" : undefined} href={network.link} target="_blank" rel="noreferrer" aria-label={network.name}>
                     {network.image_url ? (
                       <img src={network.image_url} alt={network.name} width={18} height={18} />
                     ) : network.name.toLowerCase() === "facebook" ? (
