@@ -59,18 +59,18 @@ export const HomePage: FC<HomePageProps> = ({
         onCtaClick={() => (openModal ? openModal("consultation") : undefined)}
       />
 
-      <NewsSection
-        items={newsItems}
-        language={language}
-        t={t}
-        navigateTo={navigateTo}
-      />
-
       <LocationSection
         data={locationData}
         mapData={mapLocationData}
         language={language}
         t={t}
+      />
+
+      <NewsSection
+        items={newsItems}
+        language={language}
+        t={t}
+        navigateTo={navigateTo}
       />
     </main>
   );
