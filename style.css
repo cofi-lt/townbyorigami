@@ -12192,6 +12192,11 @@ html[data-theme="dark"] .holding-project-card {
   padding-bottom: 2rem;
 }
 
+.town-main-layout > .town-features-strip {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
 .town-location-description {
   margin: 0 0 2.25rem;
   font-family: var(--font-family-sans, "FiraGO", sans-serif);

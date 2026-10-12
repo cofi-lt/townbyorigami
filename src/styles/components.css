@@ -930,8 +930,8 @@ header.town-header nav a::after,
 
 /* Features Strip (Sage Green) */
 .town-features-strip {
-  background-color: #1e4844;
-  padding: 2.75rem 0;
+  background-color: transparent;
+  padding: 0;
   color: #ffffff;
 }
 
@@ -939,6 +939,8 @@ header.town-header nav a::after,
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   align-items: center;
+  padding: 2rem 0;
+  background-color: #1e4844;
 }
 
 .town-feature-item {
