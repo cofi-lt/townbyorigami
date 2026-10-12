@@ -6944,6 +6944,35 @@ footer>.container {
   fill: currentColor;
 }
 
+.scroll-to-top-button {
+  position: fixed;
+  left: clamp(1rem, 2.5vw, 2rem);
+  bottom: 2rem;
+  z-index: 900;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+  background: var(--town-forest, #1e4844);
+  color: #ffffff;
+  box-shadow: 0 8px 22px rgba(30, 72, 68, 0.28);
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.scroll-to-top-button:hover {
+  transform: translateY(-3px);
+  background: #143330;
+}
+
+.scroll-to-top-button svg {
+  width: 20px;
+  height: 20px;
+}
+
 .footer-column h4,
 .footer-column-title {
   font-family: var(--font-serif);

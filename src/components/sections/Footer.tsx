@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import type { FooterSection, SectionGridCardItem, SocialNetworkItem, CompanyProjectApiItem } from "../../types";
 import type { TranslationKey } from "../../i18n";
 import { ChevronIcon, FacebookIcon, InstagramIcon, LinkedInIcon } from "../Icons";
@@ -39,10 +40,19 @@ export function Footer({
   formatTelHref,
   t
 }: FooterProps) {
+  const [showScrollTop, setShowScrollTop] = useState(false);
   const hasContact = Boolean(contact.address || contact.email || contact.phone || contact.secondaryPhone);
   const hasCompanyProjects = Boolean(companyProjectsData?.title || companyProjectsData?.items.length);
 
+  useEffect(() => {
+    const updateVisibility = () => setShowScrollTop(window.scrollY > 300);
+    updateVisibility();
+    window.addEventListener("scroll", updateVisibility, { passive: true });
+    return () => window.removeEventListener("scroll", updateVisibility);
+  }, []);
+
   return (
+    <>
     <footer id="contact">
       <div className="container">
         <div className="footer-top">
@@ -198,5 +208,15 @@ export function Footer({
         </div>
       </div>
     </footer>
+    {showScrollTop && <button
+      className="scroll-to-top-button"
+      type="button"
+      aria-label="Scroll to top"
+      title="Scroll to top"
+      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+    >
+      <ChevronIcon direction="up" />
+    </button>}
+    </>
   );
 }
