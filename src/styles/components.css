@@ -1241,7 +1241,7 @@ header.town-header nav a::after,
 .town-news-gallery {
   display: flex;
   gap: clamp(1rem, 1.4vw, 1.5rem);
-  height: clamp(440px, 38vw, 540px);
+  height: clamp(300px, 26vw, 360px);
   width: 100%;
   align-items: stretch;
 }

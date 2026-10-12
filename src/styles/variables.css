@@ -60,9 +60,9 @@
   /* ==========================================================================
      Typography Tokens
      ========================================================================== */
-  --font-family-sans: "FiraGO", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-  --font-family-display: "FiraGO", serif;
-  --font-family-serif: "Cormorant Garamond", "Playfair Display", Georgia, serif;
+  --font-family-sans: "FiraGO", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-family-display: "FiraGO", sans-serif;
+  --font-family-serif: "FiraGO", sans-serif;
 
   --font-size-xs: 0.75rem;     /* 12px */
   --font-size-sm: 0.875rem;    /* 14px */
