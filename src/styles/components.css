@@ -930,7 +930,7 @@ header.town-header nav a::after,
 
 /* Features Strip (Sage Green) */
 .town-features-strip {
-  background-color: var(--town-sage, #71997E);
+  background-color: #1e4844;
   padding: 2.75rem 0;
   color: #ffffff;
 }
@@ -946,7 +946,7 @@ header.town-header nav a::after,
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 12px;
+  gap: 8px;
   padding: 0 1rem;
   position: relative;
 }
@@ -962,17 +962,28 @@ header.town-header nav a::after,
 }
 
 .town-feature-icon {
-  width: 32px;
-  height: 32px;
+  width: 48px;
+  height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #ffffff;
+  padding: 11px;
+  border-radius: 50%;
+  background: #ffffff;
+  color: var(--town-forest, #1e4844);
+  box-shadow: 0 3px 10px rgba(25, 55, 43, 0.12);
 }
 
 .town-feature-icon svg {
   width: 100%;
   height: 100%;
+  stroke: currentColor;
+}
+
+.town-feature-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .town-feature-title {
@@ -983,6 +994,18 @@ header.town-header nav a::after,
   text-transform: uppercase;
   color: #ffffff;
   margin: 0;
+}
+
+.town-feature-description {
+  max-width: 220px;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.86);
+  font-family: var(--font-family-sans);
+  font-size: 0.8rem;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0;
+  text-transform: none;
 }
 
 /* ==========================================================================

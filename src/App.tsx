@@ -168,6 +168,8 @@ function App() {
     mapLocationData: apiMapLocationData,
     companyProjectsData: apiCompanyProjectsData,
     infrastructureData: apiInfrastructureData,
+    origamiHoldingCompactData: apiOrigamiHoldingCompactData,
+    origamiHoldingData: apiOrigamiHoldingData,
     aboutData: apiAboutData,
     aboutTownGalleryItems: apiAboutTownGalleryItems,
     aboutGridCards: apiAboutGridCards,
@@ -844,6 +846,8 @@ function App() {
         locationData={apiLocationData}
         mapLocationData={apiMapLocationData}
         infrastructureData={apiInfrastructureData}
+        origamiHoldingCompactData={apiOrigamiHoldingCompactData}
+        origamiHoldingData={apiOrigamiHoldingData}
         apiAboutData={apiAboutData}
         aboutTownGalleryItems={apiAboutTownGalleryItems}
         aboutGridCards={apiAboutGridCards}

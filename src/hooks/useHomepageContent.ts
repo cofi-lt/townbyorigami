@@ -15,12 +15,14 @@ import {
   fetchLocation,
   fetchMapLocation,
   fetchOrigamiHolding,
+  fetchOrigamiHoldingCompact,
   type BiohackingContent,
   type ChooseContent,
   type CompanyProjectsContent,
   type FinanceContent,
   type InfrastructureContent,
-  type OrigamiHoldingContent
+  type OrigamiHoldingContent,
+  type OrigamiHoldingCompactContent
 } from "../api/siteContent";
 import type { LocationContent } from "../types";
 
@@ -34,6 +36,7 @@ export function useHomepageContent(language: Language) {
   const [infrastructureData, setInfrastructureData] = useState<InfrastructureContent | null>(null);
   const [biohackingData, setBiohackingData] = useState<BiohackingContent | null>(null);
   const [origamiHoldingData, setOrigamiHoldingData] = useState<OrigamiHoldingContent | null>(null);
+  const [origamiHoldingCompactData, setOrigamiHoldingCompactData] = useState<OrigamiHoldingCompactContent | null>(null);
   const [chooseData, setChooseData] = useState<ChooseContent | null>(null);
   const [financeData, setFinanceData] = useState<FinanceContent | null>(null);
   const [companyProjectsData, setCompanyProjectsData] = useState<CompanyProjectsContent | null>(null);
@@ -78,6 +81,7 @@ export function useHomepageContent(language: Language) {
     void load(fetchInfrastructure(language, signal), setInfrastructureData, () => setInfrastructureData(null), "infrastructure");
     void load(fetchBiohacking(language, signal), setBiohackingData, () => setBiohackingData(null), "biohacking");
     void load(fetchOrigamiHolding(language, signal), setOrigamiHoldingData, () => setOrigamiHoldingData(null), "origami holding");
+    void load(fetchOrigamiHoldingCompact(language, signal), setOrigamiHoldingCompactData, () => setOrigamiHoldingCompactData(null), "origami holding compact");
     void load(fetchChoose(language, signal), setChooseData, () => setChooseData(null), "choose section");
     void load(fetchFinance(language, signal), setFinanceData, () => setFinanceData(null), "finance section");
     void load(
@@ -131,6 +135,7 @@ export function useHomepageContent(language: Language) {
     infrastructureItems: infrastructureData?.items || [],
     biohackingData,
     origamiHoldingData,
+    origamiHoldingCompactData,
     chooseData,
     financeData,
     companyProjectsData,

@@ -6,7 +6,7 @@ import { InfrastructureSection } from "../components/sections/InfrastructureSect
 import { LocationSection } from "../components/sections/LocationSection";
 import { NewsSection } from "../components/sections/NewsSection";
 import type { Language, TranslationKey } from "../i18n";
-import type { InfrastructureContent } from "../api/siteContent";
+import type { InfrastructureContent, OrigamiHoldingCompactContent, OrigamiHoldingContent } from "../api/siteContent";
 import type { AboutGridCardItem, AboutTownTextContent, LocationContent, NewsCard, TownGalleryItem } from "../types";
 
 export interface HomePageProps {
@@ -16,6 +16,8 @@ export interface HomePageProps {
   locationData?: LocationContent | null;
   mapLocationData?: LocationContent | null;
   infrastructureData?: InfrastructureContent | null;
+  origamiHoldingCompactData?: OrigamiHoldingCompactContent | null;
+  origamiHoldingData?: OrigamiHoldingContent | null;
   apiAboutData?: any;
   aboutTownGalleryItems?: TownGalleryItem[];
   aboutGridCards?: AboutGridCardItem[];
@@ -31,6 +33,8 @@ export const HomePage: FC<HomePageProps> = ({
   locationData,
   mapLocationData,
   infrastructureData,
+  origamiHoldingCompactData,
+  origamiHoldingData,
   apiAboutData,
   aboutTownGalleryItems,
   aboutGridCards,
@@ -50,7 +54,7 @@ export const HomePage: FC<HomePageProps> = ({
         onLearnMore={() => (navigateTo ? navigateTo("/about-us") : null)}
       />
 
-      <TownFeaturesStrip />
+      <TownFeaturesStrip items={origamiHoldingCompactData?.items} holdingData={origamiHoldingData} />
 
       <InfrastructureSection
         data={infrastructureData}

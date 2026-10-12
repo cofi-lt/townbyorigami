@@ -414,6 +414,22 @@ export type OrigamiHoldingSectionResponse = {
   };
 };
 
+export type OrigamiHoldingCompactItem = {
+  id: number;
+  slug: string;
+  title: string;
+  image_preview: string;
+  rank: number;
+};
+
+export type OrigamiHoldingCompactResponse = {
+  data: {
+    slug: string;
+    title: string;
+    items: OrigamiHoldingCompactItem[];
+  };
+};
+
 export type ChooseApiItem = {
   id: number;
   slug: string;

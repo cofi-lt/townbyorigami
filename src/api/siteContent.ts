@@ -15,6 +15,8 @@ import type {
   InfrastructureApiItem,
   InfrastructureSectionResponse,
   OrigamiHoldingApiItem,
+  OrigamiHoldingCompactItem,
+  OrigamiHoldingCompactResponse,
   OrigamiHoldingSectionResponse,
   SectionGridCardItem,
   TownGalleryItem,
@@ -37,6 +39,11 @@ export type OrigamiHoldingContent = {
   title: string;
   background_image: string;
   items: OrigamiHoldingApiItem[];
+};
+
+export type OrigamiHoldingCompactContent = {
+  title: string;
+  items: OrigamiHoldingCompactItem[];
 };
 
 export type ChooseContent = { title: string; items: ChooseApiItem[] };
@@ -94,6 +101,17 @@ export async function fetchOrigamiHolding(language: Language, signal: AbortSigna
     title: payload.data.title,
     background_image: payload.data.background_image,
     items: payload.data.items.filter((item) => item.status).sort((a, b) => a.rank - b.rank)
+  };
+}
+
+export async function fetchOrigamiHoldingCompact(language: Language, signal: AbortSignal): Promise<OrigamiHoldingCompactContent> {
+  const payload = await fetchApi<OrigamiHoldingCompactResponse>(
+    `/sections/origami-holding/compact?locale=${language}&platform=${PLATFORM_SLUG}`,
+    signal
+  );
+  return {
+    title: payload.data.title,
+    items: (payload.data.items || []).sort((a, b) => a.rank - b.rank)
   };
 }
 

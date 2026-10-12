@@ -1,41 +1,27 @@
 import { FC } from "react";
-import { TownLeafIcon, TownWavesIcon, TownCommunityIcon, TownDiamondIcon } from "../Icons";
+import type { OrigamiHoldingCompactItem } from "../../types";
+import type { OrigamiHoldingContent } from "../../api/siteContent";
 
 interface TownFeaturesStripProps {
-  items?: Array<{
-    icon: string;
-    title: string;
-  }>;
+  items?: OrigamiHoldingCompactItem[];
+  holdingData?: OrigamiHoldingContent | null;
 }
 
-export const TownFeaturesStrip: FC<TownFeaturesStripProps> = () => {
-  const features = [
-    {
-      icon: <TownLeafIcon />,
-      title: "MORE GREEN"
-    },
-    {
-      icon: <TownWavesIcon />,
-      title: "A CALMER LIFESTYLE"
-    },
-    {
-      icon: <TownCommunityIcon />,
-      title: "A COMPLETE ENVIRONMENT"
-    },
-    {
-      icon: <TownDiamondIcon />,
-      title: "A BRIGHTER TOMORROW"
-    }
-  ];
+export const TownFeaturesStrip: FC<TownFeaturesStripProps> = ({ items = [], holdingData }) => {
+  const features = items.slice(0, 4).map((item, index) => ({
+    ...item,
+    description: holdingData?.items.find((holdingItem) => holdingItem.slug === item.slug)?.description
+      || holdingData?.items.find((holdingItem) => holdingItem.rank === item.rank)?.description
+  }));
 
   return (
     <section className="town-features-strip reveal-on-scroll">
       <div className="container">
         <div className="town-features-grid">
-          {features.map((feature, index) => (
-            <div key={index} className="town-feature-item reveal-fade-up">
-              <div className="town-feature-icon">{feature.icon}</div>
+          {features.map((feature) => (
+            <div key={feature.id} className="town-feature-item reveal-fade-up">
               <h3 className="town-feature-title">{feature.title}</h3>
+              {feature.description?.trim() && <p className="town-feature-description">{feature.description.trim()}</p>}
             </div>
           ))}
         </div>
