@@ -3,7 +3,7 @@ import type { Language, TranslationKey } from "../../i18n";
 import type { NewsCard } from "../../types";
 import { fetchNews } from "../../api/news";
 import { getOptimizedImageUrl, getResponsiveImageSrcSet } from "../../utils/media";
-import { ArrowIcon, LocationIcon } from "../Icons";
+import { ArrowIcon } from "../Icons";
 
 export type NewsSectionProps = {
   items?: NewsCard[];
@@ -190,15 +190,6 @@ export function NewsSection({
                       <div className="town-news-active-content">
                         <div className="town-news-active-main">
                           <h3 className="town-news-active-title">{item.title}</h3>
-                          <div className="town-news-active-location">
-                            <span className="town-news-location-icon" aria-hidden="true">
-                              <LocationIcon />
-                            </span>
-                            <span className="town-news-location-text">
-                              Batumi, Georgia
-                              {item.category && item.category !== "Corporate" ? ` · ${item.category}` : ""}
-                            </span>
-                          </div>
                         </div>
 
                         {/* Right Meta Column (divider + date/category) */}

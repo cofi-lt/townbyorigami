@@ -1157,10 +1157,10 @@ header.town-header nav a::after,
 
 .town-news-title {
   font-family: var(--font-family-serif, "Cormorant Garamond", "Playfair Display", Georgia, serif);
-  font-size: clamp(2rem, 3.2vw, 3rem);
-  line-height: 1.1;
-  font-weight: 500;
-  letter-spacing: -0.015em;
+  font-size: clamp(1.65rem, 2.25vw, 2.35rem);
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
   color: var(--town-text-dark, #1E2D2B);
   margin: 0;
 }
@@ -1348,7 +1348,7 @@ header.town-header nav a::after,
   font-weight: 500;
   color: #FFFFFF;
   line-height: 1.2;
-  margin: 0 0 0.65rem;
+  margin: 0;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
   display: -webkit-box;
   -webkit-line-clamp: 2;
