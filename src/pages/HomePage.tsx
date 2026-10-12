@@ -40,7 +40,7 @@ export const HomePage: FC<HomePageProps> = ({
 }) => {
   return (
     <main className="town-main-layout">
-      <HeroSection t={t} />
+      <HeroSection />
 
       <TownAboutSection
         data={apiAboutData}
