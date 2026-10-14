@@ -8169,7 +8169,7 @@ section[id].reveal-on-scroll.is-revealed,
 
   .floating-call-widget {
     right: 0.85rem;
-    bottom: calc(6.6rem + env(safe-area-inset-bottom, 0px));
+    bottom: calc(5.4rem + env(safe-area-inset-bottom, 0px));
   }
 
   .floating-widget-card {
