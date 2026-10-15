@@ -4119,7 +4119,7 @@ html[data-theme="light"] .available-building-featured-card {
   align-items: flex-start;
   background:
     linear-gradient(180deg, rgba(250, 248, 244, 0.82) 0%, rgba(250, 248, 244, 0.5) 42%, rgba(250, 248, 244, 0.86) 100%),
-    var(--biohacking-bg, url("/assets/3d/7.jpg"));
+    var(--biohacking-bg, url("/assets/hero_bg_2.png"));
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -4264,7 +4264,7 @@ html[data-theme="dark"] .biohacking-pillar-card {
 html[data-theme="dark"] .biohacking-section {
   background:
     linear-gradient(180deg, rgba(13, 13, 16, 0.74) 0%, rgba(13, 13, 16, 0.44) 42%, rgba(13, 13, 16, 0.78) 100%),
-    var(--biohacking-bg, url("/assets/3d/7.jpg"));
+    var(--biohacking-bg, url("/assets/hero_bg_2.png"));
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -11210,7 +11210,7 @@ html[data-theme="light"] .units-table tbody tr:hover {
   background-color: var(--bg-dark);
   background-image:
     linear-gradient(rgba(11, 11, 12, 0.72), rgba(11, 11, 12, 0.72)),
-    url("/assets/3d/7.jpg");
+    url("/assets/hero_bg_2.png");
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -11219,7 +11219,7 @@ html[data-theme="light"] .units-table tbody tr:hover {
 html[data-theme="light"] .cs-page {
   background-image:
     linear-gradient(rgba(249, 248, 246, 0.78), rgba(249, 248, 246, 0.78)),
-    url("/assets/3d/7.jpg");
+    url("/assets/hero_bg_2.png");
 }
 
 .cs-logo-wrap {

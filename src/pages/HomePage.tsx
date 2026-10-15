@@ -71,9 +71,10 @@ export const HomePage: FC<HomePageProps> = ({
         t={t}
       />
 
-      <TownFeaturesStrip items={origamiHoldingCompactData?.items} holdingData={origamiHoldingData} />
-
-      <ProjectsSection data={companyProjectsData || null} />
+      <div id="about-origami">
+        <TownFeaturesStrip items={origamiHoldingCompactData?.items} holdingData={origamiHoldingData} />
+        <ProjectsSection data={companyProjectsData || null} />
+      </div>
 
       <NewsSection
         items={newsItems}

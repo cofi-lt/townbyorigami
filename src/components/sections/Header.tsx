@@ -9,7 +9,7 @@ type HeaderProps = {
   lightThemeLogoSrc?: string;
   mobileMenuOpen: boolean;
   setMobileMenuOpen: Dispatch<SetStateAction<boolean>>;
-  primaryNavItems: Array<{ href: string; label: string; isModalAction?: boolean }>;
+  primaryNavItems: Array<{ href: string; label: string; isModalAction?: boolean; scrollTargetId?: string }>;
   callRequestLabel?: string;
   t: (key: TranslationKey) => string;
   openModal?: (style?: "consultation" | "request_call") => void;
@@ -55,8 +55,19 @@ export function Header({
     return () => document.removeEventListener("mousedown", handleOutsideClick);
   }, []);
 
-  const handleNavItemClick = () => {
+  const handleNavItemClick = (event: React.MouseEvent<HTMLAnchorElement>, item: (typeof primaryNavItems)[number]) => {
     setMobileMenuOpen(false);
+    if (!item.scrollTargetId) return;
+
+    const target = document.getElementById(item.scrollTargetId);
+    if (!target) return;
+
+    event.preventDefault();
+    const hash = `#${item.scrollTargetId}`;
+    if (window.location.hash !== hash) window.history.pushState(null, "", hash);
+    const headerHeight = document.getElementById("main-header")?.getBoundingClientRect().height || 0;
+    const targetTop = target.getBoundingClientRect().top + window.scrollY - headerHeight;
+    window.scrollTo({ top: targetTop, behavior: "smooth" });
   };
 
   return (
@@ -92,9 +103,9 @@ export function Header({
               {primaryNavItems.filter((item) => !item.isModalAction).map((item) => (
                 <a
                   key={item.href}
-                  href={item.href}
+                  href={item.scrollTargetId ? `#${item.scrollTargetId}` : item.href}
                   className="town-nav-link"
-                  onClick={handleNavItemClick}
+                  onClick={(event) => handleNavItemClick(event, item)}
                 >
                   {item.label}
                 </a>
@@ -106,7 +117,7 @@ export function Header({
                     type="button"
                     className="town-btn-forest town-mobile-cta"
                     onClick={() => {
-                      handleNavItemClick();
+                      setMobileMenuOpen(false);
                       openModal("request_call");
                     }}
                   >

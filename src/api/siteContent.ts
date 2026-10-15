@@ -86,6 +86,21 @@ export async function fetchInfrastructure(language: Language, signal: AbortSigna
   };
 }
 
+export async function fetchWebsiteSectionNavigation(
+  slug: string,
+  language: Language,
+  signal: AbortSignal
+): Promise<{ slug: string; button_link: string }> {
+  const payload = await fetchApi<WebsiteSectionResponse>(
+    `/sections/${slug}?locale=${language}&platform=${PLATFORM_SLUG}`,
+    signal
+  );
+  return {
+    slug: payload.data?.slug || slug,
+    button_link: payload.data?.button_link || ""
+  };
+}
+
 export async function fetchBiohacking(language: Language, signal: AbortSignal): Promise<BiohackingContent> {
   const payload = await fetchApi<BiohackingSectionResponse>(`/sections/biohacking?locale=${language}&platform=${PLATFORM_SLUG}`, signal);
   return {

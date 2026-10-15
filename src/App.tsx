@@ -185,7 +185,8 @@ function App() {
     headerNavItems: apiHeaderNavItems,
     requestCallTitle,
     requestCallDescription,
-    footerLegalItems: apiFooterLegalItems
+    footerLegalItems: apiFooterLegalItems,
+    navigationSections
   } = useSiteChrome(language);
   const navSourceItems: Array<{ slug?: string; title?: string; link?: string }> =
     apiHeaderNavItems && apiHeaderNavItems.length > 0
@@ -194,14 +195,45 @@ function App() {
 
   const primaryNavItems = navSourceItems.map((item) => {
     const normalizedSlug = (item.slug || "").toLowerCase();
-    const sectionBySlug: Record<string, string> = {
-      "project": "about-us",
-      "about-town": "about-us",
-      "available-properties": "properties",
-      "infrastructure": "infrastructure",
+    const normalizedHref = (item.link || `#${normalizedSlug}`).trim();
+    const hrefTargetId = normalizedHref.startsWith("#")
+      ? decodeURIComponent(normalizedHref.slice(1).split(/[/?]/)[0]).toLowerCase()
+      : "";
+    const matchedSection = navigationSections.find((section) =>
+      section.button_link?.trim().toLowerCase() === normalizedHref.toLowerCase()
+    );
+    const sectionTargetIds: Record<string, string> = {
+      "about-town-gallery": "about",
+      "about-town-cards": "about",
+      "town-within-a-town": "about",
       "infrastructure-1": "infrastructure",
-      "investment": "finances",
-      "contact": "contact"
+      "map-location": "location",
+      "origami-holding": "about-origami",
+      projects: "about-origami",
+      finances: "finances",
+      choose: "properties",
+      biohacking: "biohacking"
+    };
+    const knownNavTargets: Record<string, string> = {
+      "about-town": "about",
+      "about-town-gallery": "about",
+      "about-town-cards": "about",
+      "town-within-a-town": "about",
+      infrastructure: "infrastructure",
+      "infrastructure-1": "infrastructure",
+      location: "location",
+      "map-location": "location",
+      "about-origami": "about-origami",
+      "about_origami": "about-origami",
+      "origami-holding": "about-origami",
+      projects: "about-origami",
+      news: "news",
+      contact: "contact",
+      finances: "finances",
+      investment: "finances",
+      properties: "properties",
+      choose: "properties",
+      "available-properties": "properties"
     };
     const isModalAction =
       normalizedSlug === "consultation" ||
@@ -210,7 +242,7 @@ function App() {
       normalizedSlug === "call-request" ||
       normalizedSlug === "zaris-motkhovna";
 
-    let href = item.link || `#${sectionBySlug[normalizedSlug] || normalizedSlug}`;
+    let href = item.link || `#${normalizedSlug}`;
     if (!href.startsWith("#") && !href.startsWith("/") && !href.startsWith("http")) {
       href = `#${href}`;
     }
@@ -218,7 +250,11 @@ function App() {
     return {
       href,
       label: item.title || "",
-      isModalAction
+      isModalAction,
+      scrollTargetId:
+        knownNavTargets[hrefTargetId] ||
+        knownNavTargets[normalizedSlug] ||
+        sectionTargetIds[matchedSection?.slug || ""]
     };
   });
   const callRequestItem = primaryNavItems.find((item) => item.isModalAction);

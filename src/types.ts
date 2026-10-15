@@ -613,6 +613,11 @@ export type SectionGridCardItem = {
   status: boolean;
 };
 
+export type WebsiteSectionNavigation = {
+  slug: string;
+  button_link: string;
+};
+
 export type AboutSectionResponse = {
   data: {
     slug: string;
