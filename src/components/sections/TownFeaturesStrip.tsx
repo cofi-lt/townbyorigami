@@ -8,7 +8,7 @@ interface TownFeaturesStripProps {
 }
 
 export const TownFeaturesStrip: FC<TownFeaturesStripProps> = ({ items = [], holdingData }) => {
-  const features = items.slice(0, 4).map((item, index) => ({
+  const features = items.slice(0, 4).map((item) => ({
     ...item,
     description: holdingData?.items.find((holdingItem) => holdingItem.slug === item.slug)?.description
       || holdingData?.items.find((holdingItem) => holdingItem.rank === item.rank)?.description

@@ -63,7 +63,6 @@ export const LocationSection: FC<LocationSectionProps> = ({
   const eyebrow = data?.eyebrow?.trim() || "";
   const title = (data?.title?.trim() || "").replace(/\s+,/g, ",");
   const description = data?.description?.trim() || "";
-  const buildingImage = data?.background_image?.trim() || data?.image?.trim() || "";
   const mapEmbedUrl = mapData?.description?.trim() || "";
   const localizedMapEmbedUrl = (() => {
     if (!mapEmbedUrl) return "";

@@ -24,17 +24,6 @@ const NEWS_TITLE_LABELS: Record<string, string> = {
   ar: "آخر الأخبار من أوريغامي"
 };
 
-const VIEW_ALL_LABELS: Record<string, string> = {
-  ka: "ყველა სიახლე",
-  en: "VIEW ALL NEWS",
-  ru: "ВСЕ НОВОСТИ",
-  de: "ALLE NEUIGKEITEN",
-  it: "TUTTE LE NOTIZIE",
-  zh: "查看全部新闻",
-  he: "כל החדשות",
-  ar: "جميع الأخبار"
-};
-
 export function NewsSection({
   items: propItems,
   language = "ka",
@@ -95,14 +84,10 @@ export function NewsSection({
     }
   };
 
-  const viewAllText =
-    VIEW_ALL_LABELS[language] || VIEW_ALL_LABELS.en;
-
   if (!isLoading && totalItems === 0) {
     return null;
   }
 
-  const activeItem = newsList[activeIndex] || newsList[0];
   const sectionTitle =
     title || NEWS_TITLE_LABELS[language] || NEWS_TITLE_LABELS.en;
 
