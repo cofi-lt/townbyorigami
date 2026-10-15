@@ -130,7 +130,6 @@ function resolveBrandingLogo(
 function App() {
   const routeState = useAppRoute();
   const { language, setLanguage, theme, setTheme, currency, setCurrency } = usePreferences();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [openFooterSection, setOpenFooterSection] = useState<FooterSection | null>(null);
   const [headerShrunk, setHeaderShrunk] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -258,11 +257,7 @@ function App() {
     };
   });
   const callRequestItem = primaryNavItems.find((item) => item.isModalAction);
-  const callRequestLabel =
-    callRequestItem?.label?.trim() ||
-    requestCallTitle?.trim() ||
-    t("request_call_title") ||
-    "ზარის მოთხოვნა";
+  const callRequestLabel = callRequestItem?.label?.trim() || requestCallTitle?.trim() || "";
   const modalDescription =
     selectedChooseItem?.description ||
     requestCallDescription ||
@@ -346,11 +341,11 @@ function App() {
   }, []);
 
   useEffect(() => {
-    document.body.style.overflow = isModalOpen || isLanguageModalOpen || mobileMenuOpen ? "hidden" : "auto";
+    document.body.style.overflow = isModalOpen || isLanguageModalOpen ? "hidden" : "auto";
     return () => {
       document.body.style.overflow = "auto";
     };
-  }, [isModalOpen, isLanguageModalOpen, mobileMenuOpen]);
+  }, [isModalOpen, isLanguageModalOpen]);
 
   useEffect(() => {
     const controller = new AbortController();
@@ -411,21 +406,6 @@ function App() {
 
     return () => controller.abort();
   }, []);
-
-  useEffect(() => {
-    if (!mobileMenuOpen) {
-      return;
-    }
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setMobileMenuOpen(false);
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [mobileMenuOpen]);
 
   useEffect(() => {
     const track = galleryTrackRef.current;
@@ -722,8 +702,6 @@ function App() {
     variant: (routeState.name === "aboutUs" || routeState.name === "newsDetail" ? "surface" : "default") as "default" | "surface",
     darkThemeLogoSrc,
     lightThemeLogoSrc,
-    mobileMenuOpen,
-    setMobileMenuOpen,
     primaryNavItems,
     callRequestLabel,
     t,
@@ -786,7 +764,7 @@ function App() {
           currency={currency}
           currencyRates={currencyRates}
         />
-        <FloatingCallWidget openModal={() => openModal("request_call")} t={t} label={callRequestLabel} />
+        <FloatingCallWidget openModal={() => openModal("request_call")} label={callRequestLabel} />
         {renderActiveModal()}
         <UnitsPreferencesModal
           active={isLanguageModalOpen || isCurrencyModalOpen}

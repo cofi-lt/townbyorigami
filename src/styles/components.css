@@ -447,38 +447,25 @@
 .town-nav-menu {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: clamp(1.2rem, 2.4vw, 2.8rem);
   margin: 0 auto;
 }
 
-header.town-header nav a,
-header.town-header .town-nav-link,
-.town-header nav a,
-.town-header .town-nav-link,
-header:not(.header-shrunk).town-header nav a {
+.town-header .town-nav-link {
   font-family: var(--font-family-sans);
-  font-size: 0.9375rem !important;
-  font-weight: 500 !important;
-  color: #1E2D2B !important;
-  text-decoration: none !important;
-  transition: color var(--transition-fast) !important;
-  padding: 0.35rem 0.2rem !important;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: #1E2D2B;
+  text-decoration: none;
+  transition: color var(--transition-fast);
+  padding: 0.35rem 0.2rem;
   position: relative;
-  opacity: 1 !important;
   letter-spacing: 0.01em;
 }
 
-header.town-header nav a:hover,
-header.town-header .town-nav-link:hover,
-.town-header nav a:hover,
-.town-header .town-nav-link:hover,
-header:not(.header-shrunk).town-header nav a:hover {
-  color: var(--town-ochre, #AD9270) !important;
-}
-
-header.town-header nav a::after,
-.town-header .town-nav-link::after {
-  display: none !important;
+.town-header .town-nav-link:hover {
+  color: var(--town-ochre, #AD9270);
 }
 
 .town-header-right {
@@ -573,32 +560,6 @@ header.town-header nav a::after,
   padding: 0.7rem 1.45rem;
   font-size: 0.75rem;
   letter-spacing: 0.12em;
-}
-
-.town-mobile-toggle {
-  display: none;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 24px;
-  height: 18px;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  padding: 0;
-}
-
-.town-mobile-toggle span {
-  display: block;
-  height: 2px;
-  width: 100%;
-  background-color: var(--town-text-dark, #1E2D2B);
-  border-radius: 2px;
-  transition: all var(--transition-fast);
-}
-
-.town-mobile-nav-header,
-.town-mobile-nav-actions {
-  display: none;
 }
 
 /* ==========================================================================
@@ -1211,55 +1172,54 @@ header.town-header nav a::after,
     display: none;
   }
 
-  /* Mobile Navigation Menu */
-  .town-mobile-toggle {
-    display: flex;
-  }
-
   .town-nav-menu {
-    position: fixed;
-    top: 0;
-    right: -100%;
-    width: 300px;
-    height: 100vh;
-    background: #ffffff;
-    box-shadow: -8px 0 30px rgba(0, 0, 0, 0.15);
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 2rem;
-    gap: 1.5rem;
-    transition: right 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    z-index: 1000;
-  }
-
-  .town-nav-menu.active {
-    right: 0;
-  }
-
-  .town-mobile-nav-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    padding-bottom: 1.5rem;
-    border-bottom: 1px solid rgba(173, 146, 112, 0.2);
-  }
-
-  .town-mobile-nav-actions {
-    display: block;
-    width: 100%;
-    margin-top: auto;
-  }
-
-  .town-mobile-cta {
-    width: 100%;
-    justify-content: center;
+    display: none;
   }
 
 }
 
 @media (max-width: 600px) {
+  .town-header-container {
+    width: calc(100% - 1.5rem);
+    padding: 0.55rem 0;
+    gap: 0.6rem;
+  }
+
+  .town-logo-main {
+    font-size: 1.35rem;
+  }
+
+  .town-logo-sub {
+    font-size: 0.48rem;
+  }
+
+  .town-header-right {
+    gap: 0.55rem;
+    flex-shrink: 0;
+  }
+
+  .town-header-divider {
+    display: none;
+  }
+
+  .town-header-right > .town-lang-wrapper,
+  .town-header-right > .town-header-cta {
+    display: flex;
+  }
+
+  .town-header-right > .town-lang-wrapper {
+    display: none;
+  }
+
+  .town-header-cta {
+    min-height: 36px;
+    padding: 0.45rem 0.65rem;
+    font-size: 0.58rem;
+    letter-spacing: 0.035em;
+    line-height: 1.15;
+    white-space: nowrap;
+  }
+
   .town-static-filter {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     bottom: 1.5rem;
@@ -1857,18 +1817,25 @@ header.town-header nav a::after,
 
   .town-news-gallery {
     width: 100%;
-    height: clamp(340px, 96vw, 390px);
+    height: clamp(320px, 92vw, 370px);
     gap: 0.75rem;
     padding-right: 0.75rem;
   }
 
-  .town-news-card.is-active {
+  .town-news-card,
+  .town-news-card.is-active,
+  .town-news-card.is-collapsed {
     flex: 0 0 100%;
+    min-width: 0;
+    scroll-snap-align: start;
   }
 
-  .town-news-card.is-collapsed {
-    flex: 0 0 18%;
-    min-width: 64px;
+  .town-news-card.is-collapsed:hover {
+    transform: none;
+  }
+
+  .town-news-collapsed-content {
+    display: none;
   }
 
   .town-news-active-content {

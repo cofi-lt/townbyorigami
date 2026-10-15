@@ -6300,9 +6300,9 @@ html[data-theme="light"] .about-us-back {
 }
 
 .request-call-title {
-  font-family: var(--font-serif, serif);
+  font-family: 'FiraGO', var(--font-family-sans), sans-serif;
   font-size: 2.2rem;
-  font-weight: 500;
+  font-weight: 700;
   color: #1A1918;
   margin: 0 0 0.5rem 0;
   letter-spacing: -0.01em;
@@ -6573,9 +6573,9 @@ html[data-theme="light"] .about-us-back {
 }
 
 .modal-title {
-  font-family: var(--font-serif);
+  font-family: 'FiraGO', var(--font-family-sans), sans-serif;
   font-size: 2rem;
-  font-weight: 500;
+  font-weight: 700;
   margin-bottom: 0.5rem;
   letter-spacing: 0.05em;
   text-transform: uppercase;

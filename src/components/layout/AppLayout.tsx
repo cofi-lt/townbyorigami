@@ -34,7 +34,6 @@ export const AppLayout: FC<AppLayoutProps> = ({
 
       <FloatingCallWidget
         openModal={() => openModal("request_call")}
-        t={headerProps.t}
         label={callRequestLabel}
       />
 

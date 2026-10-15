@@ -1,17 +1,13 @@
 import { Dispatch, SetStateAction, useState, useRef, useEffect } from "react";
-import { Language, TranslationKey } from "../../i18n";
-import { CloseIcon } from "../Icons";
+import { Language } from "../../i18n";
 
 type HeaderProps = {
   headerShrunk: boolean;
   variant?: "default" | "units" | "surface";
   darkThemeLogoSrc?: string;
   lightThemeLogoSrc?: string;
-  mobileMenuOpen: boolean;
-  setMobileMenuOpen: Dispatch<SetStateAction<boolean>>;
   primaryNavItems: Array<{ href: string; label: string; isModalAction?: boolean; scrollTargetId?: string }>;
   callRequestLabel?: string;
-  t: (key: TranslationKey) => string;
   openModal?: (style?: "consultation" | "request_call") => void;
   isLanguageModalOpen?: boolean;
   setIsLanguageModalOpen?: Dispatch<SetStateAction<boolean>>;
@@ -23,11 +19,8 @@ type HeaderProps = {
 export function Header({
   headerShrunk,
   variant = "default",
-  mobileMenuOpen,
-  setMobileMenuOpen,
   primaryNavItems,
   callRequestLabel,
-  t,
   openModal,
   language,
   languageOptions,
@@ -36,18 +29,21 @@ export function Header({
   const isUnitsVariant = variant === "units";
   const [langDropdownOpen, setLangDropdownOpen] = useState(false);
   const langRef = useRef<HTMLDivElement | null>(null);
+  const desktopLangRef = useRef<HTMLDivElement | null>(null);
 
   const currentLanguageOption = languageOptions.find((opt) => opt.code === language) || languageOptions[0];
   const callRequestItem = primaryNavItems.find((item) => item.isModalAction);
   const resolvedCallRequestLabel =
     callRequestLabel?.trim() ||
     callRequestItem?.label?.trim() ||
-    t("request_call_title") ||
-    "REGISTER INTEREST";
+    "";
 
   useEffect(() => {
     const handleOutsideClick = (e: MouseEvent) => {
-      if (langRef.current && !langRef.current.contains(e.target as Node)) {
+      if (
+        !langRef.current?.contains(e.target as Node) &&
+        !desktopLangRef.current?.contains(e.target as Node)
+      ) {
         setLangDropdownOpen(false);
       }
     };
@@ -56,7 +52,6 @@ export function Header({
   }, []);
 
   const handleNavItemClick = (event: React.MouseEvent<HTMLAnchorElement>, item: (typeof primaryNavItems)[number]) => {
-    setMobileMenuOpen(false);
     if (!item.scrollTargetId) return;
 
     const target = document.getElementById(item.scrollTargetId);
@@ -81,67 +76,25 @@ export function Header({
           </div>
         </a>
 
-        {/* Navigation Menu */}
-        {!isUnitsVariant ? (
-          <>
-            <nav id="nav-menu" className={`town-nav-menu ${mobileMenuOpen ? "active" : ""}`}>
-              <div className="town-mobile-nav-header">
-                <div className="town-logo-mark">
-                  <span className="town-logo-main">TOWN</span>
-                  <span className="town-logo-sub">BY ORIGAMI</span>
-                </div>
-                <button
-                  className="mobile-menu-close"
-                  type="button"
-                  aria-label="Close navigation menu"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  <CloseIcon />
-                </button>
-              </div>
-
-              {primaryNavItems.filter((item) => !item.isModalAction).map((item) => (
-                <a
-                  key={item.href}
-                  href={item.scrollTargetId ? `#${item.scrollTargetId}` : item.href}
-                  className="town-nav-link"
-                  onClick={(event) => handleNavItemClick(event, item)}
-                >
-                  {item.label}
-                </a>
-              ))}
-
-              <div className="town-mobile-nav-actions">
-                {openModal && (
-                  <button
-                    type="button"
-                    className="town-btn-forest town-mobile-cta"
-                    onClick={() => {
-                      setMobileMenuOpen(false);
-                      openModal("request_call");
-                    }}
-                  >
-                    <span>{resolvedCallRequestLabel}</span>
-                  </button>
-                )}
-              </div>
-            </nav>
-
-            <button
-              className={`mobile-menu-overlay ${mobileMenuOpen ? "active" : ""}`}
-              type="button"
-              aria-label="Close navigation menu"
-              onClick={() => setMobileMenuOpen(false)}
-            />
-          </>
-        ) : (
-          <div className="header-spacer" aria-hidden="true" />
+        {!isUnitsVariant && (
+          <nav id="nav-menu" className="town-nav-menu" aria-label="Main navigation">
+            {primaryNavItems.filter((item) => !item.isModalAction).map((item) => (
+              <a
+                key={item.href}
+                href={item.scrollTargetId ? `#${item.scrollTargetId}` : item.href}
+                className="town-nav-link"
+                onClick={(event) => handleNavItemClick(event, item)}
+              >
+                {item.label}
+              </a>
+            ))}
+          </nav>
         )}
 
         {/* Right Header Actions */}
         <div className="town-header-right">
           {/* Language Minimal Dropdown */}
-          <div className="town-lang-wrapper" ref={langRef}>
+          <div className="town-lang-wrapper" ref={desktopLangRef}>
             <button
               type="button"
               className="town-lang-trigger"
@@ -178,7 +131,7 @@ export function Header({
           <div className="town-header-divider" aria-hidden="true" />
 
           {/* Register Interest CTA Button */}
-          {openModal ? (
+          {openModal && resolvedCallRequestLabel ? (
             <button
               type="button"
               className="town-btn-forest town-header-cta"
@@ -188,20 +141,6 @@ export function Header({
             </button>
           ) : null}
 
-          {/* Mobile Menu Toggle */}
-          {!isUnitsVariant && (
-            <button
-              id="mobile-menu-toggle"
-              className={`town-mobile-toggle ${mobileMenuOpen ? "active" : ""}`}
-              aria-label="Toggle Navigation Menu"
-              type="button"
-              onClick={() => setMobileMenuOpen((open) => !open)}
-            >
-              <span></span>
-              <span></span>
-              <span></span>
-            </button>
-          )}
         </div>
       </div>
     </header>
