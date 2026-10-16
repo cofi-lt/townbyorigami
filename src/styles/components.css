@@ -1184,6 +1184,11 @@
 }
 
 @media (max-width: 600px) {
+  .town-about-section > .container {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+
   .town-header-container {
     width: calc(100% - 1.5rem);
     padding: 0.55rem 0;
@@ -1208,8 +1213,8 @@
     align-items: center;
     justify-content: center;
     order: 2;
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
     padding: 0;
     border: 0;
     background: transparent;
@@ -1222,8 +1227,8 @@
 
   .town-mobile-menu-icon {
     display: flex;
-    width: 18px;
-    height: 14px;
+    width: 20px;
+    height: 18px;
     flex-direction: column;
     justify-content: center;
     gap: 5px;
@@ -1231,7 +1236,7 @@
 
   .town-mobile-menu-icon i {
     display: block;
-    width: 18px;
+    width: 19px;
     height: 1.5px;
     background: currentColor;
     transition: transform 180ms ease;
@@ -1253,50 +1258,67 @@
     z-index: 20;
     display: flex;
     flex-direction: column;
-    padding: 0 1.25rem;
+    padding: 0 1rem;
     overflow: hidden;
     max-height: 0;
-    background: var(--town-sand, #EFEDE7);
+    background: rgba(239, 237, 231, 0.97);
     border-bottom: 1px solid transparent;
-    box-shadow: 0 14px 24px rgba(30, 45, 43, 0);
-    transition: max-height 240ms ease, padding 240ms ease, box-shadow 240ms ease, border-color 240ms ease;
+    box-shadow: 0 18px 38px rgba(30, 45, 43, 0);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    transition: max-height 280ms cubic-bezier(0.2, 0.75, 0.25, 1), padding 280ms ease, box-shadow 280ms ease, border-color 280ms ease;
   }
 
   .town-mobile-nav.is-open {
-    max-height: min(70vh, 480px);
-    padding: 0.35rem 1.25rem 1.1rem;
+    max-height: min(74dvh, 620px);
+    padding: 0.8rem 1rem max(1.1rem, env(safe-area-inset-bottom, 0px));
     overflow-y: auto;
-    border-color: rgba(173, 146, 112, 0.2);
-    box-shadow: 0 14px 24px rgba(30, 45, 43, 0.12);
+    border-color: rgba(173, 146, 112, 0.16);
+    box-shadow: 0 18px 38px rgba(30, 45, 43, 0.14);
   }
 
   .town-mobile-nav-link {
     display: flex;
-    min-height: 48px;
+    min-height: 54px;
     align-items: center;
     justify-content: space-between;
-    gap: 1rem;
-    border-bottom: 1px solid rgba(173, 146, 112, 0.18);
+    gap: 1.25rem;
+    margin-bottom: 0.6rem;
+    padding: 0.75rem 1rem;
+    border: 1px solid rgba(173, 146, 112, 0.1);
+    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.76);
     color: var(--town-text-dark, #1E2D2B);
     font-family: var(--font-family-sans, sans-serif);
-    font-size: 0.92rem;
+    font-size: 0.94rem;
+    font-weight: 600;
+    line-height: 1.45;
     text-decoration: none;
+    box-shadow: 0 2px 8px rgba(30, 45, 43, 0.025);
+    transition: background-color 180ms ease, border-color 180ms ease, transform 180ms ease;
+  }
+
+  .town-mobile-nav-link:active {
+    transform: scale(0.985);
+    background: #fff;
+    border-color: rgba(173, 146, 112, 0.32);
   }
 
   .town-mobile-nav-link span {
     color: var(--town-ochre, #AD9270);
+    font-size: 1rem;
+    flex: 0 0 auto;
   }
 
   .town-mobile-nav-link:last-child {
-    border-bottom: 0;
+    margin-bottom: 0;
   }
 
   .town-header-divider {
     display: none;
   }
 
-  .town-header-right > .town-lang-wrapper,
-  .town-header-right > .town-header-cta {
+  .town-header-right > .town-lang-wrapper {
     display: flex;
     order: 1;
   }
@@ -1305,13 +1327,8 @@
     display: none;
   }
 
-  .town-header-cta {
-    min-height: 36px;
-    padding: 0.45rem 0.65rem;
-    font-size: 0.58rem;
-    letter-spacing: 0.035em;
-    line-height: 1.15;
-    white-space: nowrap;
+  .town-header-right > .town-header-cta {
+    display: none;
   }
 
   .town-static-filter {
@@ -1905,8 +1922,8 @@
   }
 
   .town-news-container {
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
   }
 
   .town-news-gallery {
