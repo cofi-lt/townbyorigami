@@ -11485,6 +11485,10 @@ html[data-theme="light"] .cs-page {
 }
 
 @media (max-width: 600px) {
+  .town-infra-cta {
+    display: none;
+  }
+
   .cs-content {
     padding-inline: 1.25rem;
   }
