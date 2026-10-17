@@ -10,8 +10,8 @@ interface TownFeaturesStripProps {
 export const TownFeaturesStrip: FC<TownFeaturesStripProps> = ({ items = [], holdingData }) => {
   const features = items.slice(0, 4).map((item) => ({
     ...item,
-    description: holdingData?.items.find((holdingItem) => holdingItem.slug === item.slug)?.description
-      || holdingData?.items.find((holdingItem) => holdingItem.rank === item.rank)?.description
+    holdingItem: holdingData?.items.find((holdingItem) => holdingItem.slug === item.slug)
+      || holdingData?.items.find((holdingItem) => holdingItem.rank === item.rank),
   }));
 
   return (
@@ -20,8 +20,19 @@ export const TownFeaturesStrip: FC<TownFeaturesStripProps> = ({ items = [], hold
         <div className="town-features-grid">
           {features.map((feature) => (
             <div key={feature.id} className="town-feature-item reveal-fade-up">
+              {(feature.holdingItem?.logo || feature.holdingItem?.badge || feature.image_preview) && (
+                <span className="town-feature-icon" aria-hidden="true">
+                  <img
+                    src={feature.holdingItem?.logo || feature.holdingItem?.badge || feature.image_preview}
+                    alt=""
+                    loading="lazy"
+                  />
+                </span>
+              )}
               <h3 className="town-feature-title">{feature.title}</h3>
-              {feature.description?.trim() && <p className="town-feature-description">{feature.description.trim()}</p>}
+              {feature.holdingItem?.description?.trim() && (
+                <p className="town-feature-description">{feature.holdingItem.description.trim()}</p>
+              )}
             </div>
           ))}
         </div>
