@@ -12191,7 +12191,8 @@ html[data-theme="dark"] .holding-project-card {
 }
 
 /* Keep a consistent amount of vertical space around homepage sections. */
-.town-main-layout > section:not(.town-hero-section) {
+.town-main-layout > section:not(.town-hero-section),
+.town-main-layout > #about-origami > section {
   padding-top: 2rem;
   padding-bottom: 2rem;
 }
@@ -12217,6 +12218,11 @@ html[data-theme="dark"] .holding-project-card {
 
   .town-main-layout > section:not(.town-hero-section) {
     margin-inline: 0.5rem;
+  }
+
+  .town-main-layout > #about-origami > section {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
   }
 
   .town-main-layout > #about-origami {
@@ -12725,8 +12731,8 @@ html[data-theme="dark"] .holding-project-card {
 
 @media (max-width: 580px) {
   .town-location-section {
-    padding-top: 2.5rem;
-    padding-bottom: 2.5rem;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
   }
 
   .town-location-top {
