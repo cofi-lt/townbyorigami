@@ -12219,9 +12219,20 @@ html[data-theme="dark"] .holding-project-card {
     margin-inline: 0.5rem;
   }
 
+  .town-main-layout > #about-origami {
+    margin-inline: 0.5rem;
+  }
+
   .town-main-layout > section .container,
   .town-main-layout > section .town-news-container {
     width: calc(100% - 0.7rem);
+  }
+
+  #about-origami > section .container {
+    width: calc(100% - 0.7rem);
+    max-width: var(--container-width, 1400px);
+    padding-left: 0;
+    padding-right: 0;
   }
 }
 
