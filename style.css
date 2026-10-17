@@ -12193,8 +12193,7 @@ html[data-theme="dark"] .holding-project-card {
 /* Keep a consistent amount of vertical space around homepage sections. */
 .town-main-layout > section:not(.town-hero-section),
 .town-main-layout > #about-origami > section {
-  padding-top: 2rem;
-  padding-bottom: 2rem;
+  padding-block: var(--town-section-spacing, 2rem);
 }
 
 .town-main-layout > .town-features-strip {
@@ -12204,6 +12203,7 @@ html[data-theme="dark"] .holding-project-card {
 
 /* Align homepage section content with the shared header and footer container. */
 .town-main-layout > section .container,
+.town-main-layout > #about-origami > section .container,
 .town-main-layout > section .town-news-container {
   width: min(calc(100% - 4rem), var(--container-width, 1400px));
   max-width: var(--container-width, 1400px);
@@ -12218,11 +12218,6 @@ html[data-theme="dark"] .holding-project-card {
 
   .town-main-layout > section:not(.town-hero-section) {
     margin-inline: 0.5rem;
-  }
-
-  .town-main-layout > #about-origami > section {
-    padding-top: 2rem;
-    padding-bottom: 2rem;
   }
 
   .town-main-layout > #about-origami {
@@ -12730,11 +12725,6 @@ html[data-theme="dark"] .holding-project-card {
 }
 
 @media (max-width: 580px) {
-  .town-location-section {
-    padding-top: 2rem;
-    padding-bottom: 2rem;
-  }
-
   .town-location-top {
     gap: 1.75rem;
   }
