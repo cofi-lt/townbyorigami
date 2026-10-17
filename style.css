@@ -12193,7 +12193,17 @@ html[data-theme="dark"] .holding-project-card {
 /* Keep a consistent amount of vertical space around homepage sections. */
 .town-main-layout > section:not(.town-hero-section),
 .town-main-layout > #about-origami > section {
-  padding-block: var(--town-section-spacing, 2rem);
+  padding-block: var(--town-section-spacing, 1.5rem);
+}
+
+/* Give the About and Infrastructure sections a clear, visible break. */
+.town-main-layout > .town-about-section {
+  margin-bottom: 2rem;
+  border-bottom: 1px solid rgba(173, 146, 112, 0.28);
+}
+
+.town-main-layout > .town-infra-section {
+  margin-top: 2rem;
 }
 
 .town-main-layout > .town-features-strip {

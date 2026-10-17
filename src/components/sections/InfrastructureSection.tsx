@@ -70,7 +70,6 @@ export type InfrastructureSectionProps = {
   language?: Language;
   sectionRef?: RefObject<HTMLElement>;
   t?: (key: TranslationKey) => string;
-  onCtaClick?: () => void;
 };
 
 export function InfrastructureSection({
@@ -78,8 +77,7 @@ export function InfrastructureSection({
   items: directItems,
   language = "en",
   sectionRef,
-  t: _t,
-  onCtaClick
+  t: _t
 }: InfrastructureSectionProps) {
   const trackRef = useRef<HTMLDivElement | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -104,12 +102,6 @@ export function InfrastructureSection({
       : "Spaces for Everyday Wellbeing");
 
   const description = data?.description?.trim() || "";
-
-  const buttonText =
-    data?.button_text?.trim() ||
-    (language === "ka" ? "ყველა სივრცე" : "VIEW ALL SPACES");
-
-  const buttonLink = data?.button_link?.trim() || "#contact";
 
   // Lightbox keyboard navigation and body scroll lock
   useEffect(() => {
@@ -240,27 +232,6 @@ export function InfrastructureSection({
               ) : null}
             </div>
 
-            <div className="town-infra-sidebar-bottom">
-              <a
-                href={buttonLink}
-                className="town-infra-cta"
-                onClick={(e) => {
-                  if (onCtaClick) {
-                    e.preventDefault();
-                    onCtaClick();
-                  } else if (buttonLink.startsWith("#")) {
-                    e.preventDefault();
-                    const target = document.querySelector(buttonLink);
-                    if (target) {
-                      target.scrollIntoView({ behavior: "smooth" });
-                    }
-                  }
-                }}
-              >
-                <span>{buttonText}</span>
-                <span className="town-infra-cta-line" />
-              </a>
-            </div>
           </aside>
 
           {/* Right Column / Cards Slider */}

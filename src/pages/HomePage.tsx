@@ -61,7 +61,6 @@ export const HomePage: FC<HomePageProps> = ({
         data={infrastructureData}
         language={language}
         t={t}
-        onCtaClick={() => (openModal ? openModal("consultation") : undefined)}
       />
 
       <LocationSection
