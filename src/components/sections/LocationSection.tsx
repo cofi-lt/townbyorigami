@@ -115,17 +115,19 @@ export const LocationSection: FC<LocationSectionProps> = ({
                   className="town-location-amenity-card"
                   role="listitem"
                 >
-                  <div className="town-location-amenity-icon">
-                    {item.image ? (
+                  {(item.image || item.icon) && (
+                    <div className="town-location-amenity-icon">
+                      {item.image ? (
                       <img
                         src={item.image}
                         alt={item.title}
                         className="town-location-amenity-img-icon"
                       />
-                    ) : (
-                      (item.icon ? renderAmenityIcon(item.icon) : null)
-                    )}
-                  </div>
+                      ) : (
+                        renderAmenityIcon(item.icon)
+                      )}
+                    </div>
+                  )}
                   <span className="town-location-amenity-title">
                     {item.title}
                   </span>

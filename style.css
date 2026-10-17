@@ -12215,6 +12215,10 @@ html[data-theme="dark"] .holding-project-card {
     width: calc(100% - 0.7rem);
   }
 
+  .town-location-section {
+    margin-inline: 0.5rem;
+  }
+
   .town-main-layout > section .container,
   .town-main-layout > section .town-news-container {
     width: calc(100% - 0.7rem);
@@ -12709,8 +12713,64 @@ html[data-theme="dark"] .holding-project-card {
 }
 
 @media (max-width: 580px) {
+  .town-location-section {
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+  }
+
+  .town-location-top {
+    gap: 1.75rem;
+  }
+
+  .town-location-eyebrow-wrap {
+    gap: 0.6rem;
+    margin-bottom: 0.85rem;
+  }
+
+  .town-location-title {
+    margin-bottom: 0.85rem;
+    font-size: clamp(1.6rem, 7vw, 2rem);
+    line-height: 1.25;
+  }
+
+  .town-location-description {
+    margin-bottom: 1.25rem;
+    font-size: 0.9rem;
+    line-height: 1.7;
+  }
+
   .town-location-amenities {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.65rem;
+  }
+
+  .town-location-amenity-card {
+    min-width: 0;
+    min-height: 76px;
+    padding: 0.8rem;
+    border-radius: 10px;
+    gap: 0.5rem;
+    align-items: flex-start;
+  }
+
+  .town-location-amenity-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .town-location-amenity-img-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .town-location-amenity-title {
+    font-size: 0.78rem;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+  }
+
+  .town-location-media-frame--map {
+    border-radius: 10px;
   }
 
   .town-location-map-viewport {
