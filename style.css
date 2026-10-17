@@ -12215,7 +12215,7 @@ html[data-theme="dark"] .holding-project-card {
     width: calc(100% - 0.7rem);
   }
 
-  .town-location-section {
+  .town-main-layout > section:not(.town-hero-section) {
     margin-inline: 0.5rem;
   }
 
