@@ -685,7 +685,9 @@ function App() {
     setIsLanguageModalOpen,
     language,
     languageOptions,
-    handleLanguageSelect
+    handleLanguageSelect,
+    theme,
+    handleThemeToggle
   };
 
   const commonFooterProps = {

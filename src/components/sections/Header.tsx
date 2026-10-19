@@ -14,6 +14,8 @@ type HeaderProps = {
   language: Language;
   languageOptions: Array<{ code: Language; label: string; shortLabel: string; flag?: string }>;
   handleLanguageSelect: (nextLanguage: Language) => void;
+  theme?: "light" | "dark";
+  handleThemeToggle?: () => void;
 };
 
 export function Header({
@@ -24,11 +26,12 @@ export function Header({
   openModal,
   language,
   languageOptions,
-  handleLanguageSelect
+  handleLanguageSelect,
+  theme = "light",
+  handleThemeToggle
 }: HeaderProps) {
   const isUnitsVariant = variant === "units";
   const [langDropdownOpen, setLangDropdownOpen] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const langRef = useRef<HTMLDivElement | null>(null);
   const desktopLangRef = useRef<HTMLDivElement | null>(null);
 
@@ -53,7 +56,6 @@ export function Header({
   }, []);
 
   const handleNavItemClick = (event: React.MouseEvent<HTMLAnchorElement>, item: (typeof primaryNavItems)[number]) => {
-    setMobileMenuOpen(false);
     if (!item.scrollTargetId) return;
 
     const target = document.getElementById(item.scrollTargetId);
@@ -95,18 +97,6 @@ export function Header({
 
         {/* Right Header Actions */}
         <div className="town-header-right">
-          {!isUnitsVariant && (
-            <button
-              type="button"
-              className="town-mobile-menu-toggle"
-              aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
-              aria-expanded={mobileMenuOpen}
-              aria-controls="mobile-nav-menu"
-              onClick={() => setMobileMenuOpen((open) => !open)}
-            >
-              <span className={`town-mobile-menu-icon ${mobileMenuOpen ? "is-open" : ""}`} aria-hidden="true"><i /><i /></span>
-            </button>
-          )}
           {/* Language Minimal Dropdown */}
           <div className="town-lang-wrapper" ref={desktopLangRef}>
             <button
@@ -157,22 +147,6 @@ export function Header({
 
         </div>
       </div>
-      {!isUnitsVariant && (
-        <nav id="mobile-nav-menu" className={`town-mobile-nav ${mobileMenuOpen ? "is-open" : ""}`} aria-label="Mobile navigation" aria-hidden={!mobileMenuOpen}>
-          {primaryNavItems.filter((item) => !item.isModalAction).map((item) => (
-            <a
-              key={item.href}
-              href={item.scrollTargetId ? `#${item.scrollTargetId}` : item.href}
-              className="town-mobile-nav-link"
-              tabIndex={mobileMenuOpen ? 0 : -1}
-              onClick={(event) => handleNavItemClick(event, item)}
-            >
-              {item.label}
-              <span aria-hidden="true">↗</span>
-            </a>
-          ))}
-        </nav>
-      )}
     </header>
   );
 }
