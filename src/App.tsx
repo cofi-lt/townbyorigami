@@ -121,6 +121,81 @@ function resolveBrandingLogo(
   return localizedDark || localizedDefault || branding?.logo_dark_url || branding?.logo_url || brandingLogoFallbacks[language === "ka" ? "logo_dark_ka_url" : "logo_dark_en_url"];
 }
 
+const defaultNavItemsByLang: Record<Language, Array<{ slug: string; title: string; link: string; isModalAction?: boolean }>> = {
+  ka: [
+    { slug: "about", title: "პროექტის შესახებ", link: "#about" },
+    { slug: "choose", title: "ბინები", link: "#properties" },
+    { slug: "infrastructure", title: "ინფრასტრუქტურა", link: "#infrastructure" },
+    { slug: "location", title: "ლოკაცია", link: "#location" },
+    { slug: "origami-holding", title: "Origami Holding", link: "#about-origami" },
+    { slug: "news", title: "სიახლეები", link: "#news" },
+    { slug: "contact", title: "კონტაქტი", link: "#contact" }
+  ],
+  en: [
+    { slug: "about", title: "About Project", link: "#about" },
+    { slug: "choose", title: "Properties", link: "#properties" },
+    { slug: "infrastructure", title: "Infrastructure", link: "#infrastructure" },
+    { slug: "location", title: "Location", link: "#location" },
+    { slug: "origami-holding", title: "Origami Holding", link: "#about-origami" },
+    { slug: "news", title: "News", link: "#news" },
+    { slug: "contact", title: "Contact", link: "#contact" }
+  ],
+  ru: [
+    { slug: "about", title: "О проекте", link: "#about" },
+    { slug: "choose", title: "Квартиры", link: "#properties" },
+    { slug: "infrastructure", title: "Инфраструктура", link: "#infrastructure" },
+    { slug: "location", title: "Локация", link: "#location" },
+    { slug: "origami-holding", title: "Origami Holding", link: "#about-origami" },
+    { slug: "news", title: "Новости", link: "#news" },
+    { slug: "contact", title: "Контакты", link: "#contact" }
+  ],
+  zh: [
+    { slug: "about", title: "关于项目", link: "#about" },
+    { slug: "choose", title: "房源户型", link: "#properties" },
+    { slug: "infrastructure", title: "配套设施", link: "#infrastructure" },
+    { slug: "location", title: "地理位置", link: "#location" },
+    { slug: "origami-holding", title: "Origami Holding", link: "#about-origami" },
+    { slug: "news", title: "新闻动态", link: "#news" },
+    { slug: "contact", title: "联系我们", link: "#contact" }
+  ],
+  he: [
+    { slug: "about", title: "אודות הפרויקט", link: "#about" },
+    { slug: "choose", title: "דירות", link: "#properties" },
+    { slug: "infrastructure", title: "תשתיות", link: "#infrastructure" },
+    { slug: "location", title: "מיקום", link: "#location" },
+    { slug: "origami-holding", title: "Origami Holding", link: "#about-origami" },
+    { slug: "news", title: "חדשות", link: "#news" },
+    { slug: "contact", title: "צור קשר", link: "#contact" }
+  ],
+  it: [
+    { slug: "about", title: "Sul Progetto", link: "#about" },
+    { slug: "choose", title: "Appartamenti", link: "#properties" },
+    { slug: "infrastructure", title: "Infrastruttura", link: "#infrastructure" },
+    { slug: "location", title: "Posizione", link: "#location" },
+    { slug: "origami-holding", title: "Origami Holding", link: "#about-origami" },
+    { slug: "news", title: "Notizie", link: "#news" },
+    { slug: "contact", title: "Contatti", link: "#contact" }
+  ],
+  de: [
+    { slug: "about", title: "Über das Projekt", link: "#about" },
+    { slug: "choose", title: "Wohnungen", link: "#properties" },
+    { slug: "infrastructure", title: "Infrastruktur", link: "#infrastructure" },
+    { slug: "location", title: "Standort", link: "#location" },
+    { slug: "origami-holding", title: "Origami Holding", link: "#about-origami" },
+    { slug: "news", title: "Neuigkeiten", link: "#news" },
+    { slug: "contact", title: "Kontakt", link: "#contact" }
+  ],
+  ar: [
+    { slug: "about", title: "عن المشروع", link: "#about" },
+    { slug: "choose", title: "الشقق", link: "#properties" },
+    { slug: "infrastructure", title: "البنية التحتية", link: "#infrastructure" },
+    { slug: "location", title: "الموقع", link: "#location" },
+    { slug: "origami-holding", title: "Origami Holding", link: "#about-origami" },
+    { slug: "news", title: "الأخبار", link: "#news" },
+    { slug: "contact", title: "اتصل بنا", link: "#contact" }
+  ]
+};
+
 function App() {
   const routeState = useAppRoute();
   const { language, setLanguage, theme, setTheme, currency, setCurrency } = usePreferences();
@@ -181,10 +256,13 @@ function App() {
     footerLegalItems: apiFooterLegalItems,
     navigationSections
   } = useSiteChrome(language);
+  const fallbackNavItems = defaultNavItemsByLang[language] || defaultNavItemsByLang.ka;
   const navSourceItems: Array<{ slug?: string; title?: string; link?: string }> =
     apiHeaderNavItems && apiHeaderNavItems.length > 0
       ? apiHeaderNavItems
-      : apiFooterMenuItems;
+      : apiFooterMenuItems && apiFooterMenuItems.length > 0
+      ? apiFooterMenuItems
+      : fallbackNavItems;
 
   const primaryNavItems = navSourceItems.map((item) => {
     const normalizedSlug = (item.slug || "").toLowerCase();
@@ -687,7 +765,8 @@ function App() {
     languageOptions,
     handleLanguageSelect,
     theme,
-    handleThemeToggle
+    handleThemeToggle,
+    phone: footerContactPhone
   };
 
   const commonFooterProps = {

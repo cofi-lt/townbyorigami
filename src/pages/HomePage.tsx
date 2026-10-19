@@ -43,7 +43,7 @@ export const HomePage: FC<HomePageProps> = ({
   aboutGridCards,
   aboutTownText,
   navigateTo = () => {},
-  openModal
+  openModal: _openModal
 }) => {
   return (
     <main className="town-main-layout">

@@ -1,0 +1,649 @@
+/* ==========================================================================
+   Town by Origami - Mobile Navigation Menu
+   Inspired by Karlo Videk's CodePen reference (aNYWKE)
+   Features diagonal multi-slice reveal animations, kinetic angled hamburger trigger,
+   sliding underline link accents, and luxury architectural styling.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   0. Header State when Mobile Menu is Open
+   -------------------------------------------------------------------------- */
+.town-header.is-menu-open {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.22s ease;
+}
+
+/* --------------------------------------------------------------------------
+   1. Hamburger Trigger (Header)
+   -------------------------------------------------------------------------- */
+.town-menu-trigger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  background: transparent;
+  border: 1px solid rgba(173, 146, 112, 0.25);
+  border-radius: 8px;
+  cursor: pointer;
+  position: relative;
+  z-index: 40;
+  transition: border-color var(--transition-fast, 0.2s ease), background-color var(--transition-fast, 0.2s ease);
+}
+
+.town-menu-trigger:hover,
+.town-menu-trigger:focus-visible {
+  border-color: var(--town-ochre, #AD9270);
+  background: rgba(173, 146, 112, 0.08);
+  outline: none;
+}
+
+.town-menu-trigger-bars {
+  width: 24px;
+  height: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+}
+
+.town-menu-trigger-bar {
+  display: block;
+  height: 2.5px;
+  background-color: var(--town-text-dark, #1E2D2B);
+  border-radius: 2px;
+  position: relative;
+  transform: rotate(-45deg);
+  transform-origin: center;
+  transition: transform 0.42s cubic-bezier(0.77, 0, 0.175, 1),
+              opacity 0.3s ease;
+  overflow: hidden;
+}
+
+/* Sliding color wipe on hover (from CodePen reference) */
+.town-menu-trigger-bar::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  width: 0%;
+  height: 100%;
+  background-color: var(--town-ochre, #AD9270);
+  transition: width 0.32s cubic-bezier(0.55, 0, 0.1, 1);
+  border-radius: 2px;
+}
+
+.town-menu-trigger:hover .town-menu-trigger-bar::before,
+.town-menu-trigger:focus-visible .town-menu-trigger-bar::before {
+  width: 100%;
+}
+
+/* Bar Widths & Alignments matching reference */
+.town-menu-trigger-bar.top {
+  width: 52%;
+  align-self: flex-start;
+  margin-left: 1px;
+}
+
+.town-menu-trigger-bar.middle {
+  width: 100%;
+}
+
+.town-menu-trigger-bar.middle::before {
+  left: auto;
+  right: 0;
+}
+
+.town-menu-trigger-bar.bottom {
+  width: 52%;
+  align-self: flex-end;
+  margin-right: 1px;
+}
+
+/* Kinetic Departure when Menu Opens */
+.town-menu-trigger.is-active .town-menu-trigger-bar.top {
+  transform: rotate(-45deg) translate(40px, -40px);
+  opacity: 0;
+  transition-delay: 0.05s;
+}
+
+.town-menu-trigger.is-active .town-menu-trigger-bar.middle {
+  transform: rotate(-45deg) translate(40px, -40px);
+  opacity: 0;
+  transition-delay: 0s;
+}
+
+.town-menu-trigger.is-active .town-menu-trigger-bar.bottom {
+  transform: rotate(-45deg) translate(40px, -40px);
+  opacity: 0;
+  transition-delay: 0.1s;
+}
+
+/* --------------------------------------------------------------------------
+   2. Fullscreen Mobile Overlay Wrapper
+   -------------------------------------------------------------------------- */
+.town-mobile-menu-overlay {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  z-index: 99999;
+  overflow: hidden;
+  pointer-events: none;
+  visibility: hidden;
+  background-color: rgba(250, 248, 245, 0);
+  transition: visibility 0s linear 0.65s, background-color 0.4s ease 0.3s;
+}
+
+.town-mobile-menu-overlay.is-visible {
+  visibility: visible;
+}
+
+.town-mobile-menu-overlay.is-open {
+  pointer-events: auto;
+  visibility: visible;
+  background-color: rgba(250, 248, 245, 1);
+  transition: visibility 0s linear 0s, background-color 0.4s ease 0.3s;
+}
+
+.town-mobile-menu-overlay.is-closing {
+  background-color: rgba(250, 248, 245, 0);
+  transition: visibility 0s linear 0.65s, background-color 0.25s ease 0s;
+}
+
+/* --------------------------------------------------------------------------
+   3. Multi-Slice Diagonal Background (The Karlo Videk signature mechanic)
+   -------------------------------------------------------------------------- */
+.town-menu-bg-container {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Accent backing flash layer for depth */
+.town-menu-bg-accent {
+  position: absolute;
+  width: 450vmax;
+  height: 60vmax;
+  left: -175vmax;
+  top: 20%;
+  background: linear-gradient(135deg, rgba(173, 146, 112, 0.45), rgba(30, 57, 47, 0.35));
+  transform: rotate(-45deg) scaleY(0);
+  transform-origin: center;
+  transition: transform 0.65s cubic-bezier(0.77, 0, 0.175, 1);
+  z-index: 11;
+  pointer-events: none;
+}
+
+.town-mobile-menu-overlay.is-open .town-menu-bg-accent {
+  transform: rotate(-45deg) scaleY(1.4);
+  transition: transform 0.75s cubic-bezier(0.77, 0, 0.175, 1) 0.05s;
+}
+
+.town-mobile-menu-overlay.is-closing .town-menu-bg-accent {
+  background: var(--town-ochre, #AD9270);
+  opacity: 0.85;
+}
+
+/* The three primary diagonal slices */
+.town-menu-bg {
+  position: absolute;
+  display: block;
+  width: 450vmax;
+  height: 100vmax;
+  left: -175vmax;
+  background-color: #FAF8F5;
+  box-shadow: 0 0 60px rgba(0, 0, 0, 0.05);
+  z-index: 12;
+  will-change: transform;
+}
+
+/* Top slice: slides in diagonally from top-left */
+.town-menu-bg.top {
+  top: -45vmax;
+  transform: rotate(-45deg) translateY(-190%);
+  transition: transform 0.72s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+/* Middle slice: expands diagonally from center */
+.town-menu-bg.middle {
+  top: 15vmax;
+  transform: rotate(-45deg) scaleY(0);
+  transform-origin: center;
+  transition: transform 0.68s cubic-bezier(0.77, 0, 0.175, 1) 0.04s;
+}
+
+/* Bottom slice: slides in diagonally from bottom-right */
+.town-menu-bg.bottom {
+  top: 75vmax;
+  transform: rotate(-45deg) translateY(190%);
+  transition: transform 0.72s cubic-bezier(0.77, 0, 0.175, 1) 0.08s;
+}
+
+/* Open State transforms - seamlessly meeting to cover entire viewport */
+.town-mobile-menu-overlay.is-open .town-menu-bg.top {
+  transform: rotate(-45deg) translateY(32%);
+}
+
+.town-mobile-menu-overlay.is-open .town-menu-bg.middle {
+  transform: rotate(-45deg) scaleY(1.5);
+}
+
+.town-mobile-menu-overlay.is-open .town-menu-bg.bottom {
+  transform: rotate(-45deg) translateY(-32%);
+}
+
+/* Closing State: swift diagonal exit */
+.town-mobile-menu-overlay.is-closing .town-menu-bg.top {
+  transform: rotate(-45deg) translateY(-190%);
+  transition: transform 0.55s cubic-bezier(0.77, 0, 0.175, 1) 0.08s;
+}
+
+.town-mobile-menu-overlay.is-closing .town-menu-bg.middle {
+  transform: rotate(-45deg) scaleY(0);
+  transition: transform 0.52s cubic-bezier(0.77, 0, 0.175, 1) 0.04s;
+}
+
+.town-mobile-menu-overlay.is-closing .town-menu-bg.bottom {
+  transform: rotate(-45deg) translateY(190%);
+  transition: transform 0.55s cubic-bezier(0.77, 0, 0.175, 1) 0s;
+}
+
+/* --------------------------------------------------------------------------
+   4. Close Button (Animated 'X' Trigger from CodePen reference)
+   -------------------------------------------------------------------------- */
+.town-close-trigger {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  background: transparent;
+  border: 1px solid rgba(173, 146, 112, 0.25);
+  border-radius: 8px;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color var(--transition-fast, 0.2s ease), background-color var(--transition-fast, 0.2s ease);
+}
+
+.town-close-trigger:hover,
+.town-close-trigger:focus-visible {
+  border-color: var(--town-ochre, #AD9270);
+  background: rgba(173, 146, 112, 0.1);
+  outline: none;
+}
+
+.town-close-trigger-bars {
+  width: 22px;
+  height: 22px;
+  position: relative;
+}
+
+.town-close-trigger-bar {
+  display: block;
+  width: 100%;
+  height: 2.5px;
+  background-color: var(--town-text-dark, #1E2D2B);
+  border-radius: 2px;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  margin-top: -1.25px;
+  overflow: hidden;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.3s ease;
+}
+
+.town-close-trigger-bar::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  width: 0%;
+  height: 100%;
+  background-color: var(--town-ochre, #AD9270);
+  transition: width 0.32s cubic-bezier(0.55, 0, 0.1, 1);
+  border-radius: 2px;
+}
+
+.town-close-trigger:hover .town-close-trigger-bar::before,
+.town-close-trigger:focus-visible .town-close-trigger-bar::before {
+  width: 100%;
+}
+
+/* Bars fly in diagonally from opposite directions */
+.town-close-trigger-bar.left {
+  transform: translate(60px, -60px) rotate(-45deg);
+  opacity: 0;
+}
+
+.town-close-trigger-bar.right {
+  transform: translate(-60px, -60px) rotate(45deg);
+  opacity: 0;
+}
+
+.town-mobile-menu-overlay.is-open .town-close-trigger-bar.left {
+  transform: translate(0, 0) rotate(-45deg);
+  opacity: 1;
+  transition-delay: 0.32s;
+}
+
+.town-mobile-menu-overlay.is-open .town-close-trigger-bar.right {
+  transform: translate(0, 0) rotate(45deg);
+  opacity: 1;
+  transition-delay: 0.4s;
+}
+
+.town-mobile-menu-overlay.is-closing .town-close-trigger-bar.left {
+  transform: translate(60px, -60px) rotate(-45deg);
+  opacity: 0;
+  transition-delay: 0s;
+}
+
+.town-mobile-menu-overlay.is-closing .town-close-trigger-bar.right {
+  transform: translate(-60px, -60px) rotate(45deg);
+  opacity: 0;
+  transition-delay: 0.05s;
+}
+
+/* --------------------------------------------------------------------------
+   5. Menu Content Layer
+   -------------------------------------------------------------------------- */
+.town-mobile-menu-content {
+  position: relative;
+  z-index: 20;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(1rem, 2.5vh, 1.75rem) clamp(1.25rem, 5vw, 2.5rem);
+  padding-top: calc(clamp(1rem, 2.5vh, 1.75rem) + env(safe-area-inset-top, 0px));
+  padding-bottom: calc(clamp(1rem, 2.5vh, 1.75rem) + env(safe-area-inset-bottom, 0px));
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Header bar inside menu */
+.town-mobile-menu-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid rgba(173, 146, 112, 0.2);
+  opacity: 0;
+  transform: translateY(-12px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.town-mobile-menu-overlay.is-open .town-mobile-menu-header {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.25s;
+}
+
+.town-mobile-menu-overlay.is-closing .town-mobile-menu-header {
+  opacity: 0;
+  transform: translateY(-12px);
+  transition-delay: 0s;
+}
+
+/* Navigation items container */
+.town-mobile-menu-nav {
+  margin: auto 0;
+  padding: 1.75rem 0;
+  width: 100%;
+}
+
+.town-mobile-menu-list {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.65rem, 2vh, 1.15rem);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.town-mobile-nav-item {
+  list-style: none;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.town-mobile-menu-overlay.is-open .town-mobile-nav-item {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger entrance for each item */
+.town-mobile-menu-overlay.is-open .town-mobile-nav-item:nth-child(1) { transition-delay: 0.28s; }
+.town-mobile-menu-overlay.is-open .town-mobile-nav-item:nth-child(2) { transition-delay: 0.34s; }
+.town-mobile-menu-overlay.is-open .town-mobile-nav-item:nth-child(3) { transition-delay: 0.40s; }
+.town-mobile-menu-overlay.is-open .town-mobile-nav-item:nth-child(4) { transition-delay: 0.46s; }
+.town-mobile-menu-overlay.is-open .town-mobile-nav-item:nth-child(5) { transition-delay: 0.52s; }
+.town-mobile-menu-overlay.is-open .town-mobile-nav-item:nth-child(6) { transition-delay: 0.58s; }
+.town-mobile-menu-overlay.is-open .town-mobile-nav-item:nth-child(7) { transition-delay: 0.64s; }
+.town-mobile-menu-overlay.is-open .town-mobile-nav-item:nth-child(8) { transition-delay: 0.70s; }
+
+.town-mobile-menu-overlay.is-closing .town-mobile-nav-item {
+  opacity: 0;
+  transform: translateY(10px);
+  transition-duration: 0.22s;
+  transition-delay: 0s !important;
+}
+
+/* Nav Link with signature sliding underline indicator (from CodePen reference) */
+.town-mobile-nav-link {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.85rem;
+  text-decoration: none;
+  color: var(--town-text-dark, #1E2D2B);
+  padding: 0.45rem 0;
+  position: relative;
+  font-family: var(--font-family-serif, "Cormorant Garamond", Georgia, serif);
+  font-size: clamp(1.4rem, 4.8vw, 1.85rem);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  transition: color var(--transition-fast, 0.2s ease), transform var(--transition-fast, 0.2s ease);
+}
+
+.town-mobile-nav-index {
+  font-family: var(--font-family-sans, "FiraGO", sans-serif);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--town-ochre, #AD9270);
+  opacity: 0.9;
+}
+
+.town-mobile-nav-text {
+  position: relative;
+  font-weight: 500;
+}
+
+/* Sliding underline indicator */
+.town-mobile-nav-link::after {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 32px;
+  height: 2.5px;
+  opacity: 0;
+  background-color: var(--town-ochre, #AD9270);
+  transform: translateX(-40px);
+  transition: all 0.32s cubic-bezier(0.55, 0, 0.1, 1);
+  border-radius: 2px;
+}
+
+.town-mobile-nav-link:hover,
+.town-mobile-nav-link:focus-visible,
+.town-mobile-nav-link:active {
+  color: var(--town-ochre, #AD9270);
+  transform: translateX(4px);
+  outline: none;
+}
+
+.town-mobile-nav-link:hover::after,
+.town-mobile-nav-link:focus-visible::after,
+.town-mobile-nav-link:active::after {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* --------------------------------------------------------------------------
+   6. Footer & Actions Section inside Menu
+   -------------------------------------------------------------------------- */
+.town-mobile-menu-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(173, 146, 112, 0.2);
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.45s ease, transform 0.45s ease;
+}
+
+.town-mobile-menu-overlay.is-open .town-mobile-menu-footer {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.42s;
+}
+
+.town-mobile-menu-overlay.is-closing .town-mobile-menu-footer {
+  opacity: 0;
+  transform: translateY(14px);
+  transition-delay: 0s;
+}
+
+/* Mobile CTA Button */
+.town-mobile-cta-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  padding: 0.85rem 1.4rem;
+  font-family: var(--font-family-sans, "FiraGO", sans-serif);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #FFFFFF;
+  background-color: var(--town-forest, #1E392F);
+  border: 1px solid var(--town-forest, #1E392F);
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(30, 57, 47, 0.22);
+  transition: transform var(--transition-fast, 0.2s ease),
+              background-color var(--transition-fast, 0.2s ease),
+              box-shadow var(--transition-fast, 0.2s ease);
+}
+
+.town-mobile-cta-btn:hover,
+.town-mobile-cta-btn:focus-visible {
+  background-color: #162B23;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(30, 57, 47, 0.3);
+  outline: none;
+}
+
+/* Language Switcher Row */
+.town-mobile-lang-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  background: rgba(173, 146, 112, 0.12);
+  padding: 4px;
+  border-radius: 8px;
+  overflow-x: auto;
+}
+
+.town-mobile-lang-pill {
+  flex: 1;
+  min-width: 44px;
+  padding: 0.5rem 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  font-family: var(--font-family-sans, "FiraGO", sans-serif);
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--town-text-dark, #1E2D2B);
+  cursor: pointer;
+  transition: all var(--transition-fast, 0.2s ease);
+  white-space: nowrap;
+}
+
+.town-mobile-lang-pill.is-active {
+  background: #FFFFFF;
+  color: var(--town-forest, #1E392F);
+  font-weight: 700;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.town-mobile-lang-pill:hover:not(.is-active) {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+/* Contact phone shortcut */
+.town-mobile-contact-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  text-decoration: none;
+  font-family: var(--font-family-sans, "FiraGO", sans-serif);
+  font-size: 0.875rem;
+  color: var(--town-text-body, #4A5552);
+  transition: color var(--transition-fast, 0.2s ease);
+}
+
+.town-mobile-contact-link:hover {
+  color: var(--town-ochre, #AD9270);
+}
+
+.town-mobile-contact-icon {
+  width: 16px;
+  height: 16px;
+  color: var(--town-ochre, #AD9270);
+}
+
+/* --------------------------------------------------------------------------
+   7. Responsive Display Rules
+   -------------------------------------------------------------------------- */
+@media (max-width: 991px) {
+  .town-menu-trigger {
+    display: flex;
+  }
+}
+
+@media (min-width: 992px) {
+  .town-menu-trigger {
+    display: none !important;
+  }
+  .town-mobile-menu-overlay {
+    display: none !important;
+  }
+}
