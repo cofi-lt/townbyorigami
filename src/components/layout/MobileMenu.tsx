@@ -131,7 +131,8 @@ export const MobileMenu: FC<MobileMenuProps> = ({
                 onClick={() => handleLanguageSelect(opt.code)}
               >
                 {opt.flag && <span className="town-mobile-lang-flag">{opt.flag}</span>}
-                <span>{opt.shortLabel}</span>
+                <span className="town-mobile-lang-name">{opt.label}</span>
+                <span className="town-mobile-lang-code">({opt.shortLabel})</span>
               </button>
             ))}
           </div>
