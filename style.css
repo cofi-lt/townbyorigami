@@ -3464,7 +3464,7 @@ html[data-theme="light"] .available-building-featured-card {
 /* --- Infrastructure Section (Town by Origami - Matches Reference Design) --- */
 .town-infra-section,
 .infrastructure-section {
-  background-color: var(--town-sand, #EFEDE7);
+  background-color: #E7E9E2;
   padding: 6.5rem 0 2rem;
   position: relative;
   overflow: hidden;
@@ -5881,6 +5881,10 @@ html[data-theme="light"] .news-detail-state {
 }
 
 @media (max-width: 650px) {
+  .town-main-layout .town-infra-section {
+    padding-top: 5rem;
+  }
+
   .news-detail-page {
     padding: 5rem 0 3.5rem;
   }
@@ -12207,12 +12211,18 @@ html[data-theme="dark"] .holding-project-card {
 
 /* Give the About and Infrastructure sections a clear, visible break. */
 .town-main-layout .town-about-section {
-  margin-bottom: 4rem;
-  border-bottom: 1px solid rgba(173, 146, 112, 0.28);
+  margin-bottom: 3rem;
+  border-bottom: 0;
+  overflow: visible;
+}
+
+.town-main-layout .town-about-section::after {
+  content: none;
 }
 
 .town-main-layout .town-infra-section {
-  margin-top: 4rem;
+  margin-top: 0;
+  padding-top: 6.5rem;
 }
 
 .town-main-layout > .town-features-strip {
@@ -12231,6 +12241,14 @@ html[data-theme="dark"] .holding-project-card {
 }
 
 @media (max-width: 650px) {
+  .town-main-layout .town-about-section {
+    margin-bottom: 2rem;
+  }
+
+  .town-main-layout .town-infra-section {
+    padding-top: 4.5rem;
+  }
+
   /* Shared mobile content width: keep every homepage section on the same centered rails. */
   .town-main-layout {
     --town-mobile-gutter: 1rem;
