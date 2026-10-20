@@ -3471,6 +3471,11 @@ html[data-theme="light"] .available-building-featured-card {
   color: var(--town-text-dark, #1E2D2B);
 }
 
+/* Alternate the same soft sage tint across every other homepage section. */
+.town-main-layout > .town-news-section {
+  background-color: #E7E9E2;
+}
+
 .town-infra-container {
   max-width: var(--container-max-width, 1440px);
   margin: 0 auto;
