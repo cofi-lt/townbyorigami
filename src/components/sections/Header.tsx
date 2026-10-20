@@ -4,6 +4,7 @@ import { MobileMenu } from "../layout/MobileMenu";
 
 type HeaderProps = {
   headerShrunk: boolean;
+  headerScrolling?: boolean;
   variant?: "default" | "units" | "surface";
   darkThemeLogoSrc?: string;
   lightThemeLogoSrc?: string;
@@ -21,6 +22,7 @@ type HeaderProps = {
 
 export function Header({
   headerShrunk,
+  headerScrolling = false,
   variant = "default",
   primaryNavItems,
   callRequestLabel,
@@ -88,7 +90,7 @@ export function Header({
 
   return (
     <>
-      <header id="main-header" className={`town-header ${headerShrunk ? "town-header--shrunk" : ""} ${isUnitsVariant ? "header-units" : ""} ${isMobileMenuOpen ? "is-menu-open" : ""}`}>
+      <header id="main-header" className={`town-header ${headerShrunk ? "town-header--shrunk" : ""} ${headerScrolling ? "is-scrolling" : ""} ${isUnitsVariant ? "header-units" : ""} ${isMobileMenuOpen ? "is-menu-open" : ""}`}>
         <div className="town-header-container">
           {/* Brand Logo */}
           <a href="/" className="town-brand-logo" aria-label="Town by Origami">

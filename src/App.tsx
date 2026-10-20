@@ -201,6 +201,7 @@ function App() {
   const { language, setLanguage, theme, setTheme, currency, setCurrency } = usePreferences();
   const [openFooterSection, setOpenFooterSection] = useState<FooterSection | null>(null);
   const [headerShrunk, setHeaderShrunk] = useState(false);
+  const [headerScrolling, setHeaderScrolling] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLanguageModalOpen, setIsLanguageModalOpen] = useState(false);
   const [isCurrencyModalOpen, setIsCurrencyModalOpen] = useState(false);
@@ -383,14 +384,59 @@ function App() {
 
 
   useEffect(() => {
-    const handleScroll = () => {
-      setHeaderShrunk(window.scrollY > 50);
+    let scrollIdleTimer = 0;
+    const getScrollTop = () => Math.max(
+      window.scrollY,
+      document.documentElement.scrollTop,
+      document.body.scrollTop,
+      document.scrollingElement?.scrollTop ?? 0
+    );
+    const initialScrollTop = getScrollTop();
+    setHeaderShrunk(initialScrollTop > 50);
+
+    const handleScroll = (event: Event) => {
+      const target = event.target;
+      const scrollRoot = document.scrollingElement;
+      if (
+        target !== document &&
+        target !== scrollRoot &&
+        target !== document.documentElement &&
+        target !== document.body
+      ) {
+        return;
+      }
+
+      const scrollTop = getScrollTop();
+      const isPastTop = scrollTop > 50;
+      setHeaderShrunk(isPastTop);
+
+      if (!isPastTop) {
+        window.clearTimeout(scrollIdleTimer);
+        setHeaderScrolling(false);
+        return;
+      }
+
+      setHeaderScrolling(true);
+      window.clearTimeout(scrollIdleTimer);
+      scrollIdleTimer = window.setTimeout(() => setHeaderScrolling(false), 450);
+    };
+    const handleScrollEnd = () => {
+      window.clearTimeout(scrollIdleTimer);
+      setHeaderScrolling(false);
     };
 
-    window.addEventListener("scroll", handleScroll);
-    handleScroll();
+    document.addEventListener("scroll", handleScroll, true);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    document.addEventListener("scrollend", handleScrollEnd);
+    window.addEventListener("scrollend", handleScrollEnd);
 
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      window.clearTimeout(scrollIdleTimer);
+      document.removeEventListener("scroll", handleScroll, true);
+      window.removeEventListener("scroll", handleScroll);
+      document.removeEventListener("scrollend", handleScrollEnd);
+      window.removeEventListener("scrollend", handleScrollEnd);
+    };
   }, []);
 
   useEffect(() => {
@@ -752,6 +798,7 @@ function App() {
 
   const commonHeaderProps = {
     headerShrunk,
+    headerScrolling,
     variant: (routeState.name === "aboutUs" || routeState.name === "newsDetail" ? "surface" : "default") as "default" | "surface",
     darkThemeLogoSrc,
     lightThemeLogoSrc,
