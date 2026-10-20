@@ -41,15 +41,64 @@ export function NewsSection({
 
   const totalItems = newsList.length;
 
+  // On touch layouts, follow the card that the user brings into view with a swipe.
+  useEffect(() => {
+    const gallery = galleryRef.current;
+    if (!gallery || totalItems < 2) return;
+
+    let frame = 0;
+    const updateActiveCard = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        if (window.matchMedia("(min-width: 961px)").matches) return;
+
+        const galleryRect = gallery.getBoundingClientRect();
+        const center = galleryRect.left + galleryRect.width / 2;
+        const cards = Array.from(gallery.querySelectorAll<HTMLElement>(".town-news-card"));
+        let nearestIndex = 0;
+        let nearestDistance = Number.POSITIVE_INFINITY;
+
+        cards.forEach((card, index) => {
+          const rect = card.getBoundingClientRect();
+          const distance = Math.abs(rect.left + rect.width / 2 - center);
+          if (distance < nearestDistance) {
+            nearestDistance = distance;
+            nearestIndex = index;
+          }
+        });
+
+        setActiveIndex((current) => current === nearestIndex ? current : nearestIndex);
+      });
+    };
+
+    gallery.addEventListener("scroll", updateActiveCard, { passive: true });
+    window.addEventListener("resize", updateActiveCard);
+    updateActiveCard();
+
+    return () => {
+      cancelAnimationFrame(frame);
+      gallery.removeEventListener("scroll", updateActiveCard);
+      window.removeEventListener("resize", updateActiveCard);
+    };
+  }, [totalItems]);
+
   const handlePrev = useCallback(() => {
     if (totalItems <= 1) return;
-    setActiveIndex((prev) => (prev > 0 ? prev - 1 : totalItems - 1));
-  }, [totalItems]);
+    const nextIndex = activeIndex > 0 ? activeIndex - 1 : totalItems - 1;
+    setActiveIndex(nextIndex);
+    if (window.matchMedia("(max-width: 960px)").matches) {
+      galleryRef.current?.children.item(nextIndex)?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
+    }
+  }, [activeIndex, totalItems]);
 
   const handleNext = useCallback(() => {
     if (totalItems <= 1) return;
-    setActiveIndex((prev) => (prev < totalItems - 1 ? prev + 1 : 0));
-  }, [totalItems]);
+    const nextIndex = activeIndex < totalItems - 1 ? activeIndex + 1 : 0;
+    setActiveIndex(nextIndex);
+    if (window.matchMedia("(max-width: 960px)").matches) {
+      galleryRef.current?.children.item(nextIndex)?.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "start" });
+    }
+  }, [activeIndex, totalItems]);
 
   const handleCardClick = (index: number, slug: string) => {
     if (index === activeIndex) {
