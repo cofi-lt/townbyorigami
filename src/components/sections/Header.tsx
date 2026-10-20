@@ -17,7 +17,6 @@ type HeaderProps = {
   handleLanguageSelect: (nextLanguage: Language) => void;
   theme?: "light" | "dark";
   handleThemeToggle?: () => void;
-  phone?: string;
 };
 
 export function Header({
@@ -30,8 +29,7 @@ export function Header({
   languageOptions,
   handleLanguageSelect,
   theme: _theme = "light",
-  handleThemeToggle: _handleThemeToggle,
-  phone
+  handleThemeToggle: _handleThemeToggle
 }: HeaderProps) {
   const isUnitsVariant = variant === "units";
   const [langDropdownOpen, setLangDropdownOpen] = useState(false);
@@ -204,7 +202,6 @@ export function Header({
         language={language}
         languageOptions={languageOptions}
         handleLanguageSelect={handleLanguageSelect}
-        phone={phone}
       />
     </>
   );

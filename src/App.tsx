@@ -320,14 +320,14 @@ function App() {
 
     return {
       href,
-      label: item.title || "",
+      label: item.title?.trim() || "",
       isModalAction,
       scrollTargetId:
         knownNavTargets[hrefTargetId] ||
         knownNavTargets[normalizedSlug] ||
         sectionTargetIds[matchedSection?.slug || ""]
     };
-  });
+  }).filter((item) => item.label.length > 0);
   const callRequestItem = primaryNavItems.find((item) => item.isModalAction);
   const callRequestLabel = callRequestItem?.label?.trim() || requestCallTitle?.trim() || "";
   const modalDescription =
