@@ -228,6 +228,7 @@ function App() {
   const t = (key: TranslationKey) => translations[language][key];
   const {
     items: newsItems,
+    isLoading: isNewsLoading,
     detail: newsDetail,
     isDetailLoading: isNewsDetailLoading,
     detailError: newsDetailError
@@ -592,6 +593,8 @@ function App() {
   };
 
   const renderActiveModal = () => {
+    if (!isModalOpen) return null;
+
     if (modalStyle === "request_call") {
       return (
         <RequestCallModal
@@ -869,17 +872,19 @@ function App() {
         />
         <FloatingCallWidget openModal={() => openModal("request_call")} label={callRequestLabel} />
         {renderActiveModal()}
-        <UnitsPreferencesModal
-          active={isLanguageModalOpen || isCurrencyModalOpen}
-          language={language}
-          languageOptions={languageOptions}
-          currency={currency}
-          currencyRates={currencyRates}
-          closeModal={() => { closeLanguageModal(); closeCurrencyModal(); }}
-          handleLanguageSelect={handleUnitsLanguageSelect}
-          handleCurrencySelect={handleCurrencySelect}
-          t={t}
-        />
+        {(isLanguageModalOpen || isCurrencyModalOpen) ? (
+          <UnitsPreferencesModal
+            active
+            language={language}
+            languageOptions={languageOptions}
+            currency={currency}
+            currencyRates={currencyRates}
+            closeModal={() => { closeLanguageModal(); closeCurrencyModal(); }}
+            handleLanguageSelect={handleUnitsLanguageSelect}
+            handleCurrencySelect={handleCurrencySelect}
+            t={t}
+          />
+        ) : null}
       </>
     );
   }
@@ -960,6 +965,7 @@ function App() {
         t={t}
         language={language}
         newsItems={newsItems}
+        newsLoading={isNewsLoading}
         locationData={apiLocationData}
         mapLocationData={apiMapLocationData}
         infrastructureData={apiInfrastructureData}

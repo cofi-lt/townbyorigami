@@ -9,19 +9,27 @@ function isAbortError(error: unknown) {
 
 export function useNews(language: Language, detailSlug: string | null, categoryFallback: string) {
   const [items, setItems] = useState<NewsCard[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [detail, setDetail] = useState<NewsApiItem | null>(null);
   const [isDetailLoading, setIsDetailLoading] = useState(false);
   const [detailError, setDetailError] = useState("");
 
   useEffect(() => {
     const controller = new AbortController();
+    setIsLoading(true);
+    setItems([]);
     fetchNews(language, categoryFallback, controller.signal)
-      .then(setItems)
+      .then((data) => {
+        if (!controller.signal.aborted) setItems(data);
+      })
       .catch((error) => {
         if (!isAbortError(error)) {
           console.error("Failed to load news:", error);
           setItems([]);
         }
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setIsLoading(false);
       });
     return () => controller.abort();
   }, [categoryFallback, language]);
@@ -56,5 +64,5 @@ export function useNews(language: Language, detailSlug: string | null, categoryF
     return () => controller.abort();
   }, [detailSlug, language]);
 
-  return { items, detail, isDetailLoading, detailError };
+  return { items, isLoading, detail, isDetailLoading, detailError };
 }

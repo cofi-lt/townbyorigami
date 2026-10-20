@@ -1,15 +1,14 @@
 import { useEffect, useState, useCallback, useRef } from "react";
-import type { Language, TranslationKey } from "../../i18n";
+import type { Language } from "../../i18n";
 import type { NewsCard } from "../../types";
-import { fetchNews } from "../../api/news";
 import { getOptimizedImageUrl, getResponsiveImageSrcSet } from "../../utils/media";
 import { ArrowIcon } from "../Icons";
 
 export type NewsSectionProps = {
   items?: NewsCard[];
+  loading?: boolean;
   language?: Language;
   title?: string;
-  t: (key: TranslationKey) => string;
   navigateTo: (path: string) => void;
 };
 
@@ -26,42 +25,19 @@ const NEWS_TITLE_LABELS: Record<string, string> = {
 
 export function NewsSection({
   items: propItems,
+  loading = false,
   language = "ka",
   title,
-  t,
   navigateTo
 }: NewsSectionProps) {
   const [newsList, setNewsList] = useState<NewsCard[]>(propItems || []);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isLoading, setIsLoading] = useState(!propItems?.length);
   const galleryRef = useRef<HTMLDivElement | null>(null);
 
-  // Sync propItems or fetch if empty
   useEffect(() => {
-    if (propItems && propItems.length > 0) {
-      setNewsList(propItems);
-      setIsLoading(false);
-      return;
-    }
-
-    const controller = new AbortController();
-    setIsLoading(true);
-    fetchNews(language, t("news_category") || "Corporate", controller.signal)
-      .then((data) => {
-        if (!controller.signal.aborted) {
-          setNewsList(data);
-          setIsLoading(false);
-        }
-      })
-      .catch((err) => {
-        if (!controller.signal.aborted) {
-          console.error("NewsSection: Failed to load news", err);
-          setIsLoading(false);
-        }
-      });
-
-    return () => controller.abort();
-  }, [propItems, language, t]);
+    setNewsList(propItems || []);
+    setActiveIndex(0);
+  }, [propItems]);
 
   const totalItems = newsList.length;
 
@@ -84,7 +60,7 @@ export function NewsSection({
     }
   };
 
-  if (!isLoading && totalItems === 0) {
+  if (!loading && totalItems === 0) {
     return null;
   }
 
@@ -103,16 +79,15 @@ export function NewsSection({
 
         {/* Central Gallery: Expanding Accordion Cards matching reference */}
         <div className="town-news-gallery reveal-scale" ref={galleryRef}>
-          {isLoading
-            ? Array.from({ length: 4 }).map((_, idx) => (
-                <div
-                  key={idx}
-                  className={`town-news-card town-news-skeleton ${idx === 0 ? "is-active" : "is-collapsed"}`}
-                >
-                  <div className="town-news-skeleton-shimmer" />
-                </div>
-              ))
-            : newsList.map((item, index) => {
+          {loading ? Array.from({ length: 4 }).map((_, index) => (
+            <div
+              key={`news-skeleton-${index}`}
+              className={`town-news-card town-news-skeleton ${index === 0 ? "is-active" : "is-collapsed"}`}
+              aria-hidden="true"
+            >
+              <div className="town-news-skeleton-shimmer" />
+            </div>
+          )) : newsList.map((item, index) => {
                 const isActive = index === activeIndex;
 
                 return (

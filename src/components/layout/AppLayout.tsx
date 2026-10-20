@@ -37,7 +37,7 @@ export const AppLayout: FC<AppLayoutProps> = ({
         label={callRequestLabel}
       />
 
-      {languageModalProps && <LanguageModal {...languageModalProps} />}
+      {languageModalProps?.active && <LanguageModal {...languageModalProps} />}
 
       {activeModalElement}
 

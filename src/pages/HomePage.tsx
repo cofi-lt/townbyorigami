@@ -14,6 +14,7 @@ export interface HomePageProps {
   t: (key: TranslationKey) => string;
   language?: Language;
   newsItems?: NewsCard[];
+  newsLoading?: boolean;
   locationData?: LocationContent | null;
   mapLocationData?: LocationContent | null;
   infrastructureData?: InfrastructureContent | null;
@@ -32,6 +33,7 @@ export const HomePage: FC<HomePageProps> = ({
   t,
   language = "en",
   newsItems,
+  newsLoading = false,
   locationData,
   mapLocationData,
   infrastructureData,
@@ -77,8 +79,8 @@ export const HomePage: FC<HomePageProps> = ({
 
       <NewsSection
         items={newsItems}
+        loading={newsLoading}
         language={language}
-        t={t}
         navigateTo={navigateTo}
       />
     </main>
