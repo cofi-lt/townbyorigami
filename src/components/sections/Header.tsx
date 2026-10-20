@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction, useState, useRef, useEffect } from "react";
 import { Language } from "../../i18n";
 import { MobileMenu } from "../layout/MobileMenu";
+import { TranslateIcon } from "../Icons";
 
 type HeaderProps = {
   headerShrunk: boolean;
@@ -125,7 +126,7 @@ export function Header({
                 aria-expanded={langDropdownOpen}
                 onClick={() => setLangDropdownOpen((prev) => !prev)}
               >
-                <span>{currentLanguageOption.shortLabel}</span>
+                <TranslateIcon />
                 <svg className={`town-lang-chevron ${langDropdownOpen ? "is-open" : ""}`} width="10" height="6" viewBox="0 0 10 6" fill="none">
                   <path d="M1 1L5 5L9 1" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>

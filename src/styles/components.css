@@ -511,6 +511,12 @@
   padding: 0.4rem 0.2rem;
 }
 
+.town-lang-trigger > svg:first-child {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 16px;
+}
+
 .town-lang-chevron {
   transition: transform var(--transition-fast);
 }
