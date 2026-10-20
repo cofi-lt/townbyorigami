@@ -3464,7 +3464,7 @@ html[data-theme="light"] .available-building-featured-card {
 /* --- Infrastructure Section (Town by Origami - Matches Reference Design) --- */
 .town-infra-section,
 .infrastructure-section {
-  background-color: #E7E9E2;
+  background-color: var(--town-alternate-bg, #E7E9E2);
   padding: 6.5rem 0 2rem;
   position: relative;
   overflow: hidden;
@@ -3472,8 +3472,21 @@ html[data-theme="light"] .available-building-featured-card {
 }
 
 /* Alternate the same soft sage tint across every other homepage section. */
+.town-main-layout {
+  --town-alternate-bg: #E7E9E2;
+}
+
+/* The holding stats strip is the fifth homepage section in the sequence. */
+.town-main-layout > #about-origami > .town-features-strip {
+  background-color: var(--town-alternate-bg);
+}
+
+.town-main-layout > #about-origami > .town-projects-section {
+  background-color: var(--town-alternate-bg);
+}
+
 .town-main-layout > .town-news-section {
-  background-color: #E7E9E2;
+  background-color: var(--town-sand, #EFEDE7);
 }
 
 .town-infra-container {
@@ -12214,6 +12227,32 @@ html[data-theme="dark"] .holding-project-card {
   padding-block: var(--town-section-spacing, 1.5rem);
 }
 
+/* Lift homepage sections into view from below as the user scrolls. */
+.town-main-layout > .town-about-section,
+.town-main-layout > .town-infra-section,
+.town-main-layout > .town-location-section,
+.town-main-layout > #about-origami > .town-projects-section,
+.town-main-layout > .town-news-section {
+  clip-path: inset(14% 0 0 0 round 18px);
+  opacity: 0;
+  transform: translateY(52px) scale(0.985);
+  transition:
+    clip-path 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: clip-path, opacity, transform;
+}
+
+.town-main-layout > .town-about-section.is-revealed,
+.town-main-layout > .town-infra-section.is-revealed,
+.town-main-layout > .town-location-section.is-revealed,
+.town-main-layout > #about-origami > .town-projects-section.is-revealed,
+.town-main-layout > .town-news-section.is-revealed {
+  clip-path: inset(0 0 0 0 round 0);
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
 /* Give the About and Infrastructure sections a clear, visible break. */
 .town-main-layout .town-about-section {
   margin-bottom: 3rem;
@@ -12228,6 +12267,19 @@ html[data-theme="dark"] .holding-project-card {
 .town-main-layout .town-infra-section {
   margin-top: 0;
   padding-top: 6.5rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .town-main-layout > .town-about-section,
+  .town-main-layout > .town-infra-section,
+  .town-main-layout > .town-location-section,
+  .town-main-layout > #about-origami > .town-projects-section,
+  .town-main-layout > .town-news-section {
+    clip-path: none;
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }
 
 .town-main-layout > .town-features-strip {

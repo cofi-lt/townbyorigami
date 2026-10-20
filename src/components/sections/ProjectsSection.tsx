@@ -18,7 +18,7 @@ export function ProjectsSection({ data }: { data: CompanyProjectsContent | null 
   };
 
   return (
-    <section className="town-projects-section" aria-labelledby="town-projects-title">
+    <section className="town-projects-section reveal-on-scroll" aria-labelledby="town-projects-title">
       <div className="container">
         <div className="town-projects-heading">
           <h2 id="town-projects-title" className="town-location-title">{data?.title || "Projects"}</h2>
