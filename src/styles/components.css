@@ -783,7 +783,7 @@
 
 .town-stat-value {
   font-family: var(--font-family-serif, "Cormorant Garamond", Georgia, serif);
-  font-size: clamp(2.2rem, 3.2vw, 2.9rem);
+  font-size: clamp(1.6rem, 2.2vw, 2rem);
   line-height: 1;
   font-weight: 500;
   color: var(--town-forest, #1E392F);
@@ -1352,7 +1352,7 @@
   }
 
   .town-stat-value {
-    font-size: clamp(1.8rem, 8vw, 2.25rem);
+    font-size: clamp(1.35rem, 6vw, 1.65rem);
   }
 
   .town-stat-label {

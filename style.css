@@ -12206,13 +12206,13 @@ html[data-theme="dark"] .holding-project-card {
 }
 
 /* Give the About and Infrastructure sections a clear, visible break. */
-.town-main-layout > .town-about-section {
-  margin-bottom: 2rem;
+.town-main-layout .town-about-section {
+  margin-bottom: 4rem;
   border-bottom: 1px solid rgba(173, 146, 112, 0.28);
 }
 
-.town-main-layout > .town-infra-section {
-  margin-top: 2rem;
+.town-main-layout .town-infra-section {
+  margin-top: 4rem;
 }
 
 .town-main-layout > .town-features-strip {
