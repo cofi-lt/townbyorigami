@@ -11762,6 +11762,11 @@ html[data-theme="dark"] .holding-header-link:hover {
   width: 100%;
 }
 
+.holding-top-block {
+  border-radius: var(--radius-sm, 8px);
+  overflow: hidden;
+}
+
 .holding-stat-card {
   display: flex;
   align-items: center;

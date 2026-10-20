@@ -165,7 +165,7 @@ export function OrigamiHoldingSection({
       <div className="container holding-combined-container">
         {/* ================= TOP BLOCK: THE ISLAND / STATS ================= */}
         {hasHoldingItems ? (
-          <div className="holding-top-block">
+          <div className="holding-top-block" style={{ borderRadius: "8px", overflow: "hidden" }}>
             <div className="holding-block-header reveal-fade-up">
               <div className="holding-block-header-left">
                 <h2 className="holding-main-title">{holdingTitle}</h2>

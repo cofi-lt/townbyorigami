@@ -39,7 +39,6 @@ export function Header({
   const langRef = useRef<HTMLDivElement | null>(null);
   const desktopLangRef = useRef<HTMLDivElement | null>(null);
 
-  const currentLanguageOption = languageOptions.find((opt) => opt.code === language) || languageOptions[0];
   const callRequestItem = primaryNavItems.find((item) => item.isModalAction);
   const resolvedCallRequestLabel =
     callRequestLabel?.trim() ||
