@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import type { CompanyProjectsContent } from "../../api/siteContent";
 import { getOptimizedImageUrl } from "../../utils/media";
 
-export function ProjectsSection({ data }: { data: CompanyProjectsContent | null }) {
+export function ProjectsSection({ data, t }: { data: CompanyProjectsContent | null; t: (key: import("../../i18n").TranslationKey) => string }) {
   const trackRef = useRef<HTMLDivElement | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const projects = data?.items || [];
@@ -41,6 +41,26 @@ export function ProjectsSection({ data }: { data: CompanyProjectsContent | null 
                 decoding="async"
               />
               <div className="town-project-card-shade" />
+              {project.link?.trim() ? (
+                <a
+                  className="town-project-website-link"
+                  href={project.link.trim()}
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={(event) => event.stopPropagation()}
+                >
+                  {t("project_website")}
+                  <svg
+                    className="town-project-website-icon"
+                    viewBox="0 0 16 16"
+                    fill="none"
+                    aria-hidden="true"
+                  >
+                    <path d="M6.25 3.25H3.5a1 1 0 0 0-1 1v8.25a1 1 0 0 0 1 1h8.25a1 1 0 0 0 1-1v-2.75" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M8 2.5h5.5V8M13.25 2.75 7 9" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </a>
+              ) : null}
               <div className="town-project-card-copy">
                 <h3>{project.title}</h3>
               </div>

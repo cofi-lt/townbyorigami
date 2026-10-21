@@ -3,6 +3,7 @@ import type { TranslationKey } from "../types";
 
 export const ar: Record<TranslationKey, string> = {
   ...en,
+  project_website: "الموقع الإلكتروني",
   filter_room_all: "نوع الغرفة",
   filter_kind_all: "نوع العقار",
   filter_condition_all: "الحالة",

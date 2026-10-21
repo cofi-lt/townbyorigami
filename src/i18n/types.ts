@@ -140,6 +140,7 @@ export type TranslationKey =
   | "projects_eyebrow"
   | "projects_title"
   | "projects_view_all"
+  | "project_website"
   | "about_stat1_value"
   | "about_stat1_label"
   | "about_stat2_value"

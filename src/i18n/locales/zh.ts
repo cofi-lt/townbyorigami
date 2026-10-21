@@ -3,6 +3,7 @@ import type { TranslationKey } from "../types";
 
 export const zh: Record<TranslationKey, string> = {
   ...en,
+  project_website: "网站",
   filter_room_all: "房间类型",
   filter_kind_all: "房产类型",
   filter_condition_all: "状况",

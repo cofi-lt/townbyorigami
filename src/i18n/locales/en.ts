@@ -141,6 +141,7 @@ export const en: Record<TranslationKey, string> = {
   projects_eyebrow: "OUR PROJECTS",
   projects_title: "Explore Projects",
   projects_view_all: "VIEW ALL PROJECTS",
+  project_website: "Website",
   about_stat1_value: "Since 2008",
   about_stat1_label: "continuous growth",
   about_stat2_value: "Up to 600 professionals",

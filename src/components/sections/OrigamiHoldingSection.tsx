@@ -300,6 +300,18 @@ export function OrigamiHoldingSection({
                             <div className="holding-project-text">
                               <h3 className="holding-project-title">{project.title}</h3>
                               {desc ? <p className="holding-project-subtitle">{desc}</p> : null}
+                              {project.link?.trim() ? (
+                                <a
+                                  className="holding-project-website-link"
+                                  href={project.link.trim()}
+                                  target="_blank"
+                                  rel="noreferrer"
+                                  onClick={(e) => e.stopPropagation()}
+                                  onKeyDown={(e) => e.stopPropagation()}
+                                >
+                                  ვებსაიტი
+                                </a>
+                              ) : null}
                             </div>
 
                             <div className="holding-project-circle-btn" aria-hidden="true">

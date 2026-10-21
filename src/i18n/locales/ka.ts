@@ -141,6 +141,7 @@ export const ka: Record<TranslationKey, string> = {
   projects_eyebrow: "ჩვენი პროექტები",
   projects_title: "გაეცანით პროექტებს",
   projects_view_all: "ყველა პროექტი",
+  project_website: "ვებსაიტი",
   about_stat1_value: "2008 წლიდან",
   about_stat1_label: "უწყვეტი განვითარება",
   about_stat2_value: "600-მდე პროფესიონალი",
