@@ -225,7 +225,10 @@ export function InfrastructureSection({
           {/* Left Column / Header block */}
           <aside className="town-infra-sidebar reveal-fade-up">
             <div className="town-infra-sidebar-top">
-              <span className="town-infra-eyebrow">{eyebrow}</span>
+              <div className="town-infra-eyebrow-wrap">
+                <span className="town-location-eyebrow-line" aria-hidden="true" />
+                <span className="town-infra-eyebrow">{eyebrow}</span>
+              </div>
               <h2 className="town-infra-title">{title}</h2>
               {description ? (
                 <p className="town-infra-description">{description}</p>

@@ -3519,6 +3519,12 @@ html[data-theme="light"] .available-building-featured-card {
   gap: 0.85rem;
 }
 
+.town-infra-eyebrow-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
 .town-infra-eyebrow {
   display: inline-block;
   font-family: var(--font-family-sans, sans-serif);
