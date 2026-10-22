@@ -94,10 +94,11 @@ export function Header({
         <div className="town-header-container">
           {/* Brand Logo */}
           <a href="/" className="town-brand-logo" aria-label="Town by Origami">
-            <div className="town-logo-mark">
-              <span className="town-logo-main">TOWN</span>
-              <span className="town-logo-sub">BY ORIGAMI</span>
-            </div>
+            <img
+              src="https://origam.ge/image/logo_Green_ENG.svg"
+              alt="Town by Origami"
+              className="town-logo-img"
+            />
           </a>
 
           {!isUnitsVariant && (

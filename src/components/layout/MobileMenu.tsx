@@ -88,10 +88,11 @@ export const MobileMenu: FC<MobileMenuProps> = ({
         {/* Top Header Row with Brand & Close Button */}
         <div className="town-mobile-menu-header">
           <a href="/" className="town-brand-logo" onClick={onClose} aria-label="Town by Origami">
-            <div className="town-logo-mark">
-              <span className="town-logo-main">TOWN</span>
-              <span className="town-logo-sub">BY ORIGAMI</span>
-            </div>
+            <img
+              src="https://origam.ge/image/logo_Green_ENG.svg"
+              alt="Town by Origami"
+              className="town-logo-img"
+            />
           </a>
 
           <button

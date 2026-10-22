@@ -439,6 +439,14 @@
   align-items: center;
 }
 
+.town-logo-img {
+  display: block;
+  height: 54px;
+  width: auto;
+  /* The SVG has built-in whitespace; let it overlap the header padding. */
+  margin-block: -7px;
+}
+
 .town-logo-mark {
   display: flex;
   flex-direction: column;
@@ -1239,6 +1247,10 @@
     width: calc(100% - 1.5rem);
     padding: 0.55rem 0;
     gap: 0.6rem;
+  }
+
+  .town-logo-img {
+    height: 44px;
   }
 
   .town-logo-main {
