@@ -3533,9 +3533,9 @@ html[data-theme="light"] .available-building-featured-card {
 .town-infra-title {
   margin: 0;
   font-family: var(--font-family-serif), "Playfair Display", "Cormorant Garamond", Georgia, serif;
-  font-size: clamp(1.35rem, 1.7vw, 1.9rem);
+  font-size: clamp(1.65rem, 2.25vw, 2.35rem);
   font-weight: 400;
-  line-height: 1.25;
+  line-height: 1.2;
   letter-spacing: -0.01em;
   color: var(--town-text-dark, #1E2D2B);
   overflow-wrap: break-word;
