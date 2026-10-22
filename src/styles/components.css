@@ -612,6 +612,10 @@
   display: block;
   width: 100%;
   height: auto;
+  max-height: calc(100vh - 72px);
+  max-height: calc(100svh - 72px);
+  object-fit: cover;
+  object-position: center;
 }
 
 .town-static-filter {
