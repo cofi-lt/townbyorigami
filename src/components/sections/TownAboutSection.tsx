@@ -83,10 +83,6 @@ export const TownAboutSection: FC<TownAboutSectionProps> = ({
 
   const padNumber = (num: number) => String(num).padStart(2, "0");
 
-  const kickerContent =
-    aboutTownText?.button_text?.trim() ||
-    aboutTownText?.eyebrow?.trim() ||
-    "ABOUT TOWN";
   const titleContent = aboutTownText?.title?.trim();
 
   const renderTitle = () => {
@@ -126,11 +122,6 @@ export const TownAboutSection: FC<TownAboutSectionProps> = ({
             <div className="town-about-content reveal-fade-up">
               {showTextContent && (
                 <>
-                  <div className="town-kicker-wrapper">
-                    <span className="town-kicker">{kickerContent}</span>
-                    <span className="town-kicker-line" aria-hidden="true" />
-                  </div>
-
                   <h2 className="town-heading-serif town-about-title">
                     {renderTitle()}
                   </h2>
@@ -165,7 +156,7 @@ export const TownAboutSection: FC<TownAboutSectionProps> = ({
 
                 <div className="town-about-image-card">
                   <img
-                    src={getOptimizedImageUrl(currentSlide.image, { width: 1200, height: 900, crop: "fill", gravity: "auto" })}
+                    src={getOptimizedImageUrl(currentSlide.image, { width: 1600, crop: "limit" })}
                     alt={currentSlide.alt}
                     className="town-about-image"
                     loading="lazy"
