@@ -4,7 +4,7 @@ export function HeroSection() {
       <div className="town-hero-media">
         <video
           className="town-hero-video"
-          src="https://origam.ge/video/origami.mp4"
+          src="https://origam.ge/video/town.mp4"
           autoPlay
           muted
           loop
