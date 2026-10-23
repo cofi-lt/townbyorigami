@@ -108,39 +108,6 @@ export const MobileMenu: FC<MobileMenuProps> = ({
           </button>
         </div>
 
-        {/* Bottom Utility Area: CTA, Languages & Contact */}
-        <div className="town-mobile-menu-footer">
-          {openModal && callRequestLabel ? (
-            <button
-              type="button"
-              className="town-mobile-cta-btn"
-              onClick={() => {
-                onClose();
-                openModal("request_call");
-              }}
-            >
-              <span>{callRequestLabel}</span>
-            </button>
-          ) : null}
-
-          <div className="town-mobile-lang-row" role="group" aria-label="Language selection">
-            {languageOptions.map((opt) => (
-              <button
-                key={opt.code}
-                type="button"
-                className={`town-mobile-lang-pill ${language === opt.code ? "is-active" : ""}`}
-                onClick={() => handleLanguageSelect(opt.code)}
-              >
-                {opt.flag && <span className="town-mobile-lang-flag">{opt.flag}</span>}
-                <span className="town-mobile-lang-name">{opt.label}</span>
-                <span className="town-mobile-lang-code">({opt.shortLabel})</span>
-              </button>
-            ))}
-          </div>
-
-        </div>
-      </div>
-
         <nav className="town-mobile-menu-nav" aria-label="Mobile main navigation">
           <ul className="town-mobile-menu-list">
             {itemsToRender.map((item, index) => (
@@ -159,7 +126,40 @@ export const MobileMenu: FC<MobileMenuProps> = ({
               </li>
             ))}
           </ul>
+
+          <div className="town-mobile-lang-select-wrap">
+            <select
+              className="town-mobile-lang-select"
+              aria-label="Language selection"
+              value={language}
+              onChange={(e) => handleLanguageSelect(e.target.value as Language)}
+            >
+              {languageOptions.map((opt) => (
+                <option key={opt.code} value={opt.code}>
+                  {opt.flag ? `${opt.flag} ` : ""}{opt.label} ({opt.shortLabel})
+                </option>
+              ))}
+            </select>
+            <span className="town-mobile-lang-select-chevron" aria-hidden="true" />
+          </div>
         </nav>
+
+        {/* Bottom Utility Area: CTA & Contact */}
+        <div className="town-mobile-menu-footer">
+          {openModal && callRequestLabel ? (
+            <button
+              type="button"
+              className="town-mobile-cta-btn"
+              onClick={() => {
+                onClose();
+                openModal("request_call");
+              }}
+            >
+              <span>{callRequestLabel}</span>
+            </button>
+          ) : null}
+        </div>
+      </div>
     </div>
   );
 

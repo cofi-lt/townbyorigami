@@ -265,7 +265,7 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   padding: clamp(1rem, 2.5vh, 1.75rem) clamp(1.25rem, 5vw, 2.5rem);
   padding-top: calc(clamp(1rem, 2.5vh, 1.75rem) + env(safe-area-inset-top, 0px));
   padding-bottom: calc(clamp(1rem, 2.5vh, 1.75rem) + env(safe-area-inset-bottom, 0px));
@@ -300,16 +300,13 @@
 
 /* Navigation items container */
 .town-mobile-menu-nav {
-  position: absolute;
-  top: calc(clamp(1rem, 2.5vh, 1.75rem) + env(safe-area-inset-top, 0px) + 5.75rem);
-  left: clamp(1.25rem, 5vw, 2.5rem);
-  right: clamp(1.25rem, 5vw, 2.5rem);
-  width: auto;
-  height: clamp(13.75rem, 28vh, 17.5rem);
+  position: relative;
+  inset: auto;
+  flex: 0 0 auto;
+  width: 100%;
   height: auto;
-  min-height: 0;
   margin: 0;
-  padding: 0;
+  padding: 2rem 0 0;
   z-index: 2;
   overflow: visible;
   background: transparent !important;
@@ -417,7 +414,7 @@
   grid-template-rows: repeat(5, minmax(0, 1fr));
   align-items: stretch;
   width: 100%;
-  height: 100%;
+  height: auto;
 }
 
 .town-mobile-menu-overlay .town-mobile-nav-item {
@@ -507,15 +504,12 @@
   display: flex;
   flex-direction: column;
   gap: 1.4rem;
-  padding-top: clamp(5rem, 12vh, 6.5rem);
+  margin-top: 2rem;
+  padding-top: 2rem;
   border-top: 1px solid rgba(173, 146, 112, 0.2);
   opacity: 0;
   transform: translateY(18px);
   transition: opacity 0.45s ease, transform 0.45s ease;
-}
-
-.town-mobile-menu-nav + .town-mobile-menu-footer {
-  margin-top: auto;
 }
 
 .town-mobile-menu-overlay.is-open .town-mobile-menu-footer {
@@ -561,58 +555,46 @@
   outline: none;
 }
 
-/* Language Switcher Row */
-.town-mobile-lang-row {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  align-items: stretch;
-  gap: 0.35rem 0.4rem;
-  background: transparent;
-  padding: 0;
-  border-radius: 0;
+/* Language Switcher Select */
+.town-mobile-lang-select-wrap {
+  position: relative;
+  width: min(100%, 280px);
+  margin: 1.5rem auto 0;
 }
 
-.town-mobile-lang-pill {
+.town-mobile-lang-select {
   width: 100%;
-  min-width: 0;
-  min-height: 40px;
-  padding: 0.35rem 0.7rem;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 0.55rem;
-  background: transparent;
-  border: none;
-  border-radius: 6px;
+  min-height: 48px;
+  padding: 0.65rem 2.75rem 0.65rem 1rem;
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: transparent;
+  border: 1px solid rgba(173, 146, 112, 0.35);
+  border-radius: 8px;
   font-family: var(--font-family-sans, "FiraGO", sans-serif);
-  font-size: 0.875rem;
+  font-size: 1rem;
   font-weight: 500;
   color: var(--town-text-dark, #1E2D2B);
+  text-align: center;
+  text-align-last: center;
   cursor: pointer;
-  transition: all var(--transition-fast, 0.2s ease);
-  text-align: left;
 }
 
-.town-mobile-lang-name {
-  flex: 1;
+.town-mobile-lang-select:focus-visible {
+  outline: none;
+  border-color: var(--town-forest, #1E392F);
 }
 
-.town-mobile-lang-code {
-  margin-left: auto;
-  color: var(--town-text-muted, #8A8A85);
-  font-size: 0.8rem;
-  font-weight: 400;
-}
-
-.town-mobile-lang-pill.is-active {
-  background: transparent;
-  color: var(--town-forest, #1E392F);
-  font-weight: 700;
-  box-shadow: none;
-}
-
-.town-mobile-lang-pill:hover:not(.is-active) {
-  background: transparent;
+.town-mobile-lang-select-chevron {
+  position: absolute;
+  top: 50%;
+  right: 1.1rem;
+  width: 8px;
+  height: 8px;
+  border-right: 1.5px solid var(--town-text-dark, #1E2D2B);
+  border-bottom: 1.5px solid var(--town-text-dark, #1E2D2B);
+  transform: translateY(-70%) rotate(45deg);
+  pointer-events: none;
 }
 
 /* Contact phone shortcut */
