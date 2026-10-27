@@ -78,5 +78,27 @@
     <!-- End Meta Pixel Code -->
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <!-- Bitrix24 -->
+    <script>
+      {
+        const loadBitrixScript = (url) => {
+          const s = document.createElement("script");
+          s.async = true;
+          s.src = url + "?" + ((Date.now() / 60000) | 0);
+          const h = document.getElementsByTagName("script")[0];
+          h.parentNode.insertBefore(s, h);
+        };
+        const bitrixBase = "https://cdn.bitrix24.com/b38005393/crm/";
+        const bitrixWidgets = {
+          ka: "site_button/loader_7_tg9ykx.js",
+          en: "site_button/loader_11_lduv1s.js",
+          ru: "site_button/loader_9_bv6mbq.js",
+        };
+        const language = document.documentElement.lang;
+        loadBitrixScript(bitrixBase + "tag/call.tracker.js");
+        loadBitrixScript(bitrixBase + (bitrixWidgets[language] || bitrixWidgets.en));
+      }
+    </script>
+    <!-- End Bitrix24 -->
   </body>
   </html>
